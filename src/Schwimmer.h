@@ -11,19 +11,9 @@
 #include <vector>
 #include <string>
 
+#include "Disziplin.h"
+
 using namespace std;
-
-// Konstanten fuer Lage/Strecke (Indizes)
-#define BRUST_50    0
-#define BRUST_100   1
-#define RUECK_50    2
-#define RUECK_100   3
-#define SCHM_50     4
-#define SCHM_100    5
-#define FREI_50     6
-#define FREI_100    7
-
-#define ANZAHL_DISZIPLINEN 8
 
 class Schwimmer; // forward declaration
 

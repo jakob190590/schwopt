@@ -19,9 +19,9 @@ protected:
 			(Schwimmer const * const, Schwimmer const * const);
 
 	SchwimmerVector schwimmer;
-	SchwimmerVector schwimmerSortiert[ANZAHL_DISZIPLINEN];
-	vector<float> abstandZumBesseren[ANZAHL_DISZIPLINEN];
-	vector<float> abstandZumBesten[ANZAHL_DISZIPLINEN];
+	SchwimmerVector schwimmerSortiert[Disziplin::ANZAHL];
+	vector<float> abstandZumBesseren[Disziplin::ANZAHL];
+	vector<float> abstandZumBesten[Disziplin::ANZAHL];
 	SchwimmerVector result;
 public:
 	OptComputer(const SchwimmerVector&);

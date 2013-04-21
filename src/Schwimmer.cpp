@@ -15,7 +15,7 @@ using namespace std;
 Schwimmer::Schwimmer(const string& nachname, const string& vorname, const string& kuerzel) :
 		nachname(nachname), vorname(vorname), kuerzel(kuerzel)
 {
-	for (int i = 0; i < ANZAHL_DISZIPLINEN; i++)
+	for (int i = 0; i < Disziplin::ANZAHL; i++)
 		zeiten[i] = 0;
 }
 
@@ -29,28 +29,28 @@ Schwimmer::Schwimmer(const string& nachname, const string& vorname, const string
 		//zeiten(brust50, brust100, rueck50, rueck100,
 		//		schm50, schm100, schm50, schm100)
 {
-	zeiten[BRUST_50]  = brust50;
-	zeiten[BRUST_100] = brust100;
-	zeiten[RUECK_50]  = rueck50;
-	zeiten[RUECK_100] = rueck100;
-	zeiten[SCHM_50]   = schm50;
-	zeiten[SCHM_100]  = schm100;
-	zeiten[FREI_50]   = frei50;
-	zeiten[FREI_100]  = frei100;
+	zeiten[Disziplin::BRUST_50]  = brust50;
+	zeiten[Disziplin::BRUST_100] = brust100;
+	zeiten[Disziplin::RUECK_50]  = rueck50;
+	zeiten[Disziplin::RUECK_100] = rueck100;
+	zeiten[Disziplin::SCHM_50]   = schm50;
+	zeiten[Disziplin::SCHM_100]  = schm100;
+	zeiten[Disziplin::FREI_50]   = frei50;
+	zeiten[Disziplin::FREI_100]  = frei100;
 	zeitLower<0>((const Schwimmer*) this, (const Schwimmer*) this);
 }
 
 ostream& operator <<(ostream& os, const Schwimmer& schw)
 {
 	os << schw.nachname << '\t' << schw.vorname << '\t'  << schw.kuerzel << '\t';
-	os << Zeit::convertToString(schw.zeiten[BRUST_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[BRUST_100]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[RUECK_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[RUECK_100]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[SCHM_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[SCHM_100]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[FREI_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[FREI_100]);
+	os << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_50]) << '\t';
+	os << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_100]) << '\t';
+	os << Zeit::convertToString(schw.zeiten[Disziplin::RUECK_50]) << '\t';
+	os << Zeit::convertToString(schw.zeiten[Disziplin::RUECK_100]) << '\t';
+	os << Zeit::convertToString(schw.zeiten[Disziplin::SCHM_50]) << '\t';
+	os << Zeit::convertToString(schw.zeiten[Disziplin::SCHM_100]) << '\t';
+	os << Zeit::convertToString(schw.zeiten[Disziplin::FREI_50]) << '\t';
+	os << Zeit::convertToString(schw.zeiten[Disziplin::FREI_100]);
 	os << endl;
 	return os;
 }
@@ -58,14 +58,14 @@ ostream& operator <<(ostream& os, const Schwimmer& schw)
 istream& operator >>(istream& is, Schwimmer& schw)
 {
 	is >> schw.nachname >> schw.vorname >> schw.kuerzel;
-	is >> schw.zeiten[BRUST_50];
-	is >> schw.zeiten[BRUST_100];
-	is >> schw.zeiten[RUECK_50];
-	is >> schw.zeiten[RUECK_100];
-	is >> schw.zeiten[SCHM_50];
-	is >> schw.zeiten[SCHM_100];
-	is >> schw.zeiten[FREI_50];
-	is >> schw.zeiten[FREI_100];
+	is >> schw.zeiten[Disziplin::BRUST_50];
+	is >> schw.zeiten[Disziplin::BRUST_100];
+	is >> schw.zeiten[Disziplin::RUECK_50];
+	is >> schw.zeiten[Disziplin::RUECK_100];
+	is >> schw.zeiten[Disziplin::SCHM_50];
+	is >> schw.zeiten[Disziplin::SCHM_100];
+	is >> schw.zeiten[Disziplin::FREI_50];
+	is >> schw.zeiten[Disziplin::FREI_100];
 
 	char rest[200];
 	is.getline(rest, 200);

@@ -28,12 +28,12 @@ OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 	// Zeiten von 00:00,0 ersetzen durch maximalen Wert!
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();
 			it != schwimmer.end(); ++it)
-		for (int i = 0; i < ANZAHL_DISZIPLINEN; i++)
+		for (int i = 0; i < Disziplin::ANZAHL; i++)
 			if ((*it)->zeiten[i] == 0)
 				(*it)->zeiten[i] = UINT_MAX;
 
 	// Schwimmer fuer jede Disziplin sortieren und Vergleichswerte berechnen
-	for (int i = 0; i < ANZAHL_DISZIPLINEN; i++)
+	for (int i = 0; i < Disziplin::ANZAHL; i++)
 	{
 		SchwimmerVector& schwSorted = schwimmerSortiert[i];
 		// Schwimmer in leeren Vektor schwimmerSortiert[i] uebertragen

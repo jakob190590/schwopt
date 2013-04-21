@@ -9,7 +9,7 @@
 #include "Zeit.h"
 
 const int LagenstaffelComputer1::ANZAHL_DISZIPLINEN_IN_STAFFEL = 4;
-const int LagenstaffelComputer1::DISZIPLINEN_IN_STAFFEL[] = { RUECK_50, BRUST_50, SCHM_50, FREI_50 };
+const int LagenstaffelComputer1::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
 
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 		OptComputer(schwimmer)
