@@ -1,0 +1,7 @@
+Huber	Ludwig	LH	35600	78000	32000	0	28500	65500	25000	58500
+Wolfsmüller	Aaron	AW	0	0	0	0	0	0	0	0
+Schneider	Kilian 	KS	0	0	0	0	0	0	0	0
+Wolfsmüller	Lucy 	LW	0	0	0	0	0	0	0	0
+Angerer	Julia	JA	0	0	0	0	0	0	0	0
+Aringsmann	Sara 	SA	0	0	0	0	0	0	0	0
+McMullen	Louis	LM	0	0	0	0	0	0	0	0 Letzte Spalte ist Komemntarspalte! Dann folgt ein Newline und das ist das Problem!
