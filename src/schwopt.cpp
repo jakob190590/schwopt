@@ -50,6 +50,10 @@ int main(int argc, char* argv[]) {
 
 
 
-	// Schwimmer im vector freigeben? Scheissdrauf.
+	// Schwimmer im vector freigeben
+	for (SchwimmerVector::const_iterator it = schwimmer.begin();
+			it != schwimmer.end(); ++it)
+		delete *it;
+
 	return EXIT_SUCCESS;
 }
