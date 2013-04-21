@@ -43,13 +43,6 @@ int main(int argc, char* argv[]) {
 	// So, ab hier kann mit dem vector schwimmer gearbeitet werden
 	cout << schwimmer << endl;
 
-	// ... oder Zeit::convertToUnsinged getestet werden:
-//	string s;
-//	do {
-//		cin >> s;
-//		cout << Zeit::convertToUnsigned(s) << endl;
-//	} while (s != "0");
-
 //	OptComputer optComputer(schwimmer);
 	LagenstaffelComputer1 lagenstaffelComputer1(schwimmer);
 	lagenstaffelComputer1.compute();

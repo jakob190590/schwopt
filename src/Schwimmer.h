@@ -48,7 +48,8 @@ istream& operator >>(istream&, Schwimmer * const);
 
 ostream& operator <<(ostream&, const SchwimmerVector&);
 
-// template (non-specialized) function's impl must be visible to a translation unit that uses it. otherwiese: "undefinied reference to <template function>"
+// template (non-specialized) function's impl must be visible to a translation unit that uses it.
+// otherwiese: "undefinied reference to <template function>"
 template<int disziplin> bool zeitLower(const Schwimmer* schw1, const Schwimmer* schw2)
 {
 	return schw1->zeiten[disziplin] < schw2->zeiten[disziplin];
