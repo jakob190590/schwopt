@@ -12,7 +12,7 @@
 
 class LagenstaffelComputer1: public OptComputer
 {
-	static const int ANZAHL_DISZIPLINEN_IN_STAFFEL;
+	static const int ANZAHL_DISZIPLINEN_IN_STAFFEL = 4;
 	static const int DISZIPLINEN_IN_STAFFEL[];
 
 	unsigned gesamtzeit;

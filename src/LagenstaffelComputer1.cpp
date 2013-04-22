@@ -5,28 +5,61 @@
  *      Author: jakob190590
  */
 
+#include <set>
+#include <utility>
+
 #include "LagenstaffelComputer1.h"
 #include "Zeit.h"
 
-const int LagenstaffelComputer1::ANZAHL_DISZIPLINEN_IN_STAFFEL = 4;
+using namespace std;
+
 const int LagenstaffelComputer1::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
 
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 		OptComputer(schwimmer)
 {
-
 }
 
 void LagenstaffelComputer1::compute()
 {
-	// erst mal ueberall den besten einsetzen
-	for (int i = 0; i < ANZAHL_DISZIPLINEN_IN_STAFFEL; i++)
-	{
-		result.push_back(schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]][0]);
-	}
+	// Variablen fuer die Berechnung:
+	// Anzahl Schwimmer, die noch nicht feststehen in der Staffel
+	int unlockedPositionen = ANZAHL_DISZIPLINEN_IN_STAFFEL;
+	// Positionen und Schwimmer, die schon feststehen
+	bool locked[ANZAHL_DISZIPLINEN_IN_STAFFEL] = { false, false, false, false };
 
 	// hier geht's los!
+	while (unlockedPositionen > 0)
+	{
+		// ueberall wo noch unlocked ist, besten einsetzen
+		for (int i = 0; i < ANZAHL_DISZIPLINEN_IN_STAFFEL; i++)
+			if (!locked[i])
+			{
+				result[i] = schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]][0]; // TODO statt 0 nen index aus nem array nehmen, der auf den schwimmer zeigt, ab dem noch verfuegbare ist
+			}
 
+		// Alle UNLOCKED Schwimmer nach Abstand ABSTEIGEND sortiert in set einfuegen
+		set<pair<int, Schwimmer*> > staffelSchwimmerSortiertNachAbstand;
+		for (int i = 0; i < ANZAHL_DISZIPLINEN_IN_STAFFEL; i++)
+			if (!locked[i])
+				staffelSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, result[i]));
+
+		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer locken, wenn noch nicht locked!
+		for (set<pair<int, Schwimmer*> >::const_iterator it = staffelSchwimmerSortiertNachAbstand.begin();
+				it != staffelSchwimmerSortiertNachAbstand.end(); ++it)
+			if (!locked[it->first])
+			{
+				// Diesen Schwimmer festlegen fuer seine Position
+				locked[it->first] = true;
+				unlockedPositionen--;
+			}
+			else
+			{
+
+			}
+
+
+	}
 
 	// Zum Schluss Gesamtzeit berechnen:
 	gesamtzeit = 0;
