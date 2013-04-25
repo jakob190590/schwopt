@@ -9,6 +9,7 @@
 #define SCHWIMMER_H_
 
 #include <vector>
+#include <list>
 #include <string>
 
 #include "Disziplin.h"
@@ -18,6 +19,7 @@ using namespace std;
 class Schwimmer; // forward declaration
 
 typedef vector<Schwimmer*> SchwimmerVector;
+typedef list<Schwimmer*> SchwimmerList;
 
 class Schwimmer {
 public:

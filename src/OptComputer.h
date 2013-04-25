@@ -20,8 +20,8 @@ protected:
 
 	SchwimmerVector schwimmer;
 	SchwimmerVector schwimmerSortiert[Disziplin::ANZAHL];
-	vector<float> abstandZumBesseren[Disziplin::ANZAHL];
-	vector<float> abstandZumBesten[Disziplin::ANZAHL];
+	list<float> abstandZumBesseren[Disziplin::ANZAHL];
+	list<float> abstandZumBesten[Disziplin::ANZAHL];
 	SchwimmerVector result;
 public:
 	OptComputer(const SchwimmerVector&);

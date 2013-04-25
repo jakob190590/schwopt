@@ -12,7 +12,7 @@
 
 class LagenstaffelComputer1: public OptComputer
 {
-	static const int ANZAHL_DISZIPLINEN_IN_STAFFEL = 4;
+	static const int ANZAHL_POSITIONEN_IN_STAFFEL = 4;
 	static const int DISZIPLINEN_IN_STAFFEL[];
 
 	unsigned gesamtzeit;
@@ -20,10 +20,10 @@ class LagenstaffelComputer1: public OptComputer
 public:
 	LagenstaffelComputer1(const SchwimmerVector&);
 
-	virtual void compute();
-	virtual unsigned getTime();
-	virtual SchwimmerVector getResult();
-	virtual ostream& outputResult(ostream&);
+	void compute();
+	unsigned getTime();
+	SchwimmerVector getResult();
+	ostream& outputResult(ostream&);
 };
 
 #endif /* LAGENSTAFFELCOMPUTER1_H_ */

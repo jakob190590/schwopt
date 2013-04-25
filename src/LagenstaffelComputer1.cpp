@@ -20,19 +20,38 @@ LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 {
 }
 
+/*
+ * Algorithm:
+ *
+ * Solange freie Positionen in Staffel
+ *   Freie Positionen mit besten freien Schwimmern besetzen
+ *   Alle eben eingesetzten Schwimmer nach Abstand absteigend sortieren
+ *   Diese sortierte Liste durchgehen:
+ *     Wenn Schwimmer noch frei:
+ *       Diesen Schwimmer festsetzen
+ *     sonst:
+ *       break;
+ *
+ * Kleine Optimierung (eigentlich unnoetig):
+ * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
+ *
+ */
 void LagenstaffelComputer1::compute()
 {
 	// Variablen fuer die Berechnung:
-	// Anzahl Schwimmer, die noch nicht feststehen in der Staffel
-	int unlockedPositionen = ANZAHL_DISZIPLINEN_IN_STAFFEL;
-	// Positionen und Schwimmer, die schon feststehen
-	bool locked[ANZAHL_DISZIPLINEN_IN_STAFFEL] = { false, false, false, false };
+	// Anzahl Positionen, die noch nicht feststehen
+	int unlockedPositionen = ANZAHL_POSITIONEN_IN_STAFFEL;
+	// Positionen, die schon feststehen
+	bool locked[ANZAHL_POSITIONEN_IN_STAFFEL] = { false, false, false, false };
+	// Noch verfuegbare Schwimmer
+	set<Schwimmer*> availableSchwimmer;
+	availableSchwimmer.insert(schwimmer.begin(), schwimmer.end());
 
 	// hier geht's los!
 	while (unlockedPositionen > 0)
 	{
 		// ueberall wo noch unlocked ist, besten einsetzen
-		for (int i = 0; i < ANZAHL_DISZIPLINEN_IN_STAFFEL; i++)
+		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!locked[i])
 			{
 				result[i] = schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]][0]; // TODO statt 0 nen index aus nem array nehmen, der auf den schwimmer zeigt, ab dem noch verfuegbare ist
@@ -40,7 +59,7 @@ void LagenstaffelComputer1::compute()
 
 		// Alle UNLOCKED Schwimmer nach Abstand ABSTEIGEND sortiert in set einfuegen
 		set<pair<int, Schwimmer*> > staffelSchwimmerSortiertNachAbstand;
-		for (int i = 0; i < ANZAHL_DISZIPLINEN_IN_STAFFEL; i++)
+		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!locked[i])
 				staffelSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, result[i]));
 
@@ -50,12 +69,13 @@ void LagenstaffelComputer1::compute()
 			if (!locked[it->first])
 			{
 				// Diesen Schwimmer festlegen fuer seine Position
-				locked[it->first] = true;
 				unlockedPositionen--;
+				locked[it->first] = true;
+				availableSchwimmer.erase(it->second);
 			}
 			else
 			{
-
+				break;
 			}
 
 
@@ -63,7 +83,7 @@ void LagenstaffelComputer1::compute()
 
 	// Zum Schluss Gesamtzeit berechnen:
 	gesamtzeit = 0;
-	for (int i = 0; i < ANZAHL_DISZIPLINEN_IN_STAFFEL; i++)
+	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{
 		gesamtzeit += result[i]->zeiten[DISZIPLINEN_IN_STAFFEL[i]];
 	}
@@ -81,7 +101,7 @@ SchwimmerVector LagenstaffelComputer1::getResult()
 
 ostream& LagenstaffelComputer1::outputResult(ostream& os)
 {
-	for (int i = 0; i < ANZAHL_DISZIPLINEN_IN_STAFFEL; i++)
+	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{
 		int diszi = DISZIPLINEN_IN_STAFFEL[i];
 		os << "Disziplin " << diszi << ": " << result[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
