@@ -58,15 +58,14 @@ ostream& operator <<(ostream& os, const Schwimmer& schw)
 istream& operator >>(istream& is, Schwimmer& schw)
 {
 	is >> schw.nachname >> schw.vorname >> schw.kuerzel;
-	is >> schw.zeiten[Disziplin::BRUST_50];
-	is >> schw.zeiten[Disziplin::BRUST_100];
-	is >> schw.zeiten[Disziplin::RUECK_50];
-	is >> schw.zeiten[Disziplin::RUECK_100];
-	is >> schw.zeiten[Disziplin::SCHM_50];
-	is >> schw.zeiten[Disziplin::SCHM_100];
-	is >> schw.zeiten[Disziplin::FREI_50];
-	is >> schw.zeiten[Disziplin::FREI_100];
+	for (int i = 0; i < Disziplin::ANZAHL; i++)
+	{
+		string zeitInput;
+		is >> zeitInput;
+		schw.zeiten[i]  = Zeit::convertToUnsigned(zeitInput);
+	}
 
+	// Kommentar weglesen, oder was auch immer in ueberzaehligen Spalten steht
 	char rest[200];
 	is.getline(rest, 200);
 	clog << rest << endl;

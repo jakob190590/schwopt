@@ -1,7 +1,7 @@
-Huber	Ludwig	LH	35600	78000	32000	0	28500	65500	25000	58500
-Wolfsmüller	Aaron	AW	0	0	0	0	0	0	0	0
-Schneider	Kilian 	KS	0	0	0	0	0	0	0	0
-Wolfsmüller	Lucy 	LW	0	0	0	0	0	0	0	0
-Angerer	Julia	JA	0	0	0	0	0	0	0	0
-Aringsmann	Sara 	SA	0	0	0	0	0	0	0	0
-McMullen	Louis	LM	0	0	0	0	0	0	0	0 Letzte Spalte ist Komemntarspalte! Dann folgt ein Newline und das ist das Problem!
+Huber	Ludwig	LH	00:35,6	01:18,0	00:32,0	00:00,0	00:28,5	01:05,5	00:25,0	00:58,5
+Wolfsmüller	Aaron	AW	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
+Schneider	Kilian 	KS	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
+Wolfsmüller	Lucy 	LW	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
+Angerer	Julia	JA	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
+Aringsmann	Sara 	SA	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
+McMullen	Louis	LM	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0 Letzte Spalte ist Komemntarspalte! Dann folgt ein Newline und das ist das Problem!
