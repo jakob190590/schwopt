@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <list>
+#include <set>
 #include <string>
 
 #include "Disziplin.h"
@@ -20,6 +21,7 @@ class Schwimmer; // forward declaration
 
 typedef vector<Schwimmer*> SchwimmerVector;
 typedef list<Schwimmer*> SchwimmerList;
+typedef set<Schwimmer*> SchwimmerSet;
 
 class Schwimmer {
 public:

@@ -19,7 +19,7 @@ protected:
 			(Schwimmer const * const, Schwimmer const * const);
 
 	SchwimmerVector schwimmer;
-	SchwimmerVector schwimmerSortiert[Disziplin::ANZAHL];
+	SchwimmerList schwimmerSortiert[Disziplin::ANZAHL];
 	list<float> abstandZumBesseren[Disziplin::ANZAHL];
 	list<float> abstandZumBesten[Disziplin::ANZAHL];
 	SchwimmerVector result;

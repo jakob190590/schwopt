@@ -35,14 +35,14 @@ OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 	// Schwimmer fuer jede Disziplin sortieren und Vergleichswerte berechnen
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
 	{
-		SchwimmerVector& schwSorted = schwimmerSortiert[i];
+		SchwimmerList& schwSorted = schwimmerSortiert[i];
 		// Schwimmer in leeren Vektor schwimmerSortiert[i] uebertragen
 		schwSorted.insert(schwSorted.begin(), schwimmer.begin(), schwimmer.end());
 		// Aufsteigend sortieren nach Zeit, d. h. Bester <=> Erster
-		sort(schwSorted.begin(), schwSorted.end(), schwimmerZeitLowerComperators[i]);
+		schwSorted.sort(schwimmerZeitLowerComperators[i]);
 
 		// Normierte Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
-		SchwimmerVector::const_iterator it, first, previous;
+		SchwimmerList::const_iterator it, first, previous;
 		it = first = previous = schwSorted.begin();
 		for (; it != schwSorted.end(); ++it)
 		{

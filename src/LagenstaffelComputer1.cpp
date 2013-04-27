@@ -6,7 +6,6 @@
  */
 
 #include <set>
-#include <utility>
 
 #include "LagenstaffelComputer1.h"
 #include "Zeit.h"
@@ -44,8 +43,13 @@ void LagenstaffelComputer1::compute()
 	// Positionen, die schon feststehen
 	bool locked[ANZAHL_POSITIONEN_IN_STAFFEL] = { false, false, false, false };
 	// Noch verfuegbare Schwimmer
-	set<Schwimmer*> availableSchwimmer;
+	SchwimmerSet availableSchwimmer;
 	availableSchwimmer.insert(schwimmer.begin(), schwimmer.end());
+	// Schwimmerlisten sortiert
+	SchwimmerList sortedSchwimmer[Disziplin::ANZAHL];
+	for (int i = 0; i < Disziplin::ANZAHL; i++)
+		sortedSchwimmer[i] = schwimmerSortiert[i];
+
 
 	// hier geht's los!
 	while (unlockedPositionen > 0)
@@ -54,7 +58,7 @@ void LagenstaffelComputer1::compute()
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!locked[i])
 			{
-				result[i] = schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]][0]; // TODO statt 0 nen index aus nem array nehmen, der auf den schwimmer zeigt, ab dem noch verfuegbare ist
+				result[i] = *sortedSchwimmer[DISZIPLINEN_IN_STAFFEL[i]].begin();
 			}
 
 		// Alle UNLOCKED Schwimmer nach Abstand ABSTEIGEND sortiert in set einfuegen
@@ -66,17 +70,17 @@ void LagenstaffelComputer1::compute()
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer locken, wenn noch nicht locked!
 		for (set<pair<int, Schwimmer*> >::const_iterator it = staffelSchwimmerSortiertNachAbstand.begin();
 				it != staffelSchwimmerSortiertNachAbstand.end(); ++it)
-			if (!locked[it->first])
+			if (!locked[it->first]) // beim 1. mal immer true, danach kann's auch false sein!
 			{
 				// Diesen Schwimmer festlegen fuer seine Position
 				unlockedPositionen--;
 				locked[it->first] = true;
 				availableSchwimmer.erase(it->second);
+				for (int i = 0; i < Disziplin::ANZAHL; i++)
+					sortedSchwimmer[i].remove(it->second);
 			}
 			else
-			{
 				break;
-			}
 
 
 	}
