@@ -77,10 +77,10 @@ LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 void LagenstaffelComputer1::compute()
 {
 	// Variablen fuer die Berechnung:
-	// Anzahl Positionen, die noch nicht feststehen
-	int unlockedPositionen = ANZAHL_POSITIONEN_IN_STAFFEL;
-	// Positionen, die schon feststehen
-	bool locked[ANZAHL_POSITIONEN_IN_STAFFEL] = { false, false, false, false };
+	// Anzahl Positionen, die noch nicht vergeben sind
+	int nichtvergebenePositionen = ANZAHL_POSITIONEN_IN_STAFFEL;
+	// Positionen, die schon fest vergeben sind
+	bool vergebenePositionen[ANZAHL_POSITIONEN_IN_STAFFEL] = { false, false, false, false };
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer;
 	availableSchwimmer.insert(schwimmer.begin(), schwimmer.end());
@@ -88,13 +88,13 @@ void LagenstaffelComputer1::compute()
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 
 	// hier geht's los!
-	while (unlockedPositionen > 0)
+	while (nichtvergebenePositionen > 0)
 	{
-		cout << "unlockedPositionen == " << unlockedPositionen << endl;
+		cout << "unlockedPositionen == " << nichtvergebenePositionen << endl;
 
 		// ueberall wo noch unlocked ist, besten einsetzen
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-			if (!locked[i])
+			if (!vergebenePositionen[i])
 			{
 				result[i] = *schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin();
 			}
@@ -102,17 +102,17 @@ void LagenstaffelComputer1::compute()
 		// Alle UNLOCKED Schwimmer nach Abstand ABSTEIGEND sortiert in set einfuegen
 		SortedPositionSchwimmerSet staffelSchwimmerSortiertNachAbstand(NormAbstandComparer(*this));
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-			if (!locked[i])
+			if (!vergebenePositionen[i])
 				staffelSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, result[i]));
 
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer locken, wenn noch nicht locked!
 		for (SortedPositionSchwimmerSet::const_iterator it = staffelSchwimmerSortiertNachAbstand.begin();
 				it != staffelSchwimmerSortiertNachAbstand.end(); ++it)
-			if (!locked[it->first]) // beim 1. mal immer true, danach kann's auch false sein!
+			if (!vergebenePositionen[it->first]) // beim 1. mal immer true, danach kann's auch false sein!
 			{
 				// Diesen Schwimmer festlegen fuer seine Position
-				unlockedPositionen--;
-				locked[it->first] = true;
+				nichtvergebenePositionen--;
+				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
 				for (int i = 0; i < Disziplin::ANZAHL; i++)
 				{
