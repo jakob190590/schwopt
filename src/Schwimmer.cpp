@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <iomanip>
 
 #include "Schwimmer.h"
 #include "Zeit.h"
@@ -42,15 +43,16 @@ Schwimmer::Schwimmer(const string& nachname, const string& vorname, const string
 
 ostream& operator <<(ostream& os, const Schwimmer& schw)
 {
-	os << schw.nachname << '\t' << schw.vorname << '\t'  << schw.kuerzel << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_100]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::RUECK_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::RUECK_100]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::SCHM_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::SCHM_100]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::FREI_50]) << '\t';
-	os << Zeit::convertToString(schw.zeiten[Disziplin::FREI_100]);
+	os << setiosflags(ios::left);
+	os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_50]);
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_100]);
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::RUECK_50]);
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::RUECK_100]);
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::SCHM_50]);
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::SCHM_100]);
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::FREI_50]);
+	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::FREI_100]);
 	os << endl;
 	return os;
 }
@@ -68,8 +70,6 @@ istream& operator >>(istream& is, Schwimmer& schw)
 	// Kommentar weglesen, oder was auch immer in ueberzaehligen Spalten steht
 	char rest[200];
 	is.getline(rest, 200);
-	clog << rest << endl;
-	if (*rest && !is.eof()) cerr << "letzte zeile (die mit kommentar) weggelesen (inkl. \\n) ABER kein EOF in sicht!" << endl;
 	return is;
 }
 
