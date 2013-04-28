@@ -6,6 +6,7 @@
  */
 
 #include <set>
+#include <iomanip>
 
 #include "LagenstaffelComputer1.h"
 #include "Zeit.h"
@@ -122,7 +123,7 @@ ostream& LagenstaffelComputer1::outputResult(ostream& os)
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{
 		int diszi = DISZIPLINEN_IN_STAFFEL[i];
-		os << "Disziplin " << diszi << ": " << result[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
+		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << result[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl;
 	return os;
