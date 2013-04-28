@@ -9,7 +9,6 @@
 #include <climits>
 
 #include "OptComputer.h"
-#include "Schwimmer.h"
 
 bool (*OptComputer::schwimmerZeitLowerComperators[])
 		(const Schwimmer*, const Schwimmer*) = {

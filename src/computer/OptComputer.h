@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-#include "Schwimmer.h"
+#include "../Schwimmer.h"
 
 // Alle OptComputer sind Einmal-Computer, d.h. es ist pro Objekt nur ein einziger Aufruf von compute moeglich.
 // Danach koennen sie weggeworfen werden!
