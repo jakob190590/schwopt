@@ -137,16 +137,6 @@ void LagenstaffelComputer1::compute()
 	}
 }
 
-unsigned LagenstaffelComputer1::getTime()
-{
-	return gesamtzeit;
-}
-
-SchwimmerVector LagenstaffelComputer1::getResult()
-{
-	return result;
-}
-
 ostream& LagenstaffelComputer1::outputResult(ostream& os)
 {
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)

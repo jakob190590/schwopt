@@ -32,14 +32,10 @@ class LagenstaffelComputer1: public OptComputer
 
 	map<Schwimmer*, float> normierteAbstaende[Disziplin::ANZAHL];
 
-	unsigned gesamtzeit;
-
 public:
 	LagenstaffelComputer1(const SchwimmerVector&);
 
 	void compute();
-	unsigned getTime();
-	SchwimmerVector getResult();
 	ostream& outputResult(ostream&);
 };
 

@@ -22,13 +22,16 @@ protected:
 
 	SchwimmerVector schwimmer;
 	SchwimmerList schwimmerSortiert[Disziplin::ANZAHL];
+
+	// Ergebnisse, werden gefuellt von compute()
 	SchwimmerVector result;
+	unsigned gesamtzeit;
 public:
 	OptComputer(const SchwimmerVector&);
 
 	virtual void compute() = 0;
-	virtual unsigned getTime() = 0;
-	virtual SchwimmerVector getResult() = 0;
+	virtual unsigned getTime();
+	virtual SchwimmerVector getResult();
 	virtual ostream& outputResult(ostream&) = 0;
 };
 

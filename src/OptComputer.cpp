@@ -42,3 +42,14 @@ OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 		schwList.sort(schwimmerZeitLowerComperators[i]);
 	}
 }
+
+unsigned OptComputer::getTime()
+{
+	return gesamtzeit;
+}
+
+SchwimmerVector OptComputer::getResult()
+{
+	return result;
+}
+
