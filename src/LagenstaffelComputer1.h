@@ -22,8 +22,11 @@ class LagenstaffelComputer1: public OptComputer
 	typedef pair<int, Schwimmer*> PositionSchwimmerPair;
 	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
 
-	struct NormAbstandComparer
+	class NormAbstandComparer
 	{
+		const LagenstaffelComputer1& computer;
+	public:
+		NormAbstandComparer(const LagenstaffelComputer1&);
 		bool operator ()(const PositionSchwimmerPair&, const PositionSchwimmerPair&);
 	};
 

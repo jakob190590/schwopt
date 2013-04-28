@@ -14,10 +14,15 @@ using namespace std;
 
 const int LagenstaffelComputer1::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
 
+LagenstaffelComputer1::NormAbstandComparer::NormAbstandComparer(const LagenstaffelComputer1& computer) :
+		computer(computer)
+{
+}
+
 bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
 {
 	// Abstand in Diziplin, die in der Staffel auf der angegebenen Position gilt, und fuer den Schwimmer, der fuer diese Position vorgesehen ist
-	return normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
+	return computer.normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
@@ -71,7 +76,7 @@ void LagenstaffelComputer1::compute()
 			}
 
 		// Alle UNLOCKED Schwimmer nach Abstand ABSTEIGEND sortiert in set einfuegen
-		SortedPositionSchwimmerSet staffelSchwimmerSortiertNachAbstand;
+		SortedPositionSchwimmerSet staffelSchwimmerSortiertNachAbstand(NormAbstandComparer(*this));
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!locked[i])
 				staffelSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, result[i]));
