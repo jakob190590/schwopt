@@ -30,7 +30,7 @@ class LagenstaffelComputer1: public OptComputer
 		bool operator ()(const PositionSchwimmerPair&, const PositionSchwimmerPair&);
 	};
 
-	map<Schwimmer*, unsigned> normierteAbstaende[Disziplin::ANZAHL];
+	map<Schwimmer*, float> normierteAbstaende[Disziplin::ANZAHL];
 
 	unsigned gesamtzeit;
 

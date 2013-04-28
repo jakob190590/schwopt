@@ -12,6 +12,8 @@
 
 #include "Schwimmer.h"
 
+// Alle OptComputer sind Einmal-Computer, d.h. es ist pro Objekt nur ein einziger Aufruf von compute moeglich.
+// Danach koennen sie weggeworfen werden!
 class OptComputer {
 protected:
 	// Array mit Comperator (Greater)-Funktionen, um Schwimmer nach verschiedenen Disziplinen zu sortieren
@@ -20,8 +22,6 @@ protected:
 
 	SchwimmerVector schwimmer;
 	SchwimmerList schwimmerSortiert[Disziplin::ANZAHL];
-	list<float> abstandZumBesseren[Disziplin::ANZAHL];
-	list<float> abstandZumBesten[Disziplin::ANZAHL];
 	SchwimmerVector result;
 public:
 	OptComputer(const SchwimmerVector&);

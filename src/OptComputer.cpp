@@ -32,25 +32,13 @@ OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 			if ((*it)->zeiten[i] == 0)
 				(*it)->zeiten[i] = UINT_MAX;
 
-	// Schwimmer fuer jede Disziplin sortieren und Vergleichswerte berechnen
+	// Schwimmer fuer jede Disziplin sortieren
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
 	{
-		SchwimmerList& schwSorted = schwimmerSortiert[i];
-		// Schwimmer in leeren Vektor schwimmerSortiert[i] uebertragen
-		schwSorted.insert(schwSorted.begin(), schwimmer.begin(), schwimmer.end());
-		// Aufsteigend sortieren nach Zeit, d. h. Bester <=> Erster
-		schwSorted.sort(schwimmerZeitLowerComperators[i]);
-
-		// Normierte Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
-		SchwimmerList::const_iterator it, first, previous;
-		it = first = previous = schwSorted.begin();
-		for (; it != schwSorted.end(); ++it)
-		{
-			abstandZumBesten[i].push_back((*it)->zeiten[i] / (*first)->zeiten[i]);
-			abstandZumBesseren[i].push_back((*it)->zeiten[i] / (*previous)->zeiten[i]);
-
-			// previous erhoehen, aber it einen Schritt Vorsprung lassen!
-			if (previous != it) ++previous;
-		}
+		SchwimmerList& schwList = schwimmerSortiert[i];
+		// Schwimmer in leere Liste schwimmerSortiert[i] uebertragen
+		schwList.insert(schwList.begin(), schwimmer.begin(), schwimmer.end());
+		// Aufsteigend sortieren nach Zeit, d. h. Erster = Bester
+		schwList.sort(schwimmerZeitLowerComperators[i]);
 	}
 }

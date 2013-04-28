@@ -6,6 +6,8 @@
  */
 
 #include <set>
+#include <climits>
+#include <cassert>
 #include <iomanip>
 
 #include "LagenstaffelComputer1.h"
@@ -29,6 +31,31 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 		OptComputer(schwimmer)
 {
+	// Normierten Abstand zum Naechstschlechteren berechnen
+	for (int i = 0; i < Disziplin::ANZAHL; i++)
+	{
+		SchwimmerList& schwSorted = schwimmerSortiert[i];
+
+		// Normierte Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
+		SchwimmerList::const_iterator it, next;
+		it = next = schwSorted.begin();
+		next++; // Naechstschlechterer Schwimmer
+		for (; it != schwSorted.end(); ++it)
+		{
+			unsigned itZeit = (*it)->zeiten[i];
+			unsigned nextZeit;
+			if (next == schwSorted.end())
+				nextZeit = UINT_MAX;
+			else
+			{
+				nextZeit = (*next)->zeiten[i];
+				++next; // next iterator schon mal erhoehen
+			}
+
+			assert(nextZeit >= itZeit); // Fehlerhafte Sortierung oder schwerer Fehler im Algo
+			normierteAbstaende[i][*it] = nextZeit / itZeit; // Naechstschlechterer / Aktueller, z.B. 00:14,0 / 00:13,0
+		}
+	}
 }
 
 /*
@@ -57,10 +84,6 @@ void LagenstaffelComputer1::compute()
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer;
 	availableSchwimmer.insert(schwimmer.begin(), schwimmer.end());
-	// Schwimmerlisten sortiert
-	SchwimmerList sortedSchwimmer[Disziplin::ANZAHL];
-	for (int i = 0; i < Disziplin::ANZAHL; i++)
-		sortedSchwimmer[i] = schwimmerSortiert[i];
 	// Size of result setzen!
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 
@@ -73,7 +96,7 @@ void LagenstaffelComputer1::compute()
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!locked[i])
 			{
-				result[i] = *sortedSchwimmer[DISZIPLINEN_IN_STAFFEL[i]].begin();
+				result[i] = *schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin();
 			}
 
 		// Alle UNLOCKED Schwimmer nach Abstand ABSTEIGEND sortiert in set einfuegen
@@ -92,7 +115,13 @@ void LagenstaffelComputer1::compute()
 				locked[it->first] = true;
 				availableSchwimmer.erase(it->second);
 				for (int i = 0; i < Disziplin::ANZAHL; i++)
-					sortedSchwimmer[i].remove(it->second);
+				{
+					schwimmerSortiert[i].remove(it->second);
+//					nait = normierteAbstaende[i].find(it->second);
+//					nait;
+					normierteAbstaende[i].erase(it->second);
+					// TODO durch das rausloeschen veraendert sich der abstand zum des naechstbesseren zum naechseschlechteren! neu berechnen!
+				}
 			}
 			else
 				break;
