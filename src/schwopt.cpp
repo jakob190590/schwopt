@@ -13,8 +13,9 @@
 
 #include "Schwimmer.h"
 #include "Zeit.h"
-#include "OptComputer.h"
-#include "LagenstaffelComputer1.h"
+#include "computer/OptComputer.h"
+#include "computer/LagenstaffelComputer1.h"
+#include "computer/LagenstaffelComputer2.h"
 
 using namespace std;
 
@@ -49,6 +50,9 @@ int main(int argc, char* argv[]) {
 	lagenstaffelComputer1.compute();
 	lagenstaffelComputer1.outputResult(cout);
 
+	LagenstaffelComputer2 lagenstaffelComputer2(schwimmer);
+	lagenstaffelComputer2.compute();
+	lagenstaffelComputer2.outputResult(cout);
 
 
 	// Schwimmer im vector freigeben
