@@ -14,7 +14,7 @@ using namespace std;
 
 const int LagenstaffelComputer1::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
 
-LagenstaffelComputer1::NormAbstandComparer::NormAbstandComparer(const LagenstaffelComputer1& computer) :
+LagenstaffelComputer1::NormAbstandComparer::NormAbstandComparer(LagenstaffelComputer1& computer) :
 		computer(computer)
 {
 }

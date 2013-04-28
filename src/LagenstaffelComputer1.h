@@ -24,9 +24,9 @@ class LagenstaffelComputer1: public OptComputer
 
 	class NormAbstandComparer
 	{
-		const LagenstaffelComputer1& computer;
+		LagenstaffelComputer1& computer;
 	public:
-		NormAbstandComparer(const LagenstaffelComputer1&);
+		NormAbstandComparer(LagenstaffelComputer1&);
 		bool operator ()(const PositionSchwimmerPair&, const PositionSchwimmerPair&);
 	};
 
