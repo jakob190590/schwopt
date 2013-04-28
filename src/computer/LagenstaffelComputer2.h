@@ -10,18 +10,14 @@
 
 #include <map>
 
-#include "OptComputer.h"
+#include "LagenstaffelComputer.h"
 
-class LagenstaffelComputer2: public OptComputer
+class LagenstaffelComputer2: public LagenstaffelComputer
 {
-	static const int ANZAHL_POSITIONEN_IN_STAFFEL = 4;
-	static const int DISZIPLINEN_IN_STAFFEL[];
-
 public:
 	LagenstaffelComputer2(const SchwimmerVector&);
 
 	void compute();
-	ostream& outputResult(ostream&);
 };
 
 #endif /* LAGENSTAFFELCOMUTER_H_ */

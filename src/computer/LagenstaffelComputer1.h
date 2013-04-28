@@ -10,13 +10,10 @@
 
 #include <map>
 
-#include "OptComputer.h"
+#include "LagenstaffelComputer.h"
 
-class LagenstaffelComputer1: public OptComputer
+class LagenstaffelComputer1: public LagenstaffelComputer
 {
-	static const int ANZAHL_POSITIONEN_IN_STAFFEL = 4;
-	static const int DISZIPLINEN_IN_STAFFEL[];
-
 	class NormAbstandComparer;
 
 	typedef pair<int, Schwimmer*> PositionSchwimmerPair;
@@ -36,7 +33,6 @@ public:
 	LagenstaffelComputer1(const SchwimmerVector&);
 
 	void compute();
-	ostream& outputResult(ostream&);
 };
 
 #endif /* LAGENSTAFFELCOMPUTER1_H_ */
