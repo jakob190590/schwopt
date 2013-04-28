@@ -16,6 +16,7 @@
 #include "computer/OptComputer.h"
 #include "computer/LagenstaffelComputer1.h"
 #include "computer/LagenstaffelComputer2.h"
+#include "computer/KraulstaffelComputer.h"
 
 using namespace std;
 
@@ -54,6 +55,9 @@ int main(int argc, char* argv[]) {
 	lagenstaffelComputer2.compute();
 	lagenstaffelComputer2.outputResult(cout);
 
+	KraulstaffelComputer kraulstaffelComputer(schwimmer);
+	kraulstaffelComputer.compute();
+	kraulstaffelComputer.outputResult(cout);
 
 	// Schwimmer im vector freigeben
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();
