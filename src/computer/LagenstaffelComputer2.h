@@ -5,8 +5,8 @@
  *      Author: jakob190590
  */
 
-#ifndef LagenstaffelComputer2_H_
-#define LagenstaffelComputer2_H_
+#ifndef LAGENSTAFFELCOMUTER2_H_
+#define LAGENSTAFFELCOMUTER2_H_
 
 #include <map>
 
@@ -24,4 +24,4 @@ public:
 	ostream& outputResult(ostream&);
 };
 
-#endif /* LagenstaffelComputer2_H_ */
+#endif /* LAGENSTAFFELCOMUTER_H_ */
