@@ -6,9 +6,9 @@
  */
 
 #include <algorithm>
-#include <climits>
 
 #include "OptComputer.h"
+#include "../Zeit.h"
 
 bool (*OptComputer::schwimmerZeitLowerComperators[])
 		(const Schwimmer*, const Schwimmer*) = {
@@ -29,7 +29,7 @@ OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 			it != schwimmer.end(); ++it)
 		for (int i = 0; i < Disziplin::ANZAHL; i++)
 			if ((*it)->zeiten[i] == 0)
-				(*it)->zeiten[i] = UINT_MAX;
+				(*it)->zeiten[i] = Zeit::MAX_UNSIGNED_VALUE;
 
 	// Schwimmer fuer jede Disziplin sortieren
 	for (int i = 0; i < Disziplin::ANZAHL; i++)

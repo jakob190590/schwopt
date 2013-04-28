@@ -13,8 +13,6 @@
 
 using namespace std;
 
-const int Zeit::MAX_STRING_LENGTH_PLUS_ONE = 8; // 00:00,0  also auf Zehntelsekunden genau
-
 unsigned Zeit::convertToUnsigned(const string& zeit)
 {
 	// zeit ::= [ ZAHL ] COLON [ ZAHL [ COMMA [ ZAHL ] ] ]

@@ -6,7 +6,6 @@
  */
 
 #include <set>
-#include <climits>
 #include <cassert>
 #include <iomanip>
 
