@@ -42,10 +42,11 @@ void KraulstaffelComputer::compute()
 ostream& KraulstaffelComputer::outputResult(ostream& os)
 {
 	string diszi = Disziplin::convertToString(DISZIPLIN);
+	os << "Kraulstaffel (4 x " << diszi << ")" << endl; // TODO freistil oder kraul?
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{
-		os << setiosflags(ios::left) << setw(23) << diszi << " " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[DISZIPLIN]) << endl;
+		os << (i + 1) << ". Schwimmer   " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[DISZIPLIN]) << endl;
 	}
-	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl;
+	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
 	return os;
 }
