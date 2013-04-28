@@ -23,6 +23,23 @@ LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerVector& schwimmer) :
 {
 }
 
+/**
+ * Algorithmus:
+ *
+ * Schwimmer durchprobieren:
+ * 1. Jeden einzelnen fuer 1. Position
+ *    2. Jeden einzelnen der Uebrigen fuer 2. Position
+ *       3. Jeden einzelnen der Uebrigen fuer 3. Position
+ *          4. Jeden einzelnen der Uebrigen fuer 4. Position
+ *
+ * Ergibt Laufzeit:
+ * n: Gesamtanzahl der Schwimmer
+ * bei 4 Positionen in der Staffel
+ * n * (n - 1) * (n - 2) * (n - 3) = (n! - (n - 4)!)
+ * => O(n!) -- bisschen besser eigentlich...
+ * In Ordnung, weil n nicht beliebig steigt.
+ *
+ */
 void LagenstaffelComputer2::compute()
 {
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
