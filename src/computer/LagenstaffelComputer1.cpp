@@ -6,6 +6,7 @@
  */
 
 #include <set>
+#include <iostream>
 #include <cassert>
 #include <iomanip>
 
@@ -22,18 +23,18 @@ LagenstaffelComputer1::NormAbstandComparer::NormAbstandComparer(LagenstaffelComp
 bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
 {
 	// Abstand in Diziplin, die in der Staffel auf der angegebenen Position gilt, und fuer den Schwimmer, der fuer diese Position vorgesehen ist
-	return computer.normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
+	return computer.abstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
-void LagenstaffelComputer1::entfAusSchwimmerSortiertUndNormierteAbstaende(int position, Schwimmer* schw)
+void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(int position, Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen von Positionen der Staffel
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
 	{
 		schwimmerSortiert[i].remove(schw);
 
-		SchwimmerFloatMap& abst = normierteAbstaende[i];
-		SchwimmerFloatMap::iterator it2, it = abst.find(schw);
+		SchwimmerAbstandMap& abst = abstaende[i];
+		SchwimmerAbstandMap::iterator it2, it = abst.find(schw);
 		if (it == abst.end()) // nicht gefunden (??)
 			continue;
 
@@ -55,7 +56,7 @@ void LagenstaffelComputer1::entfAusSchwimmerSortiertUndNormierteAbstaende(int po
 		if (it2 != abst.end())
 			nextZeit = it2->first->zeiten[diszi];
 
-		it->second = nextZeit / itZeit;
+		it->second = nextZeit - itZeit;
 	}
 }
 
@@ -84,7 +85,7 @@ LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 			}
 
 			assert(nextZeit >= itZeit); // Fehlerhafte Sortierung oder schwerer Fehler im Algo
-			normierteAbstaende[i][*it] = nextZeit / itZeit; // Naechstschlechterer / Aktueller, z.B. 00:14,0 / 00:13,0
+			abstaende[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
 		}
 	}
 }
@@ -144,7 +145,7 @@ void LagenstaffelComputer1::compute()
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
-				entfAusSchwimmerSortiertUndNormierteAbstaende(it->first, it->second);
+				entfAusSchwimmerSortiertUndAbstaende(it->first, it->second);
 				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
 			}
 			else
