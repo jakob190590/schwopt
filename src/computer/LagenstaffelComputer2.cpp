@@ -49,28 +49,44 @@ void LagenstaffelComputer2::compute()
 
     for(It it_s0 = begin; it_s0 != end; ++it_s0)
 	{
-		unsigned summe0 = (*it_s0)->zeiten[Disziplin::RUECK_50];
+		unsigned zeit0 = (*it_s0)->zeiten[Disziplin::RUECK_50];
+		if (zeit0 == Zeit::MAX_UNSIGNED_VALUE)
+			continue;
+
+		unsigned summe0 = zeit0;
 		for (It it_s1 = begin; it_s1 != end; ++it_s1)
 		{
 			if (it_s1 == it_s0)
 				continue;
 
+			unsigned zeit1 = (*it_s1)->zeiten[Disziplin::BRUST_50];
+			if (zeit1 == Zeit::MAX_UNSIGNED_VALUE)
+				continue;
+
 			// Summe der Zeiten der Schwimmer auf den Positionen 0 und 1
-			unsigned summe01 = summe0 + (*it_s1)->zeiten[Disziplin::BRUST_50];
+			unsigned summe01 = summe0 + zeit1;
 			for (It it_s2 = begin; it_s2 != end; ++it_s2)
 			{
 				if (it_s2 == it_s1 || it_s2 == it_s0)
 					continue;
 
+				unsigned zeit2 = (*it_s2)->zeiten[Disziplin::SCHM_50];
+				if (zeit2 == Zeit::MAX_UNSIGNED_VALUE)
+					continue;
+
 				// Summe der Zeiten der Schwimmer auf den Positionen 0, 1 und 2
-				unsigned summe012 = summe01 + (*it_s2)->zeiten[Disziplin::SCHM_50];
+				unsigned summe012 = summe01 + zeit2;
 				for (It it_s3 = begin; it_s3 != end; ++it_s3)
 				{
 					if (it_s3 == it_s2 || it_s3 == it_s1 || it_s3 == it_s0)
 						continue;
 
+					unsigned zeit3 = (*it_s3)->zeiten[Disziplin::FREI_50];
+					if (zeit3 == Zeit::MAX_UNSIGNED_VALUE)
+						continue;
+
 					// Summe der Zeiten der Schwimmer auf den allen vier Positionen (0 bis 3)
-					unsigned summe0123 = summe012 + (*it_s3)->zeiten[Disziplin::FREI_50];
+					unsigned summe0123 = summe012 + zeit3;
 
 					if (summe0123 < best)
 					{
