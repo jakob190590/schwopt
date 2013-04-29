@@ -35,6 +35,15 @@ GesamtComputer1::GesamtComputer1(const SchwimmerVector& schwimmer) :
  *   Freie Positionen mit besten freien Schwimmern besetzen
  *   Alle eben eingesetzten Schwimmer nach Abstand absteigend sortieren
  *   Diese sortierte Liste durchgehen:
+ *     Bei mehreren gleichwertigen Moeglichkeiten:
+ *       Entscheidungssituation nachschlagen
+ *       Neue Entscheidungssituation:
+ *         Entscheidungssituation speichern
+ *         Erste Moeglichkeit und speichern
+ *       sonst:
+ *         Naechste Moeglichkeit waehlen und speichern
+ *
+ *
  *     Wenn Schwimmer noch frei:
  *       Diesen Schwimmer festsetzen
  *     sonst:
