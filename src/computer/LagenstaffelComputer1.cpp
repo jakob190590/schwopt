@@ -83,6 +83,7 @@ void LagenstaffelComputer1::compute()
 	availableSchwimmer.insert(schwimmer.begin(), schwimmer.end());
 	// Size of result setzen!
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
+	gesamtzeit = 0;
 
 	// hier geht's los!
 	while (nichtvergebenePositionen > 0)
@@ -111,6 +112,7 @@ void LagenstaffelComputer1::compute()
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
+				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
 				for (int i = 0; i < Disziplin::ANZAHL; i++)
 				{
 					schwimmerSortiert[i].remove(it->second);
@@ -123,13 +125,5 @@ void LagenstaffelComputer1::compute()
 			else
 				break;
 
-
-	}
-
-	// Zum Schluss Gesamtzeit berechnen:
-	gesamtzeit = 0;
-	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-	{
-		gesamtzeit += result[i]->zeiten[DISZIPLINEN_IN_STAFFEL[i]];
 	}
 }
