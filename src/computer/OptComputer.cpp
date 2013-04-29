@@ -10,16 +10,16 @@
 #include "OptComputer.h"
 #include "../Zeit.h"
 
-bool (*OptComputer::schwimmerZeitLowerComperators[])
+bool (*OptComputer::schwimmerZeitLessComperators[])
 		(const Schwimmer*, const Schwimmer*) = {
-		zeitLower<0>,
-		zeitLower<1>,
-		zeitLower<2>,
-		zeitLower<3>,
-		zeitLower<4>,
-		zeitLower<5>,
-		zeitLower<6>,
-		zeitLower<7> };
+		zeitLess<0>,
+		zeitLess<1>,
+		zeitLess<2>,
+		zeitLess<3>,
+		zeitLess<4>,
+		zeitLess<5>,
+		zeitLess<6>,
+		zeitLess<7> };
 
 OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 		schwimmer(schwimmer)
@@ -38,7 +38,7 @@ OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 		// Schwimmer in leere Liste schwimmerSortiert[i] uebertragen
 		schwList.insert(schwList.begin(), schwimmer.begin(), schwimmer.end());
 		// Aufsteigend sortieren nach Zeit, d. h. Erster = Bester
-		schwList.sort(schwimmerZeitLowerComperators[i]);
+		schwList.sort(schwimmerZeitLessComperators[i]);
 	}
 }
 

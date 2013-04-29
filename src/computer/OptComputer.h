@@ -16,8 +16,8 @@
 // Danach koennen sie weggeworfen werden!
 class OptComputer {
 protected:
-	// Array mit Comperator (Greater)-Funktionen, um Schwimmer nach verschiedenen Disziplinen zu sortieren
-	static bool (*schwimmerZeitLowerComperators[])
+	// Array mit Comperator (Less)-Funktionen, um Schwimmer nach verschiedenen Disziplinen zu sortieren
+	static bool (*schwimmerZeitLessComperators[])
 			(Schwimmer const * const, Schwimmer const * const);
 
 	SchwimmerVector schwimmer;

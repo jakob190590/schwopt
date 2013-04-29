@@ -38,7 +38,7 @@ Schwimmer::Schwimmer(const string& nachname, const string& vorname, const string
 	zeiten[Disziplin::SCHM_100]  = schm100;
 	zeiten[Disziplin::FREI_50]   = frei50;
 	zeiten[Disziplin::FREI_100]  = frei100;
-	zeitLower<0>((const Schwimmer*) this, (const Schwimmer*) this);
+	zeitLess<0>((const Schwimmer*) this, (const Schwimmer*) this);
 }
 
 ostream& operator <<(ostream& os, const Schwimmer& schw)

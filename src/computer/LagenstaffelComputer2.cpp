@@ -41,13 +41,13 @@ void LagenstaffelComputer2::compute()
 {
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 
-    typedef SchwimmerVector::const_iterator It;
-    const It begin = schwimmer.begin();
-    const It end   = schwimmer.end();
+	typedef SchwimmerVector::const_iterator It;
+	const It begin = schwimmer.begin();
+	const It end   = schwimmer.end();
 
 	unsigned best = UINT_MAX;
 
-    for(It it_s0 = begin; it_s0 != end; ++it_s0)
+	for(It it_s0 = begin; it_s0 != end; ++it_s0)
 	{
 		unsigned zeit0 = (*it_s0)->zeiten[Disziplin::RUECK_50];
 		if (zeit0 == Zeit::MAX_UNSIGNED_VALUE)
