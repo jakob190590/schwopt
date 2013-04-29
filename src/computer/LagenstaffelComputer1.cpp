@@ -11,6 +11,7 @@
 
 #include "LagenstaffelComputer1.h"
 #include "../Zeit.h"
+#include "../Debugging.h"
 
 using namespace std;
 
@@ -130,6 +131,10 @@ void LagenstaffelComputer1::compute()
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!vergebenePositionen[i])
 			{
+				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
+					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin(),
+					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].end(),
+					DISZIPLINEN_IN_STAFFEL[i]);
 				Schwimmer* schw = *schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin();
 				eingesetzteSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, schw));
 				result[i] = schw;
