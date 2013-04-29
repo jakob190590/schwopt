@@ -1,7 +1,7 @@
 Huber	Ludwig	LH	00:35,6	01:18,0	00:32,0	00:00,0	00:28,5	01:05,5	00:25,0	00:58,5
-Wolfsmüller	Aaron	AW	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
-Schneider	Kilian 	KS	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
-Wolfsmüller	Lucy 	LW	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
-Angerer	Julia	JA	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
-Aringsmann	Sara 	SA	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0
-McMullen	Louis	LM	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0 getline liest zwar den kommentar weg, aber iwie nicht das newline, wenn anschließend EOF kommt
+Wolfsmüller	Aaron	AW	00:35,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:24,0	00:00,0
+Schneider	Kilian 	KS	00:38,0	00:00,0	00:40,0	00:00,0	00:00,0	00:00,0	00:30,0	00:00,0
+Wolfsmüller	Lucy 	LW	00:37,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:27,3	00:00,0
+Angerer	Julia	JA	00:39,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:29,0
+Aringsmann	Sara 	SA	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:30,0	00:00,0
+McMullen	Louis	LM	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:00,0	00:27,0	00:00,0 getline liest zwar den kommentar weg, aber iwie nicht das newline, wenn anschließend EOF kommt
