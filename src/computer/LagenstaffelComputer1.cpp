@@ -90,22 +90,20 @@ void LagenstaffelComputer1::compute()
 	{
 		cout << "unlockedPositionen == " << nichtvergebenePositionen << endl;
 
-		// ueberall wo noch nicht vergeben ist, Besten einsetzen
+		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
+		// Alle nicht-vergebenen Schwimmer nach Abstand absteigend sortiert in set einfuegen
+		SortedPositionSchwimmerSet eingesetzteSchwimmerSortiertNachAbstand(NormAbstandComparer(*this));
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!vergebenePositionen[i])
 			{
-				result[i] = *schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin();
+				Schwimmer* schw = *schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin();
+				eingesetzteSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, schw));
+				result[i] = schw;
 			}
 
-		// Alle nicht-vergebenen Schwimmer nach Abstand absteigend sortiert in set einfuegen
-		SortedPositionSchwimmerSet staffelSchwimmerSortiertNachAbstand(NormAbstandComparer(*this));
-		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-			if (!vergebenePositionen[i])
-				staffelSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, result[i]));
-
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
-		for (SortedPositionSchwimmerSet::const_iterator it = staffelSchwimmerSortiertNachAbstand.begin();
-				it != staffelSchwimmerSortiertNachAbstand.end(); ++it)
+		for (SortedPositionSchwimmerSet::const_iterator it = eingesetzteSchwimmerSortiertNachAbstand.begin();
+				it != eingesetzteSchwimmerSortiertNachAbstand.end(); ++it)
 			if (availableSchwimmer.find(it->second) != availableSchwimmer.end()) // beim 1. mal immer true, danach kann's auch false sein!
 			{
 				// Diesen Schwimmer festlegen fuer seine Position
