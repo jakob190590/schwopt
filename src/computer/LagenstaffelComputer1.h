@@ -18,6 +18,7 @@ class LagenstaffelComputer1: public LagenstaffelComputer
 
 	typedef pair<int, Schwimmer*> PositionSchwimmerPair;
 	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
+	typedef map<Schwimmer*, float> SchwimmerFloatMap;
 
 	class NormAbstandComparer
 	{
@@ -27,7 +28,8 @@ class LagenstaffelComputer1: public LagenstaffelComputer
 		bool operator ()(const PositionSchwimmerPair&, const PositionSchwimmerPair&);
 	};
 
-	map<Schwimmer*, float> normierteAbstaende[Disziplin::ANZAHL];
+	SchwimmerFloatMap normierteAbstaende[Disziplin::ANZAHL];
+	void entfAusSchwimmerSortiertUndNormierteAbstaende(int position, Schwimmer*);
 
 public:
 	LagenstaffelComputer1(const SchwimmerVector&);

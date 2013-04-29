@@ -25,6 +25,40 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 	return computer.normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.normierteAbstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
+void LagenstaffelComputer1::entfAusSchwimmerSortiertUndNormierteAbstaende(int position, Schwimmer* schw)
+{
+	// Eigentlich reicht's fuer Disziplinen von Positionen der Staffel
+	for (int i = 0; i < Disziplin::ANZAHL; i++)
+	{
+		schwimmerSortiert[i].remove(schw);
+
+		SchwimmerFloatMap& abst = normierteAbstaende[i];
+		SchwimmerFloatMap::iterator it2, it = abst.find(schw);
+		if (it == abst.end()) // nicht gefunden (??)
+			continue;
+
+		if (it == abst.begin())
+		{
+			// nothing to do (except erase)
+			abst.erase(it);
+			continue;
+		}
+
+		// Standardfall: Abstand neu berechnen
+		abst.erase(it--); // decrement it before erase
+		it2 = it; // it2 soll auf Naechstschlechteren zeigen
+		it2++;
+
+		int diszi = DISZIPLINEN_IN_STAFFEL[position];
+		unsigned itZeit   = it->first->zeiten[diszi];
+		unsigned nextZeit = Zeit::MAX_UNSIGNED_VALUE; // falls it der letzte Schwimmer ist...
+		if (it2 != abst.end())
+			nextZeit = it2->first->zeiten[diszi];
+
+		it->second = nextZeit / itZeit;
+	}
+}
+
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 		LagenstaffelComputer(schwimmer)
 {
@@ -88,7 +122,7 @@ void LagenstaffelComputer1::compute()
 	// hier geht's los!
 	while (nichtvergebenePositionen > 0)
 	{
-		cout << "unlockedPositionen == " << nichtvergebenePositionen << endl;
+		clog << "nichtvergebenePositionen == " << nichtvergebenePositionen << endl;
 
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
 		// Alle nicht-vergebenen Schwimmer nach Abstand absteigend sortiert in set einfuegen
@@ -110,15 +144,8 @@ void LagenstaffelComputer1::compute()
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
+				entfAusSchwimmerSortiertUndNormierteAbstaende(it->first, it->second);
 				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
-				for (int i = 0; i < Disziplin::ANZAHL; i++)
-				{
-					schwimmerSortiert[i].remove(it->second);
-//					nait = normierteAbstaende[i].find(it->second);
-//					nait;
-					normierteAbstaende[i].erase(it->second);
-					// TODO durch das rausloeschen veraendert sich der abstand zum des naechstbesseren zum naechseschlechteren! neu berechnen!
-				}
 			}
 			else
 				break;

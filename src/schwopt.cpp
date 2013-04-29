@@ -12,7 +12,6 @@
 #include <cstdlib>
 
 #include "Schwimmer.h"
-#include "Zeit.h"
 #include "computer/LagenstaffelComputer1.h"
 #include "computer/LagenstaffelComputer2.h"
 #include "computer/KraulstaffelComputer.h"

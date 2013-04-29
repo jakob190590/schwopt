@@ -16,9 +16,9 @@ string Disziplin::convertToString(int disziplin)
 	case BRUST_100:
 		return "100 Meter Brust";
 	case RUECK_50:
-		return "50 Meter Rücken";
+		return "50 Meter Ruecken";
 	case RUECK_100:
-		return "100 Meter Rücken";
+		return "100 Meter Ruecken";
 	case SCHM_50:
 		return "50 Meter Schmetterling";
 	case SCHM_100:
