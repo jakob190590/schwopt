@@ -37,11 +37,12 @@ unsigned Zeit::convertToUnsigned(const string& zeit)
 
 string Zeit::convertToString(unsigned zeit)
 {
-	char result[MAX_STRING_LENGTH_PLUS_ONE];
+	const int BUFFER_SIZE = 20;
+	char result[BUFFER_SIZE];
 	unsigned millis = zeit % 1000;
 	unsigned seconds = (zeit / 1000) % 60;
-	unsigned minutes = (zeit / 1000 / 60) % 100; // nur 2 stellen!
-	snprintf(result, MAX_STRING_LENGTH_PLUS_ONE, "%02i:%02i,%01i",
+	unsigned minutes = zeit / 1000 / 60;
+	snprintf(result, BUFFER_SIZE, "%02i:%02i,%01i",
 			minutes, seconds, millis / 100);
 	return result;
 }
