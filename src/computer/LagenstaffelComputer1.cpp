@@ -106,7 +106,7 @@ void LagenstaffelComputer1::compute()
 				it != eingesetzteSchwimmerSortiertNachAbstand.end(); ++it)
 			if (availableSchwimmer.find(it->second) != availableSchwimmer.end()) // beim 1. mal immer true, danach kann's auch false sein!
 			{
-				// Diesen Schwimmer festlegen fuer seine Position
+				// Diesen Schwimmer festsetzen fuer seine Position
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
