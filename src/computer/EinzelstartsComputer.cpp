@@ -100,6 +100,22 @@ void EinzelstartsComputer::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
 	}
 }
 
+/*
+ * Algorithm:
+ *
+ * Solange freie Positionen
+ *   Freie Positionen mit besten freien Schwimmern besetzen
+ *   Alle eben eingesetzten Schwimmer nach Abstand absteigend sortieren
+ *   Diese sortierte Liste durchgehen:
+ *     Wenn Schwimmer noch frei:
+ *       Diesen Schwimmer festsetzen
+ *     sonst:
+ *       break;
+ *
+ * Kleine Optimierung (eigentlich unnoetig):
+ * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
+ *
+ */
 void EinzelstartsComputer::compute()
 {
 	// Variablen fuer die Berechnung:
