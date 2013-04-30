@@ -152,6 +152,7 @@ void LagenstaffelComputer1::compute()
 			if (availableSchwimmer.find(it->second) != availableSchwimmer.end()) // beim 1. mal immer true, danach kann's auch false sein!
 			{
 				// Diesen Schwimmer festsetzen fuer seine Position
+				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
@@ -162,4 +163,20 @@ void LagenstaffelComputer1::compute()
 				break;
 
 	}
+}
+
+
+ostream& LagenstaffelComputer1::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
+{
+	os << "-----------------------------------------" << endl;
+	os << "Schwimmer/Zeiten/Abstand, Sortiert nach Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
+	for (SchwimmerAbstandMap::const_iterator it = map.begin(); it != map.end(); ++it)
+	{
+		Schwimmer& schw = *it->first;
+		os << setiosflags(ios::left);
+		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
+		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
+		os << setw(10) << Zeit::convertToString(it->second) << endl;
+	}
+	return os;
 }
