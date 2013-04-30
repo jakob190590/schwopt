@@ -177,7 +177,9 @@ ostream& EinzelstartsComputer::outputResult(ostream& os)
 	for (int i = 0; i < ANZAHL_POSITIONEN; i++)
 	{
 		int diszi = DISZIPLINEN[i];
-		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
+		os << setiosflags(ios::left) << setw(15) << Disziplin::convertToString(diszi, true, false);
+		os << setiosflags(ios::right) << setw(8) << Disziplin::convertToString(diszi, false, true, "m") << resetiosflags(ios::right) << " ";
+		os << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
 	return os;

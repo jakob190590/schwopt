@@ -7,27 +7,38 @@
 
 #include "Disziplin.h"
 
-string Disziplin::convertToString(int disziplin)
+string Disziplin::convertToString(int disziplin, bool lageAusgeben,
+		bool streckeAusgeben, string meterAusgabe)
 {
+	string lage;
+	string strecke = (disziplin % 2 == 0) ? "50" : "100"; // geht nur hier bei diesen Disziplinen!
 	switch (disziplin)
 	{
 	case BRUST_50:
-		return "50 Meter Brust";
 	case BRUST_100:
-		return "100 Meter Brust";
+		lage = "Brust";
+		break;
 	case RUECK_50:
-		return "50 Meter Ruecken";
 	case RUECK_100:
-		return "100 Meter Ruecken";
+		lage = "Ruecken";
+		break;
 	case SCHM_50:
-		return "50 Meter Schmetterling";
 	case SCHM_100:
-		return "100 Meter Schmetterling";
+		lage = "Schmetterling";
+		break;
 	case FREI_50:
-		return "50 Meter Freistil";
 	case FREI_100:
-		return "100 Meter Freistil";
+		lage = "Freistil";
+		break;
 	default:
 		return "undefiniert";
 	}
+
+	string result;
+	if (streckeAusgeben)
+		result = strecke + " " + meterAusgabe + " ";
+	if (lageAusgeben)
+		result += lage;
+
+	return result;
 }

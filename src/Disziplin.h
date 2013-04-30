@@ -28,7 +28,8 @@ public:
 	// Anzahl der oben definierten Disziplinen
 	static const int ANZAHL = 8;
 
-	static string convertToString(int);
+	static string convertToString(int disziplin, bool lageAusgeben = true,
+			bool streckeAusgeben = true, string meterAusgabe = "Meter");
 };
 
 #endif /* DISZIPLIN_H_ */
