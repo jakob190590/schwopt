@@ -119,8 +119,7 @@ void LagenstaffelComputer1::compute()
 	// Positionen, die schon fest vergeben sind
 	bool vergebenePositionen[ANZAHL_POSITIONEN_IN_STAFFEL] = { false, false, false, false };
 	// Noch verfuegbare Schwimmer
-	SchwimmerSet availableSchwimmer;
-	availableSchwimmer.insert(schwimmer.begin(), schwimmer.end());
+	SchwimmerSet availableSchwimmer(schwimmer.begin(), schwimmer.end());
 	// Size of result setzen!
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 	gesamtzeit = 0;
