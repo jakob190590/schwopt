@@ -33,6 +33,7 @@ class LagenstaffelComputer1: public LagenstaffelComputer
 
 	// Debugging
 	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
+	ostream& outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet&);
 
 public:
 	LagenstaffelComputer1(const SchwimmerVector&);

@@ -27,7 +27,9 @@ template <typename Iterator> ostream& outputSchwimmerZeiten(ostream& os,
 		Schwimmer& schw = **it;
 		os << setiosflags(ios::left);
 		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
-		os << setw(10) << Zeit::convertToString(schw.zeiten[disziplin]) << endl;
+		os << setiosflags(ios::right);
+		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]) << endl;
+		os << resetiosflags(ios::right);
 	}
 	return os;
 }

@@ -146,6 +146,7 @@ void LagenstaffelComputer1::compute()
 				result[i] = schw;
 			}
 
+		outputAbstaendeSortiert(clog, eingesetzteSchwimmerSortiertNachAbstand);
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
 		for (SortedPositionSchwimmerSet::const_iterator it = eingesetzteSchwimmerSortiertNachAbstand.begin();
 				it != eingesetzteSchwimmerSortiertNachAbstand.end(); ++it)
@@ -157,6 +158,7 @@ void LagenstaffelComputer1::compute()
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
 				entfAusSchwimmerSortiertUndAbstaende(it->second);
+				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
 				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
 			}
 			else
@@ -169,14 +171,38 @@ void LagenstaffelComputer1::compute()
 ostream& LagenstaffelComputer1::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
 {
 	os << "-----------------------------------------" << endl;
-	os << "Schwimmer/Zeiten/Abstand, Sortiert nach Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
+	os << "Schwimmer/Zeiten/Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
 	for (SchwimmerAbstandMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
 		Schwimmer& schw = *it->first;
 		os << setiosflags(ios::left);
 		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
+		os << setiosflags(ios::right);
 		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
-		os << setw(10) << Zeit::convertToString(it->second) << endl;
+		os << setw(14) << Zeit::convertToString(it->second) << endl;
+		os << resetiosflags(ios::right);
+	}
+	return os;
+}
+
+ostream& LagenstaffelComputer1::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set)
+{
+	os << "-----------------------------------------" << endl;
+	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
+	for (SortedPositionSchwimmerSet::const_iterator it = set.begin(); it != set.end(); ++it)
+	{
+		Schwimmer& schw = *it->second;
+		int position  = it->first;
+		int disziplin = DISZIPLINEN_IN_STAFFEL[position];
+
+		os << setiosflags(ios::left);
+		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
+		os << setiosflags(ios::right);
+		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
+		os << setw(14) << Zeit::convertToString(abstaende[disziplin][&schw]);
+		os << setw(5) << position << ": ";
+		os << resetiosflags(ios::right);
+		os << Disziplin::convertToString(disziplin) << endl;
 	}
 	return os;
 }
