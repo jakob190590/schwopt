@@ -12,6 +12,7 @@
 
 #include "EinzelstartsComputer.h"
 #include "../Zeit.h"
+#include "../Debugging.h"
 
 using namespace std;
 
@@ -127,30 +128,47 @@ void EinzelstartsComputer::compute()
 		for (int i = 0; i < ANZAHL_POSITIONEN; i++)
 			if (!vergebenePositionen[i])
 			{
+				outputSchwimmerZeiten(clog,
+						schwimmerSortiert[DISZIPLINEN[i]].begin(),
+						schwimmerSortiert[DISZIPLINEN[i]].end(),
+						DISZIPLINEN[i]);
 				Schwimmer* schw = *schwimmerSortiert[DISZIPLINEN[i]].begin();
 				eingesetzteSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, schw));
 				result[i] = schw;
 			}
 
+		outputAbstaendeSortiert(clog, eingesetzteSchwimmerSortiertNachAbstand);
+
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
 		for (SortedPositionSchwimmerSet::const_iterator it = eingesetzteSchwimmerSortiertNachAbstand.begin();
 				it != eingesetzteSchwimmerSortiertNachAbstand.end(); ++it)
-			if (availableSchwimmer[it->second] > 0)
+		{
+			const int position    = it->first;
+			Schwimmer* const schw = it->second;
+			const int timesAvailable = availableSchwimmer[schw];
+			if (timesAvailable > 0)
 			{
 				// Diesen Schwimmer festsetzen fuer seine Position
+				clog << "=========================================" << endl;
+				clog << "Schwimmer festsetzen: " << schw->kuerzel << " bei " << Disziplin::convertToString(DISZIPLINEN[position]) << endl;
+				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN[position]], DISZIPLINEN[position]);
 				nichtvergebenePositionen--;
-				vergebenePositionen[it->first] = true;
-				availableSchwimmer[it->second]--;
-				entfAusSchwimmerSortiertUndAbstaende(it->second);
-				gesamtzeit += it->second->zeiten[DISZIPLINEN[it->first]];
+				vergebenePositionen[position] = true;
+				availableSchwimmer[schw]--;
+				if (timesAvailable == 1) // Schwimmer kann kein weiteres Mal eingesetzt werden
+					entfAusSchwimmerSortiertUndAbstaende(schw);
+				gesamtzeit += schw->zeiten[DISZIPLINEN[position]];
+				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN[position]], DISZIPLINEN[position]);
 			}
 			else
 				break;
+		}
 
 	}
-	for (SchwimmerIntMap::const_iterator it = availableSchwimmer.begin();
-			it != availableSchwimmer.end(); ++it)
-		clog << it->first->kuerzel << " " << it->second << endl;
+//	clog << "availableSchwimmer am Ende des Algos" << endl;
+//	for (SchwimmerIntMap::const_iterator it = availableSchwimmer.begin();
+//			it != availableSchwimmer.end(); ++it)
+//		clog << it->first->kuerzel << " " << it->second << endl;
 }
 
 ostream& EinzelstartsComputer::outputResult(ostream& os)
@@ -162,5 +180,44 @@ ostream& EinzelstartsComputer::outputResult(ostream& os)
 		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
+	return os;
+}
+
+ostream& EinzelstartsComputer::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
+{
+	os << "-----------------------------------------" << endl;
+	os << "Schwimmer/Zeiten/Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
+	for (SchwimmerAbstandMap::const_iterator it = map.begin(); it != map.end(); ++it)
+	{
+		Schwimmer& schw = *it->first;
+		os << setiosflags(ios::left);
+		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
+		os << setiosflags(ios::right);
+		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
+		os << setw(14) << Zeit::convertToString(it->second) << endl;
+		os << resetiosflags(ios::right);
+	}
+	return os;
+}
+
+ostream& EinzelstartsComputer::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set)
+{
+	os << "-----------------------------------------" << endl;
+	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
+	for (SortedPositionSchwimmerSet::const_iterator it = set.begin(); it != set.end(); ++it)
+	{
+		Schwimmer& schw = *it->second;
+		int position  = it->first;
+		int disziplin = DISZIPLINEN[position];
+
+		os << setiosflags(ios::left);
+		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
+		os << setiosflags(ios::right);
+		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
+		os << setw(14) << Zeit::convertToString(abstaende[disziplin][&schw]);
+		os << setw(5) << position << ": ";
+		os << resetiosflags(ios::right);
+		os << Disziplin::convertToString(disziplin) << endl;
+	}
 	return os;
 }

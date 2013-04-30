@@ -28,6 +28,10 @@ class EinzelstartsComputer: public OptComputer
 	};
 
 	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
+
+// Debugging
+	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
+	ostream& outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet&);
 public:
 	static const int ANZAHL_POSITIONEN = 8;
 	static const int DISZIPLINEN[];

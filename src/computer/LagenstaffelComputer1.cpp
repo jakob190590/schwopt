@@ -127,7 +127,7 @@ void LagenstaffelComputer1::compute()
 	// hier geht's los!
 	while (nichtvergebenePositionen > 0)
 	{
-		clog << "nichtvergebenePositionen == " << nichtvergebenePositionen << endl;
+//		clog << "nichtvergebenePositionen == " << nichtvergebenePositionen << endl;
 
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
 		// Alle nicht-vergebenen Schwimmer nach Abstand absteigend sortiert in set einfuegen
@@ -135,28 +135,28 @@ void LagenstaffelComputer1::compute()
 		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 			if (!vergebenePositionen[i])
 			{
-				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
-					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin(),
-					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].end(),
-					DISZIPLINEN_IN_STAFFEL[i]);
+//				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
+//					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin(),
+//					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].end(),
+//					DISZIPLINEN_IN_STAFFEL[i]);
 				Schwimmer* schw = *schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin();
 				eingesetzteSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, schw));
 				result[i] = schw;
 			}
 
-		outputAbstaendeSortiert(clog, eingesetzteSchwimmerSortiertNachAbstand);
+//		outputAbstaendeSortiert(clog, eingesetzteSchwimmerSortiertNachAbstand);
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
 		for (SortedPositionSchwimmerSet::const_iterator it = eingesetzteSchwimmerSortiertNachAbstand.begin();
 				it != eingesetzteSchwimmerSortiertNachAbstand.end(); ++it)
 			if (availableSchwimmer.find(it->second) != availableSchwimmer.end()) // beim 1. mal immer true, danach kann's auch false sein!
 			{
 				// Diesen Schwimmer festsetzen fuer seine Position
-				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
+//				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
 				entfAusSchwimmerSortiertUndAbstaende(it->second);
-				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
+//				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
 				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
 			}
 			else
