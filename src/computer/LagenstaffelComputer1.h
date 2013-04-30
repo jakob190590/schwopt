@@ -29,7 +29,10 @@ class LagenstaffelComputer1: public LagenstaffelComputer
 	};
 
 	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
-	void entfAusSchwimmerSortiertUndAbstaende(int position, Schwimmer*);
+	void entfAusSchwimmerSortiertUndAbstaende(Schwimmer*);
+
+	// Debugging
+	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
 
 public:
 	LagenstaffelComputer1(const SchwimmerVector&);

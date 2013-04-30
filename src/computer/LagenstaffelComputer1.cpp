@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cassert>
 #include <iomanip>
+#include <algorithm>
 
 #include "LagenstaffelComputer1.h"
 #include "../Zeit.h"
@@ -27,37 +28,41 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 	return computer.abstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
-void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(int position, Schwimmer* schw)
+void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen von Positionen der Staffel
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
 	{
-		schwimmerSortiert[i].remove(schw);
+		SchwimmerList& sortierteList = schwimmerSortiert[i];
+		SchwimmerAbstandMap& abstandsMap = abstaende[i];
 
-		SchwimmerAbstandMap& abst = abstaende[i];
-		SchwimmerAbstandMap::iterator it2, it = abst.find(schw);
-		if (it == abst.end()) // nicht gefunden (??)
+		abstandsMap.erase(schw);
+
+		SchwimmerList::iterator it = find(sortierteList.begin(), sortierteList.end(), schw);
+		if (it == sortierteList.end()) // nicht gefunden (??)
 			continue;
 
-		if (it == abst.begin())
+		if (it == sortierteList.begin())
 		{
-			// nothing to do (except erase)
-			abst.erase(it);
+			// nothing to do (except remove from list)
+			sortierteList.remove(schw);
 			continue;
 		}
 
 		// Standardfall: Abstand neu berechnen
-		abst.erase(it--); // decrement it before erase
-		it2 = it; // it2 soll auf Naechstschlechteren zeigen
+		it--; // decrement it before remove
+		sortierteList.remove(schw);
+
+		SchwimmerList::iterator it2 = it; // it2 soll auf Naechstschlechteren zeigen
 		it2++;
 
-		int diszi = DISZIPLINEN_IN_STAFFEL[position];
-		unsigned itZeit   = it->first->zeiten[diszi];
+		int diszi = i;
+		unsigned itZeit   = (*it)->zeiten[diszi];
 		unsigned nextZeit = Zeit::MAX_UNSIGNED_VALUE; // falls it der letzte Schwimmer ist...
-		if (it2 != abst.end())
-			nextZeit = it2->first->zeiten[diszi];
+		if (it2 != sortierteList.end())
+			nextZeit = (*it2)->zeiten[diszi];
 
-		it->second = nextZeit - itZeit;
+		abstandsMap[*it] = nextZeit - itZeit;
 	}
 }
 
@@ -150,7 +155,7 @@ void LagenstaffelComputer1::compute()
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
-				entfAusSchwimmerSortiertUndAbstaende(it->first, it->second);
+				entfAusSchwimmerSortiertUndAbstaende(it->second);
 				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
 			}
 			else
