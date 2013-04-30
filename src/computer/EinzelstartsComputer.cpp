@@ -18,5 +18,5 @@ EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 
 void EinzelstartsComputer::compute()
 {
-	map<Schwimmer*, int> anzahlAvailableSchwimmer; // am anfang fuer jeden Schwimmer mit 3 initialisiert!
+
 }

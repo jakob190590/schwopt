@@ -16,8 +16,6 @@ public:
 	EinzelstartsComputer(const SchwimmerVector&);
 
 	void compute();
-	unsigned getTime();
-	SchwimmerVector getResult();
 	ostream& outputResult(ostream&);
 };
 
