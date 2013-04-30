@@ -30,37 +30,36 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 
 void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
 {
-	// Eigentlich reicht's fuer Disziplinen von Positionen der Staffel
-	for (int i = 0; i < Disziplin::ANZAHL; i++)
-	{
-		SchwimmerList& sortierteList = schwimmerSortiert[i];
-		SchwimmerAbstandMap& abstandsMap = abstaende[i];
+	// Eigentlich reicht's fuer Disziplinen der Staffel
+	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
+	{	// int disziplin = DISZIPLINEN_IN_STAFFEL[i];
+		SchwimmerList& schwimmerzeitList = schwimmerSortiert[disziplin]; // list, sorted by zeiten in disziplin, with Schwimmer*
+		SchwimmerAbstandMap& abstandsMap = abstaende[disziplin]; // map, sorted by abstand der zeiten in disziplin, Schwimmer* => unsigned
 
 		abstandsMap.erase(schw);
 
-		SchwimmerList::iterator it = find(sortierteList.begin(), sortierteList.end(), schw);
-		if (it == sortierteList.end()) // nicht gefunden (??)
+		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
+		if (it == schwimmerzeitList.end()) // nicht gefunden (??)
 			continue;
 
-		if (it == sortierteList.begin())
+		if (it == schwimmerzeitList.begin())
 		{
 			// nothing to do (except remove from list)
-			sortierteList.remove(schw);
+			schwimmerzeitList.remove(schw);
 			continue;
 		}
 
 		// Standardfall: Abstand neu berechnen
 		it--; // decrement it before remove
-		sortierteList.remove(schw);
+		schwimmerzeitList.remove(schw);
 
-		SchwimmerList::iterator it2 = it; // it2 soll auf Naechstschlechteren zeigen
-		it2++;
+		SchwimmerList::iterator next = it; // next soll auf Naechstschlechteren zeigen
+		next++;
 
-		int diszi = i;
-		unsigned itZeit   = (*it)->zeiten[diszi];
+		unsigned itZeit   = (*it)->zeiten[disziplin];
 		unsigned nextZeit = Zeit::MAX_UNSIGNED_VALUE; // falls it der letzte Schwimmer ist...
-		if (it2 != sortierteList.end())
-			nextZeit = (*it2)->zeiten[diszi];
+		if (next != schwimmerzeitList.end())
+			nextZeit = (*next)->zeiten[disziplin];
 
 		abstandsMap[*it] = nextZeit - itZeit;
 	}
