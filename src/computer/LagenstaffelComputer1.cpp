@@ -182,7 +182,6 @@ void LagenstaffelComputer1::compute()
 				result[pos] = schw;
 			}
 
-		outputAbstaendeSortiert(clog, eingesetzteSchwimmer);
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
 		PositionSchwimmerPair* mostWanted = findMostWanted(eingesetzteSchwimmer);
 
@@ -191,15 +190,19 @@ void LagenstaffelComputer1::compute()
 		Schwimmer* const schw = mostWanted->second;
 		const int disziplin   = DISZIPLINEN_IN_STAFFEL[position];
 
-		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
-		clog << "Groesster Abstand: " << findMostWanted(eingesetzteSchwimmer)->second->kuerzel << " auf Position " << findMostWanted(eingesetzteSchwimmer)->first << endl;
+		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this));
+		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmer);
+		clog << "Groesster Abstand: " << schw->kuerzel << " auf Position " << position << endl;
+//		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
+
 		nichtvergebenePositionen--;
 		vergebenePositionen[position] = true;
 		availableSchwimmer.erase(schw);
 		removeFromAvailable(schw);
 		ensureMixedBedingung();
-		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
 		gesamtzeit += schw->zeiten[disziplin];
+
+//		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
 
 	}
 }
@@ -222,7 +225,7 @@ ostream& LagenstaffelComputer1::outputSchwimmerAbstand(ostream& os, const Schwim
 	return os;
 }
 
-ostream& LagenstaffelComputer1::outputAbstaendeSortiert(ostream& os, const PositionSchwimmerPairVector& vec)
+ostream& LagenstaffelComputer1::outputEingesetzteSchwimmer(ostream& os, const PositionSchwimmerPairVector& vec)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
