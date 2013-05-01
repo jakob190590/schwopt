@@ -28,6 +28,16 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 	return computer.abstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
+LagenstaffelComputer1::GeschlechtPredicate::GeschlechtPredicate(const Schwimmer::Geschlecht& g) :
+		geschlecht(g)
+{
+}
+
+bool LagenstaffelComputer1::GeschlechtPredicate::operator ()(const Schwimmer* s)
+{
+	return s->geschlecht == geschlecht;
+}
+
 void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen der Staffel
@@ -63,6 +73,28 @@ void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw
 
 		abstandsMap[*it] = nextZeit - itZeit;
 	}
+}
+
+void LagenstaffelComputer1::ensureMixedBedingung()
+{
+//	// Fuer "Mixed"-Bedingung
+//	neededGeschlecht[it->second->geschlecht]--;
+//	Schwimmer::Geschlecht geschlecht; // welche Schwimmer sollen aus den Verfuegbaren geloescht werden
+//	if (neededGeschlecht[Schwimmer::MAENNLICH] == 0)
+//		geschlecht = Schwimmer::MAENNLICH; // keine weiteren Schwimmer mehr erlaubt (der wahrscheinlichere Fall)
+//	else if (neededGeschlecht[Schwimmer::WEIBLICH] == 0)
+//		geschlecht = Schwimmer::WEIBLICH;  // keine weiteren Schwimmerinnen mehr erlaubt
+//	else
+//		return;
+//
+//	SchwimmerSet::iterator it;
+//	GeschlechtPredicate pred(geschlecht);
+//	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
+//			!= availableSchwimmer.end())
+//	{
+//		entfAusSchwimmerSortiertUndAbstaende(*it);
+//		availableSchwimmer.erase(it);
+//	}
 }
 
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
@@ -120,6 +152,8 @@ void LagenstaffelComputer1::compute()
 	bool vergebenePositionen[ANZAHL_POSITIONEN_IN_STAFFEL] = { false, false, false, false };
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer(schwimmer.begin(), schwimmer.end());
+	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
+	int neededGeschlecht[2] = { 2, 2 };
 	// Size of result setzen!
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 	gesamtzeit = 0;
@@ -156,6 +190,8 @@ void LagenstaffelComputer1::compute()
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
 				entfAusSchwimmerSortiertUndAbstaende(it->second);
+				ensureMixedBedingung();
+				// TODO eigntlich muss ich doch abbrechen, schwimmer von den Verfuegbaren geloescht werden! weil abstand sich evtl geaendert hat und auch wegen ensureMixedBedingung
 //				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
 				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
 			}
