@@ -14,7 +14,7 @@
 
 class GesamtComputer1: public OptComputer
 {
-	static const int ANZAHL_POSITIONEN = 16;
+	static const int ANZAHL_POSITIONEN = 18;
 	static const int DISZIPLINEN[];
 
 	map<Schwimmer*, float> normierteAbstaende[Disziplin::ANZAHL];
