@@ -28,8 +28,10 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 	return computer.abstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
-void LagenstaffelComputer1::removeFromAvailable(Schwimmer* schw)
+void LagenstaffelComputer1::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer)
 {
+	availableSchwimmer.erase(schw);
+
 	// Eigentlich reicht's fuer Disziplinen der Staffel
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{	// int disziplin = DISZIPLINEN_IN_STAFFEL[i];
@@ -83,26 +85,18 @@ LagenstaffelComputer1::PositionSchwimmerPair* LagenstaffelComputer1::findMostWan
 	return result;
 }
 
-void LagenstaffelComputer1::ensureMixedBedingung()
+void LagenstaffelComputer1::ensureMixedBedingung(Schwimmer& schw, int neededGeschlecht[], SchwimmerSet& availableSchwimmer)
 {
-//	// Fuer "Mixed"-Bedingung
-//	neededGeschlecht[it->second->geschlecht]--;
-//	Schwimmer::Geschlecht geschlecht; // welche Schwimmer sollen aus den Verfuegbaren geloescht werden
-//	if (neededGeschlecht[Schwimmer::MAENNLICH] == 0)
-//		geschlecht = Schwimmer::MAENNLICH; // keine weiteren Schwimmer mehr erlaubt (der wahrscheinlichere Fall)
-//	else if (neededGeschlecht[Schwimmer::WEIBLICH] == 0)
-//		geschlecht = Schwimmer::WEIBLICH;  // keine weiteren Schwimmerinnen mehr erlaubt
-//	else
-//		return;
-//
-//	SchwimmerSet::iterator it;
-//	GeschlechtPredicate pred(geschlecht);
-//	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
-//			!= availableSchwimmer.end())
-//	{
-//		removeFromAvailable(*it);
-//		availableSchwimmer.erase(it);
-//	}
+	// Zum sicherstellen der "Mixed"-Bedingung
+	if (--neededGeschlecht[schw.geschlecht] > 0) // zaehler nach dekrement noch groesser 0
+		return; // nichts weiter zu tun
+
+	SchwimmerSet::iterator it;
+	Schwimmer::GeschlechtPredicate pred(schw.geschlecht);
+	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
+			!= availableSchwimmer.end())
+		// hier wird it ungueltig, wegen "erase(it)", deshalb "while (find_if"
+		removeFromAvailable(*it, availableSchwimmer);
 }
 
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
@@ -197,9 +191,8 @@ void LagenstaffelComputer1::compute()
 
 		nichtvergebenePositionen--;
 		vergebenePositionen[position] = true;
-		availableSchwimmer.erase(schw);
-		removeFromAvailable(schw);
-		ensureMixedBedingung();
+		removeFromAvailable(schw, availableSchwimmer);
+		ensureMixedBedingung(*schw, neededGeschlecht, availableSchwimmer);
 		gesamtzeit += schw->zeiten[disziplin];
 
 //		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);

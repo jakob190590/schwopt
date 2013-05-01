@@ -30,8 +30,8 @@ class LagenstaffelComputer1: public LagenstaffelComputer
 
 	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
 	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairVector&);
-	void removeFromAvailable(Schwimmer*);
-	void ensureMixedBedingung();
+	void removeFromAvailable(Schwimmer*, SchwimmerSet&);
+	void ensureMixedBedingung(Schwimmer&, int neededGeschlecht[], SchwimmerSet& availableSchwimmer);
 
 	// Debugging
 	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
