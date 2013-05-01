@@ -28,14 +28,6 @@ class LagenstaffelComputer1: public LagenstaffelComputer
 		bool operator ()(const PositionSchwimmerPair&, const PositionSchwimmerPair&);
 	};
 
-	class GeschlechtPredicate
-	{
-		const Schwimmer::Geschlecht& geschlecht;
-	public:
-		GeschlechtPredicate(const Schwimmer::Geschlecht&);
-		bool operator ()(const Schwimmer*);
-	};
-
 	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
 	void entfAusSchwimmerSortiertUndAbstaende(Schwimmer*);
 	void ensureMixedBedingung();

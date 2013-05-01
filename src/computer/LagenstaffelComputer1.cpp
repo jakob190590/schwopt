@@ -28,16 +28,6 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 	return computer.abstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
-LagenstaffelComputer1::GeschlechtPredicate::GeschlechtPredicate(const Schwimmer::Geschlecht& g) :
-		geschlecht(g)
-{
-}
-
-bool LagenstaffelComputer1::GeschlechtPredicate::operator ()(const Schwimmer* s)
-{
-	return s->geschlecht == geschlecht;
-}
-
 void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen der Staffel

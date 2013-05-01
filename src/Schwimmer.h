@@ -26,6 +26,13 @@ typedef set<Schwimmer*> SchwimmerSet;
 class Schwimmer {
 public:
 	enum Geschlecht { MAENNLICH = 0, WEIBLICH = 1 };
+	class GeschlechtPredicate
+	{
+		const Schwimmer::Geschlecht& geschlecht;
+	public:
+		GeschlechtPredicate(const Schwimmer::Geschlecht&);
+		bool operator ()(const Schwimmer*);
+	};
 
 	// Daten zum Schwimmer
 	string nachname;

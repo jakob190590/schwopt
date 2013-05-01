@@ -13,6 +13,16 @@
 
 using namespace std;
 
+Schwimmer::GeschlechtPredicate::GeschlechtPredicate(const Schwimmer::Geschlecht& g) :
+		geschlecht(g)
+{
+}
+
+bool Schwimmer::GeschlechtPredicate::operator ()(const Schwimmer* s)
+{
+	return s->geschlecht == geschlecht;
+}
+
 Schwimmer::Schwimmer(const Geschlecht& geschlecht, const string& nachname, const string& vorname, const string& kuerzel) :
 		nachname(nachname), vorname(vorname), kuerzel(kuerzel), geschlecht(geschlecht)
 {
