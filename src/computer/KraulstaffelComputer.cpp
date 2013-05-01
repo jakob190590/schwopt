@@ -20,6 +20,16 @@ KraulstaffelComputer::KraulstaffelComputer(const SchwimmerVector& schwimmer) :
 {
 }
 
+void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], int& position, int& positionenLeft)
+{
+    if(fehlt[schw->geschlecht] > 0)
+       fehlt[schw->geschlecht]--; // bis 0 runterzaehlen
+
+    result[position] = schw;
+    gesamtzeit += schw->zeiten[DISZIPLIN];
+    positionenLeft--;
+    position++;
+}
 /**
  * Algorithmus:
  *
@@ -31,11 +41,27 @@ void KraulstaffelComputer::compute()
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 	gesamtzeit = 0;
 
+	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
+	// Immer im Hinterkopf behalten: Hier gibt's nur (m/w) -> binaer
+	const int QUOTE = 2;
+	int fehlt[2] = { 2, 2 };
+
 	SchwimmerList::const_iterator it = schwimmerSortiert[DISZIPLIN].begin();
-	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; ++i, ++it)
+	for (int position = 0,
+			positionenUebrig = ANZAHL_POSITIONEN_IN_STAFFEL;
+			position < ANZAHL_POSITIONEN_IN_STAFFEL &&
+			it != schwimmerSortiert[DISZIPLIN].end(); ++it)
 	{
-		result[i] = (*it);
-		gesamtzeit += (*it)->zeiten[DISZIPLIN];
+		Schwimmer* schw = *it;
+		if (positionenUebrig > QUOTE) // noch zwei Positionen uebrig lassen um die Quote sicherzustellen
+		    schwimmerFestsetzen(schw, fehlt, position, positionenUebrig);
+
+		else if (fehlt[Schwimmer::MAENNLICH] < positionenUebrig &&
+				 fehlt[Schwimmer::WEIBLICH ] < positionenUebrig)
+			// noch nicht kritisch -> den Schwimmer nehmen, der kommt
+			schwimmerFestsetzen(schw, fehlt, position, positionenUebrig);
+		else
+			continue; // Schwimmer ueberspringen, wenn wir ihn wegen der Quote nicht nehmen koennen
 	}
 }
 

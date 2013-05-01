@@ -85,7 +85,7 @@ LagenstaffelComputer1::PositionSchwimmerPair* LagenstaffelComputer1::findMostWan
 	return result;
 }
 
-void LagenstaffelComputer1::ensureMixedBedingung(Schwimmer& schw, int neededGeschlecht[], SchwimmerSet& availableSchwimmer)
+void LagenstaffelComputer1::ensureMixedBedingung(Schwimmer& schw, int neededGeschlecht[2], SchwimmerSet& availableSchwimmer)
 {
 	// Zum sicherstellen der "Mixed"-Bedingung
 	if (--neededGeschlecht[schw.geschlecht] > 0) // zaehler nach dekrement noch groesser 0

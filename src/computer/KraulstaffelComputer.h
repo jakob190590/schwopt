@@ -16,6 +16,7 @@ class KraulstaffelComputer: public OptComputer
 {
 	static const int ANZAHL_POSITIONEN_IN_STAFFEL = 6;
 	static const int DISZIPLIN = Disziplin::FREI_50;
+    void schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], int& position, int& positionenLeft);
 
 public:
 	KraulstaffelComputer(const SchwimmerVector&);
