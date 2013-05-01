@@ -63,7 +63,7 @@ EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 	}
 }
 
-void EinzelstartsComputer::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
+void EinzelstartsComputer::removeFromAvailable(Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen der Staffel
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN; i++)
@@ -172,7 +172,7 @@ void EinzelstartsComputer::compute()
 				vergebenePositionen[position] = true;
 				availableSchwimmer[schw]--;
 				if (timesAvailable == 1) // Schwimmer kann kein weiteres Mal eingesetzt werden
-					entfAusSchwimmerSortiertUndAbstaende(schw);
+					removeFromAvailable(schw);
 				gesamtzeit += schw->zeiten[DISZIPLINEN[position]];
 				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN[position]], DISZIPLINEN[position]);
 			}

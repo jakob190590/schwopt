@@ -28,7 +28,7 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 	return computer.abstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
-void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
+void LagenstaffelComputer1::removeFromAvailable(Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen der Staffel
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
@@ -82,7 +82,7 @@ void LagenstaffelComputer1::ensureMixedBedingung()
 //	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
 //			!= availableSchwimmer.end())
 //	{
-//		entfAusSchwimmerSortiertUndAbstaende(*it);
+//		removeFromAvailable(*it);
 //		availableSchwimmer.erase(it);
 //	}
 }
@@ -104,7 +104,7 @@ LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 			unsigned itZeit = (*it)->zeiten[i];
 			unsigned nextZeit;
 			if (next == schwSorted.end())
-				nextZeit = UINT_MAX;
+				nextZeit = Zeit::MAX_UNSIGNED_VALUE;
 			else
 			{
 				nextZeit = (*next)->zeiten[i];
@@ -179,7 +179,7 @@ void LagenstaffelComputer1::compute()
 				nichtvergebenePositionen--;
 				vergebenePositionen[it->first] = true;
 				availableSchwimmer.erase(it->second);
-				entfAusSchwimmerSortiertUndAbstaende(it->second);
+				removeFromAvailable(it->second);
 				ensureMixedBedingung();
 				// TODO eigntlich muss ich doch abbrechen, schwimmer von den Verfuegbaren geloescht werden! weil abstand sich evtl geaendert hat und auch wegen ensureMixedBedingung
 //				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);

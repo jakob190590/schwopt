@@ -29,7 +29,7 @@ class LagenstaffelComputer1: public LagenstaffelComputer
 	};
 
 	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
-	void entfAusSchwimmerSortiertUndAbstaende(Schwimmer*);
+	void removeFromAvailable(Schwimmer*);
 	void ensureMixedBedingung();
 
 	// Debugging
