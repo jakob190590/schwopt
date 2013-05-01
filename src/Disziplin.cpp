@@ -21,7 +21,8 @@ string Disziplin::convertToString(int disziplin, bool lageAusgeben,
 		bool streckeAusgeben, string meterAusgabe)
 {
 	string lage;
-	string strecke((dynamic_cast<ostringstream&>(ostringstream() << getStrecke(disziplin))).str()); // simple IntToString (fu C++)
+	// simple IntToString (fu C++) -- in C++11 gibt's std::to_string
+	string strecke = (dynamic_cast<ostringstream&>(ostringstream() << getStrecke(disziplin))).str();
 	switch (disziplin)
 	{
 	case BRUST_50:

@@ -29,6 +29,8 @@ Eine Disziplin ist nicht nur eine der Lagen "Rücken", "Brust", ... sondern die 
 
 Bemerkung: Im eigentlichen Sinne sind "? m Freistil" und "? m Kraul" verschiedene Disziplinen.  Man könnte sogar sagen, dass Freistil keine eigene Disziplin ist.  Freistil kann zwar auf einer Position gefordert sein, in diesem Fall kann aber einfach die Disziplin gewählt werden, in der der Schwimmer am besten ist.  Der Einfachheit halber wird hier aber nicht unterschieden, sondern generell die Disziplin "Freistil" verwendet und vorrausgesetzt, dass die Disziplin "Kraul" im Wettkampf nicht vorkommt.
 
+Strecke ist die Länge der Strecke in Metern, die bei einer Disziplin geschwommen werden muss.
+
 ### Schwimmer
 
 Ein Schwimmer mitsamt seinen Bestzeiten in allen Disziplinen.
