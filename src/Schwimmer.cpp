@@ -13,20 +13,30 @@
 
 using namespace std;
 
-Schwimmer::Schwimmer(const string& nachname, const string& vorname, const string& kuerzel) :
-		nachname(nachname), vorname(vorname), kuerzel(kuerzel)
+Schwimmer::GeschlechtPredicate::GeschlechtPredicate(const Schwimmer::Geschlecht& g) :
+		geschlecht(g)
+{
+}
+
+bool Schwimmer::GeschlechtPredicate::operator ()(const Schwimmer* s)
+{
+	return s->geschlecht == geschlecht;
+}
+
+Schwimmer::Schwimmer(const Geschlecht& geschlecht, const string& nachname, const string& vorname, const string& kuerzel) :
+		nachname(nachname), vorname(vorname), kuerzel(kuerzel), geschlecht(geschlecht)
 {
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
 		zeiten[i] = 0;
 }
 
-Schwimmer::Schwimmer(const string& nachname, const string& vorname, const string& kuerzel,
+Schwimmer::Schwimmer(const Geschlecht& geschlecht, const string& nachname, const string& vorname, const string& kuerzel,
 		unsigned brust50, unsigned brust100,
 		unsigned rueck50, unsigned rueck100,
 		unsigned schm50,  unsigned schm100,
 		unsigned frei50,  unsigned frei100) :
 
-		nachname(nachname), vorname(vorname), kuerzel(kuerzel)
+		nachname(nachname), vorname(vorname), kuerzel(kuerzel), geschlecht(geschlecht)
 		//zeiten(brust50, brust100, rueck50, rueck100,
 		//		schm50, schm100, schm50, schm100)
 {
@@ -44,7 +54,8 @@ Schwimmer::Schwimmer(const string& nachname, const string& vorname, const string
 ostream& operator <<(ostream& os, const Schwimmer& schw)
 {
 	os << setiosflags(ios::left);
-	os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
+	os << setw(16) << schw.nachname << setw(10) << schw.vorname;
+	os << setw(2) << (schw.geschlecht == Schwimmer::MAENNLICH ? 'm' : 'w') << setw(3) << schw.kuerzel;
 	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_50]);
 	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::BRUST_100]);
 	os << setw(8) << Zeit::convertToString(schw.zeiten[Disziplin::RUECK_50]);
@@ -59,7 +70,9 @@ ostream& operator <<(ostream& os, const Schwimmer& schw)
 
 istream& operator >>(istream& is, Schwimmer& schw)
 {
-	is >> schw.nachname >> schw.vorname >> schw.kuerzel;
+	char geschl;
+	is >> schw.nachname >> schw.vorname >> geschl >> schw.kuerzel;
+	schw.geschlecht = (geschl == 'w') ? Schwimmer::WEIBLICH : Schwimmer::MAENNLICH;
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
 	{
 		string zeitInput;

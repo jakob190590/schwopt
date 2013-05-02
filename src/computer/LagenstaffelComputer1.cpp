@@ -28,8 +28,10 @@ bool LagenstaffelComputer1::NormAbstandComparer::operator ()(const PositionSchwi
 	return computer.abstaende[DISZIPLINEN_IN_STAFFEL[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN_IN_STAFFEL[p2.first]][p2.second];
 }
 
-void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
+void LagenstaffelComputer1::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer)
 {
+	availableSchwimmer.erase(schw);
+
 	// Eigentlich reicht's fuer Disziplinen der Staffel
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{	// int disziplin = DISZIPLINEN_IN_STAFFEL[i];
@@ -39,8 +41,7 @@ void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw
 		abstandsMap.erase(schw);
 
 		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
-		if (it == schwimmerzeitList.end()) // nicht gefunden (??)
-			continue;
+		assert(it != schwimmerzeitList.end()); // schw muss in der list sein
 
 		if (it == schwimmerzeitList.begin())
 		{
@@ -65,6 +66,39 @@ void LagenstaffelComputer1::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw
 	}
 }
 
+LagenstaffelComputer1::PositionSchwimmerPair* LagenstaffelComputer1::findMostWanted(PositionSchwimmerPairVector& vec)
+{
+	PositionSchwimmerPair* result = NULL;
+	// Abstand in Diziplin auf der angegebenen Position, fuer den Schwimmer, der fuer diese Position vorgesehen ist
+	unsigned greatestAbstand = 0;
+
+	for (PositionSchwimmerPairVector::iterator it = vec.begin();
+			it != vec.end(); ++it)
+	{
+		unsigned abstand = abstaende[DISZIPLINEN_IN_STAFFEL[it->first]][it->second];
+		if (abstand > greatestAbstand)
+		{
+			greatestAbstand = abstand;
+			result = &*it;
+		}
+	}
+	return result;
+}
+
+void LagenstaffelComputer1::ensureMixedBedingung(Schwimmer& schw, int neededGeschlecht[2], SchwimmerSet& availableSchwimmer)
+{
+	// Zum sicherstellen der "Mixed"-Bedingung
+	if (--neededGeschlecht[schw.geschlecht] > 0) // zaehler nach dekrement noch groesser 0
+		return; // nichts weiter zu tun
+
+	SchwimmerSet::iterator it;
+	Schwimmer::GeschlechtPredicate pred(schw.geschlecht);
+	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
+			!= availableSchwimmer.end())
+		// hier wird it ungueltig, wegen "erase(it)", deshalb "while (find_if"
+		removeFromAvailable(*it, availableSchwimmer);
+}
+
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 		LagenstaffelComputer(schwimmer)
 {
@@ -82,7 +116,7 @@ LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
 			unsigned itZeit = (*it)->zeiten[i];
 			unsigned nextZeit;
 			if (next == schwSorted.end())
-				nextZeit = UINT_MAX;
+				nextZeit = Zeit::MAX_UNSIGNED_VALUE;
 			else
 			{
 				nextZeit = (*next)->zeiten[i];
@@ -101,11 +135,7 @@ LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
  * Solange freie Positionen in Staffel
  *   Freie Positionen mit besten freien Schwimmern besetzen
  *   Alle eben eingesetzten Schwimmer nach Abstand absteigend sortieren
- *   Diese sortierte Liste durchgehen:
- *     Wenn Schwimmer noch frei:
- *       Diesen Schwimmer festsetzen
- *     sonst:
- *       break;
+ *   Ersten Schwimmer festsetzen
  *
  * Kleine Optimierung (eigentlich unnoetig):
  * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
@@ -120,6 +150,8 @@ void LagenstaffelComputer1::compute()
 	bool vergebenePositionen[ANZAHL_POSITIONEN_IN_STAFFEL] = { false, false, false, false };
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer(schwimmer.begin(), schwimmer.end());
+	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
+	int neededGeschlecht[2] = { 2, 2 };
 	// Size of result setzen!
 	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 	gesamtzeit = 0;
@@ -130,37 +162,40 @@ void LagenstaffelComputer1::compute()
 //		clog << "nichtvergebenePositionen == " << nichtvergebenePositionen << endl;
 
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
-		// Alle nicht-vergebenen Schwimmer nach Abstand absteigend sortiert in set einfuegen
-		SortedPositionSchwimmerSet eingesetzteSchwimmerSortiertNachAbstand(NormAbstandComparer(*this));
-		for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-			if (!vergebenePositionen[i])
+		PositionSchwimmerPairVector eingesetzteSchwimmer; // eigentlich nur "testweise eingesetzte Schwimmer"!
+		for (int pos = 0; pos < ANZAHL_POSITIONEN_IN_STAFFEL; pos++)
+			if (!vergebenePositionen[pos])
 			{
-//				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
-//					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin(),
-//					schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].end(),
-//					DISZIPLINEN_IN_STAFFEL[i]);
-				Schwimmer* schw = *schwimmerSortiert[DISZIPLINEN_IN_STAFFEL[i]].begin();
-				eingesetzteSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, schw));
-				result[i] = schw;
+				const int disziplin = DISZIPLINEN_IN_STAFFEL[pos];
+				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
+					schwimmerSortiert[disziplin].begin(),
+					schwimmerSortiert[disziplin].end(),
+					disziplin);
+				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
+				eingesetzteSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
+				result[pos] = schw;
 			}
 
-//		outputAbstaendeSortiert(clog, eingesetzteSchwimmerSortiertNachAbstand);
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
-		for (SortedPositionSchwimmerSet::const_iterator it = eingesetzteSchwimmerSortiertNachAbstand.begin();
-				it != eingesetzteSchwimmerSortiertNachAbstand.end(); ++it)
-			if (availableSchwimmer.find(it->second) != availableSchwimmer.end()) // beim 1. mal immer true, danach kann's auch false sein!
-			{
-				// Diesen Schwimmer festsetzen fuer seine Position
-//				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
-				nichtvergebenePositionen--;
-				vergebenePositionen[it->first] = true;
-				availableSchwimmer.erase(it->second);
-				entfAusSchwimmerSortiertUndAbstaende(it->second);
-//				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN_IN_STAFFEL[it->first]], DISZIPLINEN_IN_STAFFEL[it->first]);
-				gesamtzeit += it->second->zeiten[DISZIPLINEN_IN_STAFFEL[it->first]];
-			}
-			else
-				break;
+		PositionSchwimmerPair* mostWanted = findMostWanted(eingesetzteSchwimmer);
+
+		// Diesen Schwimmer festsetzen fuer seine Position
+		const int position    = mostWanted->first;
+		Schwimmer* const schw = mostWanted->second;
+		const int disziplin   = DISZIPLINEN_IN_STAFFEL[position];
+
+		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this));
+		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmer);
+		clog << "Groesster Abstand: " << schw->kuerzel << " auf Position " << position << endl;
+//		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
+
+		nichtvergebenePositionen--;
+		vergebenePositionen[position] = true;
+		removeFromAvailable(schw, availableSchwimmer);
+		ensureMixedBedingung(*schw, neededGeschlecht, availableSchwimmer);
+		gesamtzeit += schw->zeiten[disziplin];
+
+//		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
 
 	}
 }
@@ -183,11 +218,11 @@ ostream& LagenstaffelComputer1::outputSchwimmerAbstand(ostream& os, const Schwim
 	return os;
 }
 
-ostream& LagenstaffelComputer1::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set)
+ostream& LagenstaffelComputer1::outputEingesetzteSchwimmer(ostream& os, const PositionSchwimmerPairVector& vec)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
-	for (SortedPositionSchwimmerSet::const_iterator it = set.begin(); it != set.end(); ++it)
+	for (PositionSchwimmerPairVector::const_iterator it = vec.begin(); it != vec.end(); ++it)
 	{
 		Schwimmer& schw = *it->second;
 		int position  = it->first;

@@ -25,18 +25,27 @@ typedef set<Schwimmer*> SchwimmerSet;
 
 class Schwimmer {
 public:
+	enum Geschlecht { MAENNLICH = 0, WEIBLICH = 1 };
+	class GeschlechtPredicate
+	{
+		const Schwimmer::Geschlecht& geschlecht;
+	public:
+		GeschlechtPredicate(const Schwimmer::Geschlecht&);
+		bool operator ()(const Schwimmer*);
+	};
 
 	// Daten zum Schwimmer
 	string nachname;
 	string vorname;
 	string kuerzel;
+	Geschlecht geschlecht;
 
 	// Bestzeiten fuer Lage/Strecke
 
 	unsigned zeiten[8];
 
-	Schwimmer(const string& nachname = "", const string& vorname = "", const string& kuerzel = "");
-	Schwimmer(const string& nachname, const string& vorname, const string& kuerzel,
+	Schwimmer(const Geschlecht& = MAENNLICH, const string& nachname = "", const string& vorname = "", const string& kuerzel = "");
+	Schwimmer(const Geschlecht&, const string& nachname, const string& vorname, const string& kuerzel,
 			unsigned brust50, unsigned brust100,
 			unsigned rueck50, unsigned rueck100,
 			unsigned schm50,  unsigned schm100,

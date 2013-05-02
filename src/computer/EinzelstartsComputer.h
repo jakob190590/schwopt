@@ -38,7 +38,7 @@ public:
 
 	EinzelstartsComputer(const SchwimmerVector&);
 
-	void entfAusSchwimmerSortiertUndAbstaende(Schwimmer*);
+	void removeFromAvailable(Schwimmer*);
 
 	void compute();
 	ostream& outputResult(ostream&);

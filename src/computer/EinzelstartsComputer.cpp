@@ -63,7 +63,7 @@ EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 	}
 }
 
-void EinzelstartsComputer::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
+void EinzelstartsComputer::removeFromAvailable(Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen der Staffel
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN; i++)
@@ -103,14 +103,10 @@ void EinzelstartsComputer::entfAusSchwimmerSortiertUndAbstaende(Schwimmer* schw)
 /*
  * Algorithm:
  *
- * Solange freie Positionen
+ * Solange freie Positionen in Staffel
  *   Freie Positionen mit besten freien Schwimmern besetzen
  *   Alle eben eingesetzten Schwimmer nach Abstand absteigend sortieren
- *   Diese sortierte Liste durchgehen:
- *     Wenn Schwimmer noch frei:
- *       Diesen Schwimmer festsetzen
- *     sonst:
- *       break;
+ *   Ersten Schwimmer festsetzen
  *
  * Kleine Optimierung (eigentlich unnoetig):
  * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
@@ -156,29 +152,24 @@ void EinzelstartsComputer::compute()
 		outputAbstaendeSortiert(clog, eingesetzteSchwimmerSortiertNachAbstand);
 
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
-		for (SortedPositionSchwimmerSet::const_iterator it = eingesetzteSchwimmerSortiertNachAbstand.begin();
-				it != eingesetzteSchwimmerSortiertNachAbstand.end(); ++it)
-		{
-			const int position    = it->first;
-			Schwimmer* const schw = it->second;
-			const int timesAvailable = availableSchwimmer[schw];
-			if (timesAvailable > 0)
-			{
-				// Diesen Schwimmer festsetzen fuer seine Position
-				clog << "=========================================" << endl;
-				clog << "Schwimmer festsetzen: " << schw->kuerzel << " bei " << Disziplin::convertToString(DISZIPLINEN[position]) << endl;
-				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN[position]], DISZIPLINEN[position]);
-				nichtvergebenePositionen--;
-				vergebenePositionen[position] = true;
-				availableSchwimmer[schw]--;
-				if (timesAvailable == 1) // Schwimmer kann kein weiteres Mal eingesetzt werden
-					entfAusSchwimmerSortiertUndAbstaende(schw);
-				gesamtzeit += schw->zeiten[DISZIPLINEN[position]];
-				outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN[position]], DISZIPLINEN[position]);
-			}
-			else
-				break;
-		}
+		SortedPositionSchwimmerSet::const_iterator it = eingesetzteSchwimmerSortiertNachAbstand.begin();
+
+		const int position    = it->first;
+		Schwimmer* const schw = it->second;
+		int& timesAvailable = availableSchwimmer[schw];
+		assert(timesAvailable > 0); // musss so sein, jetzt wo die schleife weg ist!
+
+		// Diesen Schwimmer festsetzen fuer seine Position
+		clog << "=========================================" << endl;
+		clog << "Schwimmer festsetzen: " << schw->kuerzel << " bei " << Disziplin::convertToString(DISZIPLINEN[position]) << endl;
+		outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN[position]], DISZIPLINEN[position]);
+		nichtvergebenePositionen--;
+		vergebenePositionen[position] = true;
+		timesAvailable--;
+		if (timesAvailable == 0) // Schwimmer kann kein weiteres Mal eingesetzt werden
+			removeFromAvailable(schw);
+		gesamtzeit += schw->zeiten[DISZIPLINEN[position]];
+		outputSchwimmerAbstand(clog, abstaende[DISZIPLINEN[position]], DISZIPLINEN[position]);
 
 	}
 //	clog << "availableSchwimmer am Ende des Algos" << endl;

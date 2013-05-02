@@ -18,7 +18,8 @@ using namespace std;
 const int GesamtComputer1::DISZIPLINEN[] =
 {
 	Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50,     // Lagenstaffel
-	Disziplin::FREI_50, Disziplin::FREI_50, Disziplin::FREI_50, Disziplin::FREI_50,       // Kraulstaffel
+	Disziplin::FREI_50, Disziplin::FREI_50, Disziplin::FREI_50,     // Kraul-
+	Disziplin::FREI_50, Disziplin::FREI_50, Disziplin::FREI_50,		// staffel
 	Disziplin::BRUST_50, Disziplin::BRUST_100, Disziplin::RUECK_50, Disziplin::RUECK_100, // Einzel-
 	Disziplin::SCHM_50, Disziplin::SCHM_100, Disziplin::FREI_50, Disziplin::FREI_100      // starts
 };

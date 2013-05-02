@@ -5,13 +5,24 @@
  *      Author: jakob190590
  */
 
+#include <string>
+#include <sstream>
+
 #include "Disziplin.h"
+
+using namespace std;
+
+int Disziplin::getStrecke(int disziplin)
+{
+	return (disziplin % 2 == 0) ? 50 : 100; // geht nur hier bei diesen Disziplinen!
+}
 
 string Disziplin::convertToString(int disziplin, bool lageAusgeben,
 		bool streckeAusgeben, string meterAusgabe)
 {
 	string lage;
-	string strecke = (disziplin % 2 == 0) ? "50" : "100"; // geht nur hier bei diesen Disziplinen!
+	// simple IntToString (fu C++) -- in C++11 gibt's std::to_string
+	string strecke = (dynamic_cast<ostringstream&>(ostringstream() << getStrecke(disziplin))).str();
 	switch (disziplin)
 	{
 	case BRUST_50:
