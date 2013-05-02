@@ -33,7 +33,8 @@ void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], i
 /**
  * Algorithmus:
  *
- * Einfach die 4 besten Krauler nehmen.
+ * Einfach die 4 besten Krauler nehmen
+ * mit Rücksicht auf die "Mixed"-Bedingung (Quote).
  *
  */
 void KraulstaffelComputer::compute()
@@ -44,7 +45,7 @@ void KraulstaffelComputer::compute()
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
 	// Immer im Hinterkopf behalten: Hier gibt's nur (m/w) -> binaer
 	const int QUOTE = 2;
-	int fehlt[2] = { 2, 2 };
+	int fehlt[2] = { QUOTE, QUOTE }; // Anzahl m und w, die fuer die Quote noch fehlen
 
 	SchwimmerList::const_iterator it = schwimmerSortiert[DISZIPLIN].begin();
 	for (int position = 0,

@@ -57,15 +57,15 @@ int main(int argc, char* argv[]) {
 	lagenstaffelComputer2.compute();
 	lagenstaffelComputer2.outputResult(cout);
 
-//	cout << "// KraulstaffelComputer (Exakte Loesung)" << endl;
-//	KraulstaffelComputer kraulstaffelComputer(schwimmer);
-//	kraulstaffelComputer.compute();
-//	kraulstaffelComputer.outputResult(cout);
-//
-//	cout << "// EinzelstartsComputer (Algo)" << endl;
-//	EinzelstartsComputer einzelstartsComputer(schwimmer);
-//	einzelstartsComputer.compute();
-//	einzelstartsComputer.outputResult(cout);
+	cout << "// KraulstaffelComputer (Exakte Loesung)" << endl;
+	KraulstaffelComputer kraulstaffelComputer(schwimmer);
+	kraulstaffelComputer.compute();
+	kraulstaffelComputer.outputResult(cout);
+
+	cout << "// EinzelstartsComputer (Algo)" << endl;
+	EinzelstartsComputer einzelstartsComputer(schwimmer);
+	einzelstartsComputer.compute();
+	einzelstartsComputer.outputResult(cout);
 
 	// Schwimmer im vector freigeben
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();
