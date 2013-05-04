@@ -125,6 +125,13 @@ void EinzelstartsComputer::compute()
 			it != schwimmer.end(); ++it)
 		availableSchwimmer[*it] = 3; // Jeder Schwimmer maximal 3 x
 
+	// "Mixed"-Bedingungen: Je mind. 1 m und mind. 1 w bei 50 m und 100 m
+//	map<int, int[2]> quoten;
+//	quoten[ 50][0] = 1;
+//	quoten[ 50][1] = 1;
+//	quoten[100][0] = 1;
+//	quoten[100][1] = 1;
+
 	// Size of result setzen!
 	result.resize(ANZAHL_POSITIONEN);
 	gesamtzeit = 0;
