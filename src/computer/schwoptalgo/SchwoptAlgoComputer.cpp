@@ -24,7 +24,7 @@ SchwoptAlgoComputer::NormAbstandComparer::NormAbstandComparer(SchwoptAlgoCompute
 bool SchwoptAlgoComputer::NormAbstandComparer::operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
 {
 	// Abstand in Diziplin, die auf der angegebenen Position gilt, und fuer den Schwimmer, der fuer diese Position vorgesehen ist
-	return computer.abstaende[computer.disziplinen[p1.first]][p1.second] > computer.abstaende[computer.disziplinen[p2.first]][p2.second];
+	return computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p1.first]][p1.second] > computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p2.first]][p2.second];
 }
 
 void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer)
@@ -35,7 +35,7 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{	// int disziplin = DISZIPLINEN_IN_STAFFEL[i];
 		SchwimmerList& schwimmerzeitList = schwimmerSortiert[disziplin]; // list, sorted by zeiten in disziplin, with Schwimmer*
-		SchwimmerAbstandMap& abstandsMap = abstaende[disziplin]; // map, sorted by abstand der zeiten in disziplin, Schwimmer* => unsigned
+		SchwimmerAbstandMap& abstandsMap = abstaendeInDisziplinen[disziplin]; // map, sorted by abstand der zeiten in disziplin, Schwimmer* => unsigned
 
 		abstandsMap.erase(schw);
 
@@ -68,7 +68,31 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
 		OptComputer(schwimmer)
 {
+	// Abstand zum Naechstschlechteren berechnen
+	for (int i = 0; i < Disziplin::ANZAHL; i++)
+	{
+		SchwimmerList& schwSorted = schwimmerSortiert[i];
 
+		// Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
+		SchwimmerList::const_iterator it, next;
+		it = next = schwSorted.begin();
+		next++; // Naechstschlechterer Schwimmer
+		for (; it != schwSorted.end(); ++it)
+		{
+			unsigned itZeit = (*it)->zeiten[i];
+			unsigned nextZeit;
+			if (next == schwSorted.end())
+				nextZeit = Zeit::MAX_UNSIGNED_VALUE;
+			else
+			{
+				nextZeit = (*next)->zeiten[i];
+				++next; // next iterator schon mal erhoehen
+			}
+
+			assert(nextZeit >= itZeit); // Fehlerhafte Sortierung oder schwerer Fehler im Algo
+			abstaendeInDisziplinen[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
+		}
+	}
 }
 
 
@@ -97,13 +121,13 @@ ostream& SchwoptAlgoComputer::outputAbstaendeSortiert(ostream& os, const SortedP
 	{
 		Schwimmer& schw = *it->second;
 		int position  = it->first;
-		int disziplin = disziplinen[position];
+		int disziplin = disziplinenAufPositionen[position];
 
 		os << setiosflags(ios::left);
 		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
 		os << setiosflags(ios::right);
 		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
-		os << setw(14) << Zeit::convertToString(abstaende[disziplin].find(&schw)->second);
+		os << setw(14) << Zeit::convertToString(abstaendeInDisziplinen[disziplin].find(&schw)->second);
 		os << setw(5) << position << ": ";
 		os << resetiosflags(ios::right);
 		os << Disziplin::convertToString(disziplin) << endl;

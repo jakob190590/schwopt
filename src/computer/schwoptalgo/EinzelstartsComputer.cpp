@@ -36,31 +36,6 @@ bool EinzelstartsComputer::NormAbstandComparer::operator ()(const PositionSchwim
 EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 		SchwoptAlgoComputer(schwimmer)
 {
-	// Normierten Abstand zum Naechstschlechteren berechnen
-	for (int i = 0; i < Disziplin::ANZAHL; i++)
-	{
-		SchwimmerList& schwSorted = schwimmerSortiert[i];
-
-		// Normierte Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
-		SchwimmerList::const_iterator it, next;
-		it = next = schwSorted.begin();
-		next++; // Naechstschlechterer Schwimmer
-		for (; it != schwSorted.end(); ++it)
-		{
-			unsigned itZeit = (*it)->zeiten[i];
-			unsigned nextZeit;
-			if (next == schwSorted.end())
-				nextZeit = UINT_MAX;
-			else
-			{
-				nextZeit = (*next)->zeiten[i];
-				++next; // next iterator schon mal erhoehen
-			}
-
-			assert(nextZeit >= itZeit); // Fehlerhafte Sortierung oder schwerer Fehler im Algo
-			abstaende[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
-		}
-	}
 }
 
 void EinzelstartsComputer::removeFromAvailable(Schwimmer* schw)

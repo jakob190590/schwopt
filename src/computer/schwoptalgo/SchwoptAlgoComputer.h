@@ -42,8 +42,9 @@ public:
 	};
 
 	SchwimmerList schwimmerzeitList;
-	DisziplinenAufPositionen disziplinen;
-	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
+	DisziplinenAufPositionen disziplinenAufPositionen;
+	SchwimmerAbstandMap abstaendeInDisziplinen[Disziplin::ANZAHL];
+
 	void removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer);
 
 	SchwoptAlgoComputer(const SchwimmerVector&);

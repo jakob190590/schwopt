@@ -25,7 +25,7 @@ LagenstaffelComputer::NormAbstandComparer::NormAbstandComparer(SchwoptAlgoComput
 bool LagenstaffelComputer::NormAbstandComparer::operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
 {
 	// Abstand in Diziplin, die in der Staffel auf der angegebenen Position gilt, und fuer den Schwimmer, der fuer diese Position vorgesehen ist
-	return computer.abstaende[computer.disziplinen[p1.first]][p1.second] > computer.abstaende[computer.disziplinen[p2.first]][p2.second];
+	return computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p1.first]][p1.second] > computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p2.first]][p2.second];
 }
 
 void LagenstaffelComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer)
@@ -75,7 +75,7 @@ LagenstaffelComputer::PositionSchwimmerPair* LagenstaffelComputer::findMostWante
 	for (PositionSchwimmerPairVector::iterator it = vec.begin();
 			it != vec.end(); ++it)
 	{
-		unsigned abstand = abstaende[disziplinen[it->first]][it->second];
+		unsigned abstand = abstaende[disziplinenAufPositionen[it->first]][it->second];
 		if (abstand > greatestAbstand)
 		{
 			greatestAbstand = abstand;
@@ -102,31 +102,6 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
 		SchwoptAlgoComputer(schwimmer)
 {
-	// Normierten Abstand zum Naechstschlechteren berechnen
-	for (int i = 0; i < Disziplin::ANZAHL; i++)
-	{
-		SchwimmerList& schwSorted = schwimmerSortiert[i];
-
-		// Normierte Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
-		SchwimmerList::const_iterator it, next;
-		it = next = schwSorted.begin();
-		next++; // Naechstschlechterer Schwimmer
-		for (; it != schwSorted.end(); ++it)
-		{
-			unsigned itZeit = (*it)->zeiten[i];
-			unsigned nextZeit;
-			if (next == schwSorted.end())
-				nextZeit = Zeit::MAX_UNSIGNED_VALUE;
-			else
-			{
-				nextZeit = (*next)->zeiten[i];
-				++next; // next iterator schon mal erhoehen
-			}
-
-			assert(nextZeit >= itZeit); // Fehlerhafte Sortierung oder schwerer Fehler im Algo
-			abstaende[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
-		}
-	}
 }
 
 /*
@@ -145,15 +120,15 @@ void LagenstaffelComputer::compute()
 {
 	// Variablen fuer die Berechnung:
 	// Anzahl Positionen, die noch nicht vergeben sind
-	int nichtvergebenePositionen = disziplinen.size();
+	int nichtvergebenePositionen = disziplinenAufPositionen.size();
 	// Positionen, die schon fest vergeben sind
-	vector<bool> vergebenePositionen(disziplinen.size(), false);
+	vector<bool> vergebenePositionen(disziplinenAufPositionen.size(), false);
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer(schwimmer.begin(), schwimmer.end());
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
 	int neededGeschlecht[2] = { 2, 2 };
 	// Size of result setzen!
-	result.resize(disziplinen.size());
+	result.resize(disziplinenAufPositionen.size());
 	gesamtzeit = 0;
 
 	// hier geht's los!
@@ -163,10 +138,10 @@ void LagenstaffelComputer::compute()
 
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
 		PositionSchwimmerPairVector eingesetzteSchwimmer; // eigentlich nur "testweise eingesetzte Schwimmer"!
-		for (unsigned pos = 0; pos < disziplinen.size(); pos++)
+		for (unsigned pos = 0; pos < disziplinenAufPositionen.size(); pos++)
 			if (!vergebenePositionen[pos])
 			{
-				const int disziplin = disziplinen[pos];
+				const int disziplin = disziplinenAufPositionen[pos];
 				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
 					schwimmerSortiert[disziplin].begin(),
 					schwimmerSortiert[disziplin].end(),
@@ -182,12 +157,12 @@ void LagenstaffelComputer::compute()
 		// Diesen Schwimmer festsetzen fuer seine Position
 		const int position    = mostWanted->first;
 		Schwimmer* const schw = mostWanted->second;
-		const int disziplin   = disziplinen[position];
+		const int disziplin   = disziplinenAufPositionen[position];
 
 		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this));
 		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmer);
 		clog << "Groesster Abstand: " << schw->kuerzel << " auf Position " << position << endl;
-//		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
+//		outputSchwimmerAbstand(clog, abstaendeInDisziplinen[disziplin], disziplin);
 
 		nichtvergebenePositionen--;
 		vergebenePositionen[position] = true;
@@ -195,7 +170,7 @@ void LagenstaffelComputer::compute()
 		ensureMixedBedingung(*schw, neededGeschlecht, availableSchwimmer);
 		gesamtzeit += schw->zeiten[disziplin];
 
-//		outputSchwimmerAbstand(clog, abstaende[disziplin], disziplin);
+//		outputSchwimmerAbstand(clog, abstaendeInDisziplinen[disziplin], disziplin);
 
 	}
 }
@@ -226,7 +201,7 @@ ostream& LagenstaffelComputer::outputEingesetzteSchwimmer(ostream& os, const Pos
 	{
 		Schwimmer& schw = *it->second;
 		int position  = it->first;
-		int disziplin = disziplinen[position];
+		int disziplin = disziplinenAufPositionen[position];
 
 		os << setiosflags(ios::left);
 		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
