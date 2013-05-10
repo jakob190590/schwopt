@@ -1,5 +1,5 @@
 /*
- * GesamtComputer1.cpp
+ * GesamtComputer.cpp
  *
  *  Created on: 21.04.2013
  *      Author: jakob190590
@@ -10,8 +10,8 @@
 #include <cassert>
 #include <iomanip>
 
-#include "GesamtComputer1.h"
-#include "../Zeit.h"
+#include "GesamtComputer.h"
+#include "../../Zeit.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ const int GesamtComputer1::DISZIPLINEN[] =
 };
 
 GesamtComputer1::GesamtComputer1(const SchwimmerVector& schwimmer) :
-		OptComputer(schwimmer)
+		SchwoptAlgoComputer(schwimmer)
 {
 }
 

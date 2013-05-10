@@ -1,5 +1,5 @@
 /*
- * GesamtComputer1.h
+ * GesamtComputer.h
  *
  *  Created on: 21.04.2013
  *      Author: jakob190590
@@ -10,9 +10,9 @@
 
 #include <map>
 
-#include "LagenstaffelComputer.h"
+#include "SchwoptAlgoComputer.h"
 
-class GesamtComputer1: public OptComputer
+class GesamtComputer1: public SchwoptAlgoComputer
 {
 	static const int ANZAHL_POSITIONEN = 18;
 	static const int DISZIPLINEN[];
