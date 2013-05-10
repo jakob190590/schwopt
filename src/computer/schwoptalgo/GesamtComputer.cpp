@@ -15,56 +15,44 @@
 
 using namespace std;
 
-const int GesamtComputer::DISZIPLINEN[] =
-{
-	Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50,     // Lagenstaffel
-	Disziplin::FREI_50, Disziplin::FREI_50, Disziplin::FREI_50,     // Kraul-
-	Disziplin::FREI_50, Disziplin::FREI_50, Disziplin::FREI_50,		// staffel
-	Disziplin::BRUST_50, Disziplin::BRUST_100, Disziplin::RUECK_50, Disziplin::RUECK_100, // Einzel-
-	Disziplin::SCHM_50, Disziplin::SCHM_100, Disziplin::FREI_50, Disziplin::FREI_100      // starts
-};
-
 GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
 		SchwoptAlgoComputer(schwimmer)
 {
+	disziplinenAufPositionen.reserve(18);
+	// Lagenstaffel (4 x 50 m Lagen)
+	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
+	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
+	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	// Kraulstaffel (8 x 50 m Kraul)
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
+	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
+	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50);
+	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	disziplinenAufPositionen.push_back(+Disziplin::BRUST_100);
+	disziplinenAufPositionen.push_back(+Disziplin::RUECK_100);
+	disziplinenAufPositionen.push_back(+Disziplin::SCHM_100);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
+
+	// Ergebnis initialisieren
+	result.resize(disziplinenAufPositionen.size());
 }
 
-/*
- * Algorithm:
- *
- * Solange freie Positionen
- *   Freie Positionen mit besten freien Schwimmern besetzen
- *   Alle eben eingesetzten Schwimmer nach Abstand absteigend sortieren
- *   Diese sortierte Liste durchgehen:
- *     Bei mehreren gleichwertigen Moeglichkeiten:
- *       Entscheidungssituation nachschlagen
- *       Neue Entscheidungssituation:
- *         Entscheidungssituation speichern
- *         Erste Moeglichkeit und speichern
- *       sonst:
- *         Naechste Moeglichkeit waehlen und speichern
- *
- *
- *     Wenn Schwimmer noch frei:
- *       Diesen Schwimmer festsetzen
- *     sonst:
- *       break;
- *
- * Kleine Optimierung (eigentlich unnoetig):
- * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
- *
- */
 void GesamtComputer::compute()
 {
-	// Variablen fuer die Berechnung:
-	// Anzahl Positionen, die noch nicht vergeben sind
-	int nichtvergebenePositionen = ANZAHL_POSITIONEN;
-	// Positionen, die schon fest vergeben sind
-	bitset<ANZAHL_POSITIONEN> vergebenePositionen;
-	// Noch verfuegbare Schwimmer
-	map<Schwimmer*, int> availableSchwimmer;
 
-	// Size of result setzen!
-	result.resize(ANZAHL_POSITIONEN);
-	gesamtzeit = 0;
+}
+
+ostream& GesamtComputer::outputResult(ostream& os)
+{
+	os << "Gesamt OMP" << endl;
+	SchwoptAlgoComputer::outputResult(os);
+	return os;
 }

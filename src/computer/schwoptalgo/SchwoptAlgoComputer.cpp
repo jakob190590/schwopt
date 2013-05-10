@@ -41,6 +41,8 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 
 		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
 		assert(it != schwimmerzeitList.end()); // schw muss in der list sein
+		if (it == schwimmerzeitList.end()) // nicht gefunden (??) -- anyway
+			continue;
 
 		if (it == schwimmerzeitList.begin())
 		{
@@ -93,6 +95,22 @@ SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
 			abstaendeInDisziplinen[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
 		}
 	}
+
+	// Ergebnis initialisieren
+	gesamtzeit = 0;
+}
+
+ostream& SchwoptAlgoComputer::outputResult(ostream& os)
+{
+	for (int pos = 0; pos < disziplinenAufPositionen.size(); pos++)
+	{
+		int diszi = disziplinenAufPositionen[pos];
+		os << setiosflags(ios::left) << setw(15) << Disziplin::convertToString(diszi, true, false);
+		os << setiosflags(ios::right) << setw(8) << Disziplin::convertToString(diszi, false, true, "m") << resetiosflags(ios::right) << " ";
+		os << getResult()[pos]->kuerzel << "  " << Zeit::convertToString(result[pos]->zeiten[diszi]) << endl;
+	}
+	os << "Gesamtzeit: " << Zeit::convertToString(gesamtzeit) << endl << endl;
+	return os;
 }
 
 
@@ -113,7 +131,7 @@ ostream& SchwoptAlgoComputer::outputSchwimmerAbstand(ostream& os, const Schwimme
 	return os;
 }
 
-ostream& SchwoptAlgoComputer::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set) const
+ostream& SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const SortedPositionSchwimmerSet& set) const
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;

@@ -17,55 +17,6 @@
 
 using namespace std;
 
-LagenstaffelComputer::NormAbstandComparer::NormAbstandComparer(SchwoptAlgoComputer& computer) :
-		computer(computer)
-{
-}
-
-bool LagenstaffelComputer::NormAbstandComparer::operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
-{
-	// Abstand in Diziplin, die in der Staffel auf der angegebenen Position gilt, und fuer den Schwimmer, der fuer diese Position vorgesehen ist
-	return computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p1.first]][p1.second] > computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p2.first]][p2.second];
-}
-
-void LagenstaffelComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer)
-{
-	availableSchwimmer.erase(schw);
-
-	// Eigentlich reicht's fuer Disziplinen der Staffel
-	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-	{	// int disziplin = DISZIPLINEN_IN_STAFFEL[i];
-		SchwimmerList& schwimmerzeitList = schwimmerSortiert[disziplin]; // list, sorted by zeiten in disziplin, with Schwimmer*
-		SchwimmerAbstandMap& abstandsMap = abstaende[disziplin]; // map, sorted by abstand der zeiten in disziplin, Schwimmer* => unsigned
-
-		abstandsMap.erase(schw);
-
-		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
-		assert(it != schwimmerzeitList.end()); // schw muss in der list sein
-
-		if (it == schwimmerzeitList.begin())
-		{
-			// nothing to do (except remove from list)
-			schwimmerzeitList.remove(schw);
-			continue;
-		}
-
-		// Standardfall: Abstand neu berechnen
-		it--; // decrement it before remove
-		schwimmerzeitList.remove(schw);
-
-		SchwimmerList::iterator next = it; // next soll auf Naechstschlechteren zeigen
-		next++;
-
-		unsigned itZeit   = (*it)->zeiten[disziplin];
-		unsigned nextZeit = Zeit::MAX_UNSIGNED_VALUE; // falls it der letzte Schwimmer ist...
-		if (next != schwimmerzeitList.end())
-			nextZeit = (*next)->zeiten[disziplin];
-
-		abstandsMap[*it] = nextZeit - itZeit;
-	}
-}
-
 LagenstaffelComputer::PositionSchwimmerPair* LagenstaffelComputer::findMostWanted(PositionSchwimmerPairVector& vec)
 {
 	PositionSchwimmerPair* result = NULL;
@@ -75,7 +26,7 @@ LagenstaffelComputer::PositionSchwimmerPair* LagenstaffelComputer::findMostWante
 	for (PositionSchwimmerPairVector::iterator it = vec.begin();
 			it != vec.end(); ++it)
 	{
-		unsigned abstand = abstaende[disziplinenAufPositionen[it->first]][it->second];
+		unsigned abstand = abstaendeInDisziplinen[disziplinenAufPositionen[it->first]][it->second];
 		if (abstand > greatestAbstand)
 		{
 			greatestAbstand = abstand;
@@ -102,20 +53,17 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
 		SchwoptAlgoComputer(schwimmer)
 {
+	disziplinenAufPositionen.reserve(4);
+	// Lagenstaffel (4 x 50 m Lagen)
+	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50);
+	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
+	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
+	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+
+	// Ergebnis initialisieren
+	result.resize(disziplinenAufPositionen.size());
 }
 
-/*
- * Algorithm:
- *
- * Solange freie Positionen in Staffel
- *   Freie Positionen mit besten freien Schwimmern besetzen
- *   Alle eben eingesetzten Schwimmer nach Abstand absteigend sortieren
- *   Ersten Schwimmer festsetzen
- *
- * Kleine Optimierung (eigentlich unnoetig):
- * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
- *
- */
 void LagenstaffelComputer::compute()
 {
 	// Variablen fuer die Berechnung:
@@ -128,8 +76,7 @@ void LagenstaffelComputer::compute()
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
 	int neededGeschlecht[2] = { 2, 2 };
 	// Size of result setzen!
-	result.resize(disziplinenAufPositionen.size());
-	gesamtzeit = 0;
+
 
 	// hier geht's los!
 	while (nichtvergebenePositionen > 0)
@@ -160,7 +107,7 @@ void LagenstaffelComputer::compute()
 		const int disziplin   = disziplinenAufPositionen[position];
 
 		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this));
-		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmer);
+//		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmer);
 		clog << "Groesster Abstand: " << schw->kuerzel << " auf Position " << position << endl;
 //		outputSchwimmerAbstand(clog, abstaendeInDisziplinen[disziplin], disziplin);
 
@@ -175,42 +122,9 @@ void LagenstaffelComputer::compute()
 	}
 }
 
-
-ostream& LagenstaffelComputer::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
+ostream& LagenstaffelComputer::outputResult(ostream& os)
 {
-	os << "-----------------------------------------" << endl;
-	os << "Schwimmer/Zeiten/Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
-	for (SchwimmerAbstandMap::const_iterator it = map.begin(); it != map.end(); ++it)
-	{
-		Schwimmer& schw = *it->first;
-		os << setiosflags(ios::left);
-		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
-		os << setiosflags(ios::right);
-		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
-		os << setw(14) << Zeit::convertToString(it->second) << endl;
-		os << resetiosflags(ios::right);
-	}
-	return os;
-}
-
-ostream& LagenstaffelComputer::outputEingesetzteSchwimmer(ostream& os, const PositionSchwimmerPairVector& vec)
-{
-	os << "-----------------------------------------" << endl;
-	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
-	for (PositionSchwimmerPairVector::const_iterator it = vec.begin(); it != vec.end(); ++it)
-	{
-		Schwimmer& schw = *it->second;
-		int position  = it->first;
-		int disziplin = disziplinenAufPositionen[position];
-
-		os << setiosflags(ios::left);
-		os << setw(16) << schw.nachname << setw(10) << schw.vorname << setw(3) << schw.kuerzel;
-		os << setiosflags(ios::right);
-		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]);
-		os << setw(14) << Zeit::convertToString(abstaende[disziplin][&schw]);
-		os << setw(5) << position << ": ";
-		os << resetiosflags(ios::right);
-		os << Disziplin::convertToString(disziplin) << endl;
-	}
+	os << "Lagenstaffel" << endl;
+	SchwoptAlgoComputer::outputResult(os);
 	return os;
 }

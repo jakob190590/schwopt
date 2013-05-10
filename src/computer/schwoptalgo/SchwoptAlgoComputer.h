@@ -13,6 +13,7 @@
 #include <map>
 
 #include "../../Schwimmer.h"
+#include "../../Disziplin.h"
 #include "../OptComputer.h"
 
 using namespace std;
@@ -29,6 +30,7 @@ public:
 	typedef pair<int, Schwimmer*> PositionSchwimmerPair;
 	typedef vector<PositionSchwimmerPair> PositionSchwimmerPairVector;
 	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
+	typedef map<Schwimmer*, int> SchwimmerIntMap;
 
 	// Fuer Abstaende je eines Schwimmern zum Naechstschlechteren in einer Disziplin
 	typedef map<Schwimmer*, unsigned> SchwimmerAbstandMap;
@@ -48,10 +50,11 @@ public:
 	void removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer);
 
 	SchwoptAlgoComputer(const SchwimmerVector&);
+	ostream& outputResult(ostream& os);
 
 	// Debugging
 	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin) const;
-	ostream& outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet&) const;
+	ostream& outputEingesetzteSchwimmer(ostream& os, const SortedPositionSchwimmerSet&) const;
 
 	void gscheideDebugAusgabe(ostream&,
 			const SchwoptAlgoComputer::DisziplinenAufPositionen&,

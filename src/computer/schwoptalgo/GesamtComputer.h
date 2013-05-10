@@ -5,24 +5,18 @@
  *      Author: jakob190590
  */
 
-#ifndef GESAMTCOMPUTER1_H_
-#define GESAMTCOMPUTER1_H_
-
-#include <map>
+#ifndef GESAMTCOMPUTER_H_
+#define GESAMTCOMPUTER_H_
 
 #include "SchwoptAlgoComputer.h"
 
 class GesamtComputer: public SchwoptAlgoComputer
 {
-	static const int ANZAHL_POSITIONEN = 18;
-	static const int DISZIPLINEN[];
-
-	map<Schwimmer*, float> normierteAbstaende[Disziplin::ANZAHL];
-
 public:
 	GesamtComputer(const SchwimmerVector&);
 
 	void compute();
+	ostream& outputResult(ostream&);
 };
 
-#endif /* GESAMTCOMPUTER1_H_ */
+#endif /* GESAMTCOMPUTER_H_ */
