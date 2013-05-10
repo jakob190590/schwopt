@@ -1,5 +1,5 @@
 /*
- * LagenstaffelComputer.cpp
+ * LagenstaffelComputerBase.cpp
  *
  *  Created on: 21.04.2013
  *      Author: jakob190590
@@ -7,21 +7,21 @@
 
 #include <iomanip>
 
-#include "LagenstaffelComputer.h"
+#include "LagenstaffelComputerBase.h"
 #include "../Zeit.h"
 
 using namespace std;
 
-const int LagenstaffelComputer::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
+const int LagenstaffelComputerBase::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
 
 // Optimale Lösung (durchprobieren!)
-LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
+LagenstaffelComputerBase::LagenstaffelComputerBase(const SchwimmerVector& schwimmer) :
 		OptComputer(schwimmer)
 {
 }
 
 
-ostream& LagenstaffelComputer::outputResult(ostream& os)
+ostream& LagenstaffelComputerBase::outputResult(ostream& os)
 {
 	os << "Lagenstaffel (4 x 50 m Lagen)" << endl;
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)

@@ -16,7 +16,7 @@ using namespace std;
 
 // Optimale Lösung (durchprobieren!)
 LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerVector& schwimmer) :
-		LagenstaffelComputer(schwimmer)
+		LagenstaffelComputerBase(schwimmer)
 {
 }
 

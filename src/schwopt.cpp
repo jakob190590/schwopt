@@ -12,10 +12,11 @@
 #include <cstdlib>
 
 #include "Schwimmer.h"
-#include "computer/LagenstaffelComputer1.h"
-#include "computer/LagenstaffelComputer2.h"
 #include "computer/KraulstaffelComputer.h"
-#include "computer/EinzelstartsComputer.h"
+#include "computer/LagenstaffelComputer2.h"
+#include "computer/schwoptalgo/LagenstaffelComputer.h"
+#include "computer/schwoptalgo/EinzelstartsComputer.h"
+#include "computer/schwoptalgo/GesamtComputer.h"
 
 using namespace std;
 
@@ -47,25 +48,31 @@ int main(int argc, char* argv[]) {
 	cout << endl << "--------------------------------------------------------------------------------------------" << endl;
 	cout << schwimmer << endl;
 
-	cout << "// LagenstaffelComputer1 (Algo)" << endl;
-	LagenstaffelComputer1 lagenstaffelComputer1(schwimmer);
-	lagenstaffelComputer1.compute();
-	lagenstaffelComputer1.outputResult(cout);
-
-	cout << "// LagenstaffelComputer2 (Exakte Loesung, Durchprobieren)" << endl;
-	LagenstaffelComputer2 lagenstaffelComputer2(schwimmer);
-	lagenstaffelComputer2.compute();
-	lagenstaffelComputer2.outputResult(cout);
-
-	cout << "// KraulstaffelComputer (Exakte Loesung)" << endl;
+	cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
 	KraulstaffelComputer kraulstaffelComputer(schwimmer);
 	kraulstaffelComputer.compute();
 	kraulstaffelComputer.outputResult(cout);
 
-	cout << "// EinzelstartsComputer (Algo)" << endl;
+	cout << "// [Exakt] LagenstaffelComputer2 (Exakte Loesung, Durchprobieren)" << endl;
+	LagenstaffelComputer2 lagenstaffelComputer2(schwimmer);
+	lagenstaffelComputer2.compute();
+	lagenstaffelComputer2.outputResult(cout);
+
+//	cout << "// [SchwoptAlgo] LagenstaffelComputer" << endl;
+//	LagenstaffelComputer lagenstaffelComputer(schwimmer);
+//	lagenstaffelComputer.compute();
+//	lagenstaffelComputer.outputResult(cout);
+
+	cout << "// [SchwoptAlgo] EinzelstartsComputer" << endl;
 	EinzelstartsComputer einzelstartsComputer(schwimmer);
 	einzelstartsComputer.compute();
 	einzelstartsComputer.outputResult(cout);
+
+//	cout << "// [SchwoptAlgo] GesamtComputer" << endl;
+//	GesamtComputer gesamtComputer(schwimmer);
+//	gesamtComputer.compute();
+//	gesamtComputer.outputResult(cout);
+
 
 	// Schwimmer im vector freigeben
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();

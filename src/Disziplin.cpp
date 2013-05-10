@@ -12,9 +12,14 @@
 
 using namespace std;
 
-int Disziplin::getStrecke(int disziplin)
+Disziplin::Strecke Disziplin::getStrecke(int disziplin)
 {
-	return (disziplin % 2 == 0) ? 50 : 100; // geht nur hier bei diesen Disziplinen!
+	return (disziplin % 2 == 0) ? METER_50 : METER_100; // geht nur hier bei diesen Disziplinen!
+}
+
+int Disziplin::convertStreckeToInt(Strecke s)
+{
+	return (s + 1) * 50; // geht nur bei diesen Disziplinen/Strecken!
 }
 
 string Disziplin::convertToString(int disziplin, bool lageAusgeben,
@@ -22,7 +27,7 @@ string Disziplin::convertToString(int disziplin, bool lageAusgeben,
 {
 	string lage;
 	// simple IntToString (fu C++) -- in C++11 gibt's std::to_string
-	string strecke = (dynamic_cast<ostringstream&>(ostringstream() << getStrecke(disziplin))).str();
+	string strecke = (dynamic_cast<ostringstream&>(ostringstream() << convertStreckeToInt(getStrecke(disziplin)))).str();
 	switch (disziplin)
 	{
 	case BRUST_50:

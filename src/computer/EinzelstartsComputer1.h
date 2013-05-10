@@ -1,16 +1,16 @@
 /*
- * EinzelstartsComputer.h
+ * EinzelstartsComputer1.h
  *
  *  Created on: 25.04.2013
  *      Author: jakob190590
  */
 
-#ifndef EINZELSTARTSCOMPUTER_H_
-#define EINZELSTARTSCOMPUTER_H_
+#ifndef EINZELSTARTSCOMPUTER1_H_
+#define EINZELSTARTSCOMPUTER1_H_
 
 #include "OptComputer.h"
 
-class EinzelstartsComputer: public OptComputer
+class EinzelstartsComputer1: public OptComputer
 {
 	class NormAbstandComparer;
 
@@ -21,9 +21,9 @@ class EinzelstartsComputer: public OptComputer
 
 	class NormAbstandComparer
 	{
-		EinzelstartsComputer& computer;
+		EinzelstartsComputer1& computer;
 	public:
-		NormAbstandComparer(EinzelstartsComputer&);
+		NormAbstandComparer(EinzelstartsComputer1&);
 		bool operator ()(const PositionSchwimmerPair&, const PositionSchwimmerPair&);
 	};
 
@@ -36,7 +36,7 @@ public:
 	static const int ANZAHL_POSITIONEN = 8;
 	static const int DISZIPLINEN[];
 
-	EinzelstartsComputer(const SchwimmerVector&);
+	EinzelstartsComputer1(const SchwimmerVector&);
 
 	void removeFromAvailable(Schwimmer*);
 
@@ -44,4 +44,4 @@ public:
 	ostream& outputResult(ostream&);
 };
 
-#endif /* EINZELSTARTSCOMPUTER_H_ */
+#endif /* EINZELSTARTSCOMPUTER1_H_ */

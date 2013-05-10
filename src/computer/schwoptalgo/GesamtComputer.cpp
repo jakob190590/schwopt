@@ -1,5 +1,5 @@
 /*
- * GesamtComputer1.cpp
+ * GesamtComputer.cpp
  *
  *  Created on: 21.04.2013
  *      Author: jakob190590
@@ -10,12 +10,12 @@
 #include <cassert>
 #include <iomanip>
 
-#include "GesamtComputer1.h"
-#include "../Zeit.h"
+#include "GesamtComputer.h"
+#include "../../Zeit.h"
 
 using namespace std;
 
-const int GesamtComputer1::DISZIPLINEN[] =
+const int GesamtComputer::DISZIPLINEN[] =
 {
 	Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50,     // Lagenstaffel
 	Disziplin::FREI_50, Disziplin::FREI_50, Disziplin::FREI_50,     // Kraul-
@@ -24,8 +24,8 @@ const int GesamtComputer1::DISZIPLINEN[] =
 	Disziplin::SCHM_50, Disziplin::SCHM_100, Disziplin::FREI_50, Disziplin::FREI_100      // starts
 };
 
-GesamtComputer1::GesamtComputer1(const SchwimmerVector& schwimmer) :
-		OptComputer(schwimmer)
+GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
+		SchwoptAlgoComputer(schwimmer)
 {
 }
 
@@ -54,7 +54,7 @@ GesamtComputer1::GesamtComputer1(const SchwimmerVector& schwimmer) :
  * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
  *
  */
-void GesamtComputer1::compute()
+void GesamtComputer::compute()
 {
 	// Variablen fuer die Berechnung:
 	// Anzahl Positionen, die noch nicht vergeben sind

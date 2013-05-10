@@ -11,8 +11,8 @@
 #include <algorithm>
 
 #include "EinzelstartsComputer.h"
-#include "../Zeit.h"
-#include "../Debugging.h"
+#include "../../Zeit.h"
+#include "../../Debugging.h"
 
 using namespace std;
 
@@ -34,7 +34,7 @@ bool EinzelstartsComputer::NormAbstandComparer::operator ()(const PositionSchwim
 }
 
 EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
-		OptComputer(schwimmer)
+		SchwoptAlgoComputer(schwimmer)
 {
 	// Normierten Abstand zum Naechstschlechteren berechnen
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
@@ -124,6 +124,13 @@ void EinzelstartsComputer::compute()
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();
 			it != schwimmer.end(); ++it)
 		availableSchwimmer[*it] = 3; // Jeder Schwimmer maximal 3 x
+
+	// "Mixed"-Bedingungen: Je mind. 1 m und mind. 1 w bei 50 m und 100 m
+//	map<int, int[2]> quoten;
+//	quoten[ 50][0] = 1;
+//	quoten[ 50][1] = 1;
+//	quoten[100][0] = 1;
+//	quoten[100][1] = 1;
 
 	// Size of result setzen!
 	result.resize(ANZAHL_POSITIONEN);

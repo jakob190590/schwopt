@@ -10,9 +10,9 @@
 
 #include <map>
 
-#include "LagenstaffelComputer.h"
+#include "LagenstaffelComputerBase.h"
 
-class LagenstaffelComputer2: public LagenstaffelComputer
+class LagenstaffelComputer2: public LagenstaffelComputerBase
 {
 public:
 	LagenstaffelComputer2(const SchwimmerVector&);

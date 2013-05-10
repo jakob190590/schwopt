@@ -1,18 +1,18 @@
 /*
- * LagenstaffelComputer1.h
+ * LagenstaffelComputer.h
  *
  *  Created on: 21.04.2013
  *      Author: jakob190590
  */
 
-#ifndef LAGENSTAFFELCOMPUTER1_H_
-#define LAGENSTAFFELCOMPUTER1_H_
+#ifndef LAGENSTAFFELCOMPUTER_H_
+#define LAGENSTAFFELCOMPUTER_H_
 
 #include <map>
 
-#include "LagenstaffelComputerBase.h"
+#include "SchwoptAlgoComputer.h"
 
-class LagenstaffelComputer1: public LagenstaffelComputerBase
+class LagenstaffelComputer: public SchwoptAlgoComputer
 {
 	class NormAbstandComparer;
 
@@ -22,9 +22,9 @@ class LagenstaffelComputer1: public LagenstaffelComputerBase
 
 	class NormAbstandComparer
 	{
-		LagenstaffelComputer1& computer;
+		SchwoptAlgoComputer& computer;
 	public:
-		NormAbstandComparer(LagenstaffelComputer1&);
+		NormAbstandComparer(SchwoptAlgoComputer&);
 		bool operator ()(const PositionSchwimmerPair&, const PositionSchwimmerPair&);
 	};
 
@@ -38,9 +38,9 @@ class LagenstaffelComputer1: public LagenstaffelComputerBase
 	ostream& outputEingesetzteSchwimmer(ostream&, const PositionSchwimmerPairVector&);
 
 public:
-	LagenstaffelComputer1(const SchwimmerVector&);
+	LagenstaffelComputer(const SchwimmerVector&);
 
 	void compute();
 };
 
-#endif /* LAGENSTAFFELCOMPUTER1_H_ */
+#endif /* LAGENSTAFFELCOMPUTER_H_ */
