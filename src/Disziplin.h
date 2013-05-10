@@ -31,6 +31,7 @@ public:
 	static const int ANZAHL = 8;
 
 	static Strecke getStrecke(int disziplin);
+	static int convertStreckeToInt(Strecke);
 	static string convertToString(int disziplin, bool lageAusgeben = true,
 			bool streckeAusgeben = true, string meterAusgabe = "Meter");
 };
