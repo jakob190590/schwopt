@@ -12,9 +12,9 @@
 
 using namespace std;
 
-int Disziplin::getStrecke(int disziplin)
+Disziplin::Strecke Disziplin::getStrecke(int disziplin)
 {
-	return (disziplin % 2 == 0) ? 50 : 100; // geht nur hier bei diesen Disziplinen!
+	return (disziplin % 2 == 0) ? METER_50 : METER_100; // geht nur hier bei diesen Disziplinen!
 }
 
 string Disziplin::convertToString(int disziplin, bool lageAusgeben,

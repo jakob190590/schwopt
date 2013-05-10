@@ -15,6 +15,8 @@ using namespace std;
 class Disziplin
 {
 public:
+	enum Strecke { METER_50 = 0, METER_100 = 1 };
+
 	// Konstanten fuer Disziplinen (Lage/Strecke) -> Indizes
 	static const int BRUST_50  = 0;
 	static const int BRUST_100 = 1;
@@ -28,7 +30,7 @@ public:
 	// Anzahl der oben definierten Disziplinen
 	static const int ANZAHL = 8;
 
-	static int getStrecke(int disziplin);
+	static Strecke getStrecke(int disziplin);
 	static string convertToString(int disziplin, bool lageAusgeben = true,
 			bool streckeAusgeben = true, string meterAusgabe = "Meter");
 };
