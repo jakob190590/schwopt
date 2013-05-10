@@ -10,9 +10,9 @@
 
 #include <map>
 
-#include "LagenstaffelComputer.h"
+#include "LagenstaffelComputerBase.h"
 
-class LagenstaffelComputer1: public LagenstaffelComputer
+class LagenstaffelComputer1: public LagenstaffelComputerBase
 {
 	class NormAbstandComparer;
 

@@ -100,7 +100,7 @@ void LagenstaffelComputer1::ensureMixedBedingung(Schwimmer& schw, int neededGesc
 }
 
 LagenstaffelComputer1::LagenstaffelComputer1(const SchwimmerVector& schwimmer) :
-		LagenstaffelComputer(schwimmer)
+		LagenstaffelComputerBase(schwimmer)
 {
 	// Normierten Abstand zum Naechstschlechteren berechnen
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
