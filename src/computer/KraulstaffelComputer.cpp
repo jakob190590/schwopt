@@ -33,7 +33,7 @@ void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], i
 /**
  * Algorithmus:
  *
- * Einfach die 4 besten Krauler nehmen
+ * Einfach die besten Krauler nehmen
  * mit Rücksicht auf die "Mixed"-Bedingung (Quote).
  *
  */
@@ -69,7 +69,7 @@ void KraulstaffelComputer::compute()
 ostream& KraulstaffelComputer::outputResult(ostream& os)
 {
 	string diszi = Disziplin::convertToString(DISZIPLIN);
-	os << "Kraulstaffel (4 x " << diszi << ")" << endl; // TODO freistil oder kraul?
+	os << "Kraulstaffel (" << ANZAHL_POSITIONEN_IN_STAFFEL << " x " << diszi << ")" << endl; // TODO freistil oder kraul?
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{
 		os << (i + 1) << ". Schwimmer   " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[DISZIPLIN]) << endl;

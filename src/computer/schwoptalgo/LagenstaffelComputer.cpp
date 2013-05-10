@@ -124,7 +124,7 @@ void LagenstaffelComputer::compute()
 
 ostream& LagenstaffelComputer::outputResult(ostream& os)
 {
-	os << "Lagenstaffel" << endl;
+	os << "Lagenstaffel (4 x 50 m Lagen)" << endl;
 	SchwoptAlgoComputer::outputResult(os);
 	return os;
 }

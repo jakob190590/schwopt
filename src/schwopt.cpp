@@ -63,10 +63,10 @@ int main(int argc, char* argv[]) {
 	lagenstaffelComputer.compute();
 	lagenstaffelComputer.outputResult(cout);
 
-	cout << "// [SchwoptAlgo] EinzelstartsComputer" << endl;
-	EinzelstartsComputer einzelstartsComputer(schwimmer);
-	einzelstartsComputer.compute();
-	einzelstartsComputer.outputResult(cout);
+//	cout << "// [SchwoptAlgo] EinzelstartsComputer" << endl;
+//	EinzelstartsComputer einzelstartsComputer(schwimmer);
+//	einzelstartsComputer.compute();
+//	einzelstartsComputer.outputResult(cout);
 
 //	cout << "// [SchwoptAlgo] GesamtComputer" << endl;
 //	GesamtComputer gesamtComputer(schwimmer);
