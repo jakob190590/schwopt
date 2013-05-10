@@ -15,7 +15,7 @@
 #include "computer/LagenstaffelComputer1.h"
 #include "computer/LagenstaffelComputer2.h"
 #include "computer/KraulstaffelComputer.h"
-#include "computer/EinzelstartsComputer.h"
+#include "computer/EinzelstartsComputer1.h"
 
 using namespace std;
 
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
 	kraulstaffelComputer.outputResult(cout);
 
 	cout << "// EinzelstartsComputer (Algo)" << endl;
-	EinzelstartsComputer einzelstartsComputer(schwimmer);
+	EinzelstartsComputer1 einzelstartsComputer(schwimmer);
 	einzelstartsComputer.compute();
 	einzelstartsComputer.outputResult(cout);
 

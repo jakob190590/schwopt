@@ -1,5 +1,5 @@
 /*
- * EinzelstartsComputer.cpp
+ * EinzelstartsComputer1.cpp
  *
  *  Created on: 25.04.2013
  *      Author: jakob190590
@@ -10,30 +10,30 @@
 #include <iomanip>
 #include <algorithm>
 
-#include "EinzelstartsComputer.h"
+#include "EinzelstartsComputer1.h"
 #include "../Zeit.h"
 #include "../Debugging.h"
 
 using namespace std;
 
-const int EinzelstartsComputer::DISZIPLINEN[] =
+const int EinzelstartsComputer1::DISZIPLINEN[] =
 {
 	Disziplin::BRUST_50, Disziplin::BRUST_100, Disziplin::RUECK_50, Disziplin::RUECK_100, // Einzel-
 	Disziplin::SCHM_50, Disziplin::SCHM_100, Disziplin::FREI_50, Disziplin::FREI_100      // starts
 };
 
-EinzelstartsComputer::NormAbstandComparer::NormAbstandComparer(EinzelstartsComputer& computer) :
+EinzelstartsComputer1::NormAbstandComparer::NormAbstandComparer(EinzelstartsComputer1& computer) :
 		computer(computer)
 {
 }
 
-bool EinzelstartsComputer::NormAbstandComparer::operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
+bool EinzelstartsComputer1::NormAbstandComparer::operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
 {
 	// Abstand in Diziplin, die in der Staffel auf der angegebenen Position gilt, und fuer den Schwimmer, der fuer diese Position vorgesehen ist
 	return computer.abstaende[DISZIPLINEN[p1.first]][p1.second] > computer.abstaende[DISZIPLINEN[p2.first]][p2.second];
 }
 
-EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
+EinzelstartsComputer1::EinzelstartsComputer1(const SchwimmerVector& schwimmer) :
 		OptComputer(schwimmer)
 {
 	// Normierten Abstand zum Naechstschlechteren berechnen
@@ -63,7 +63,7 @@ EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 	}
 }
 
-void EinzelstartsComputer::removeFromAvailable(Schwimmer* schw)
+void EinzelstartsComputer1::removeFromAvailable(Schwimmer* schw)
 {
 	// Eigentlich reicht's fuer Disziplinen der Staffel
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN; i++)
@@ -112,7 +112,7 @@ void EinzelstartsComputer::removeFromAvailable(Schwimmer* schw)
  * Bei innerer Schleife, ersten Schwimmer immer GLEICH festsetzen, ohne if
  *
  */
-void EinzelstartsComputer::compute()
+void EinzelstartsComputer1::compute()
 {
 	// Variablen fuer die Berechnung:
 	// Anzahl Positionen, die noch nicht vergeben sind
@@ -185,7 +185,7 @@ void EinzelstartsComputer::compute()
 //		clog << it->first->kuerzel << " " << it->second << endl;
 }
 
-ostream& EinzelstartsComputer::outputResult(ostream& os)
+ostream& EinzelstartsComputer1::outputResult(ostream& os)
 {
 	os << "Einzelstarts (Lage)" << endl;
 	for (int i = 0; i < ANZAHL_POSITIONEN; i++)
@@ -199,7 +199,7 @@ ostream& EinzelstartsComputer::outputResult(ostream& os)
 	return os;
 }
 
-ostream& EinzelstartsComputer::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
+ostream& EinzelstartsComputer1::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
@@ -216,7 +216,7 @@ ostream& EinzelstartsComputer::outputSchwimmerAbstand(ostream& os, const Schwimm
 	return os;
 }
 
-ostream& EinzelstartsComputer::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set)
+ostream& EinzelstartsComputer1::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
