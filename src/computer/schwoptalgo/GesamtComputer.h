@@ -12,7 +12,7 @@
 
 #include "SchwoptAlgoComputer.h"
 
-class GesamtComputer1: public SchwoptAlgoComputer
+class GesamtComputer: public SchwoptAlgoComputer
 {
 	static const int ANZAHL_POSITIONEN = 18;
 	static const int DISZIPLINEN[];
@@ -20,7 +20,7 @@ class GesamtComputer1: public SchwoptAlgoComputer
 	map<Schwimmer*, float> normierteAbstaende[Disziplin::ANZAHL];
 
 public:
-	GesamtComputer1(const SchwimmerVector&);
+	GesamtComputer(const SchwimmerVector&);
 
 	void compute();
 };
