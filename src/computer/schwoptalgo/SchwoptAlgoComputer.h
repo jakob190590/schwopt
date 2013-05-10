@@ -46,6 +46,8 @@ public:
 	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
 	void removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer);
 
+	SchwoptAlgoComputer(const SchwimmerVector&);
+
 	// Debugging
 	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin) const;
 	ostream& outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet&) const;

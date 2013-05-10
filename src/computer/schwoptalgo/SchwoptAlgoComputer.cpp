@@ -65,6 +65,12 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 	}
 }
 
+SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
+		OptComputer(schwimmer)
+{
+
+}
+
 
 ostream& SchwoptAlgoComputer::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin) const
 {
