@@ -22,7 +22,7 @@ bool (*OptComputer::schwimmerZeitLessComperators[])
 		zeitLess<7> };
 
 OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
-		schwimmer(schwimmer)
+		schwimmer(schwimmer), schwimmerSortiert(Disziplin::ANZAHL)
 {
 	// Zeiten von 00:00,0 ersetzen durch maximalen Wert!
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();

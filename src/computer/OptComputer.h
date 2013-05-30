@@ -21,7 +21,7 @@ protected:
 			(Schwimmer const * const, Schwimmer const * const);
 
 	SchwimmerVector schwimmer;
-	SchwimmerList schwimmerSortiert[Disziplin::ANZAHL];
+	vector<SchwimmerList> schwimmerSortiert;
 
 	// Ergebnisse, werden gefuellt von compute()
 	SchwimmerVector result;

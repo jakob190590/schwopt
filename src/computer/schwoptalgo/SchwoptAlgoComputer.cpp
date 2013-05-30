@@ -28,8 +28,8 @@ bool SchwoptAlgoComputer::NormAbstandComparer::operator ()(const PositionSchwimm
 }
 
 void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer,
-		SchwimmerList schwimmerSortiert[Disziplin::ANZAHL],
-		SchwoptAlgoComputer::SchwimmerAbstandMap abstaendeInDisziplinen[Disziplin::ANZAHL])
+		vector<SchwimmerList> schwimmerSortiert,
+		vector<SchwoptAlgoComputer::SchwimmerAbstandMap> abstaendeInDisziplinen)
 {
 	availableSchwimmer.erase(schw);
 
@@ -67,13 +67,14 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 	}
 }
 
-SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
-		OptComputer(schwimmer)
+vector<SchwoptAlgoComputer::SchwimmerAbstandMap> SchwoptAlgoComputer::createAbstandsMap(const vector<SchwimmerList> schwimmerSortiert) const
 {
-	// Abstand zum Naechstschlechteren berechnen
-	for (int i = 0; i < Disziplin::ANZAHL; i++)
+	vector<SchwimmerAbstandMap> result(Disziplin::ANZAHL);
+
+    // Abstand zum Naechstschlechteren berechnen
+    for (int i = 0; i < Disziplin::ANZAHL; i++)
 	{
-		SchwimmerList& schwSorted = schwimmerSortiert[i];
+		const SchwimmerList& schwSorted = schwimmerSortiert[i];
 
 		// Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
 		SchwimmerList::const_iterator it, next;
@@ -92,11 +93,18 @@ SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
 			}
 
 			assert(nextZeit >= itZeit); // Fehlerhafte Sortierung oder schwerer Fehler im Algo
-			abstaendeInDisziplinen[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
+			result[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
 		}
 	}
 
-	// Ergebnis initialisieren
+    return result;
+}
+
+SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
+		OptComputer(schwimmer), abstaendeInDisziplinen(Disziplin::ANZAHL)
+{
+    abstaendeInDisziplinen = createAbstandsMap(schwimmerSortiert);
+    // Ergebnis initialisieren
 	gesamtzeit = 0;
 }
 
@@ -155,9 +163,9 @@ ostream& SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const Sort
 
 void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		const SchwoptAlgoComputer::DisziplinenAufPositionen& disziplinen,
-		const SchwimmerList schwimmerSortiert[Disziplin::ANZAHL],
+		const vector<SchwimmerList> schwimmerSortiert,
 		const SchwoptAlgoComputer::PositionSchwimmerPairVector& vec,
-		const SchwoptAlgoComputer::SchwimmerAbstandMap abstaende[Disziplin::ANZAHL],
+		const vector<SchwoptAlgoComputer::SchwimmerAbstandMap> abstaende,
 		unsigned anzahlNaechstbester, bool showDisziplin) const
 {
 	const int COL_WIDTH_POSITION = 5;

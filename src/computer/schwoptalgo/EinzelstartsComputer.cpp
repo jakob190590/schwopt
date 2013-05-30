@@ -64,7 +64,7 @@ void EinzelstartsComputer::compute()
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
 		// Alle nicht-vergebenen Schwimmer nach Abstand absteigend sortiert in set einfuegen
 		SortedPositionSchwimmerSet eingesetzteSchwimmerSortiertNachAbstand(NormAbstandComparer(*this));
-		for (int i = 0; i < disziplinenAufPositionen.size(); i++)
+		for (unsigned i = 0; i < disziplinenAufPositionen.size(); i++)
 			if (!vergebenePositionen[i])
 			{
 				outputSchwimmerZeiten(clog,

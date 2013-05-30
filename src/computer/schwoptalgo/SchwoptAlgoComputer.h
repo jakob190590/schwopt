@@ -45,11 +45,11 @@ public:
 
 	SchwimmerList schwimmerzeitList;
 	DisziplinenAufPositionen disziplinenAufPositionen;
-	SchwimmerAbstandMap abstaendeInDisziplinen[Disziplin::ANZAHL];
+	vector<SchwimmerAbstandMap> abstaendeInDisziplinen;
 
 	void removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer,
-			SchwimmerList schwimmerSortiert[Disziplin::ANZAHL],
-			SchwimmerAbstandMap abstaendeInDisziplinen[Disziplin::ANZAHL]);
+			vector<SchwimmerList> schwimmerSortiert,
+			vector<SchwimmerAbstandMap> abstaendeInDisziplinen);
 
 	SchwoptAlgoComputer(const SchwimmerVector&);
 	ostream& outputResult(ostream& os) const;
@@ -60,10 +60,12 @@ public:
 
 	void gscheideDebugAusgabe(ostream&,
 			const SchwoptAlgoComputer::DisziplinenAufPositionen&,
-			const SchwimmerList[Disziplin::ANZAHL],
+			const vector<SchwimmerList>,
 			const SchwoptAlgoComputer::PositionSchwimmerPairVector&,
-			const SchwoptAlgoComputer::SchwimmerAbstandMap[Disziplin::ANZAHL],
+			const vector<SchwoptAlgoComputer::SchwimmerAbstandMap>,
 			unsigned anzahlNaechstbester = 2, bool showDisziplin = true) const;
+protected:
+    virtual vector<SchwimmerAbstandMap> createAbstandsMap(const vector<SchwimmerList>) const;
 };
 
 #endif /* SCHWOPTALGOCOMPUTER_H_ */
