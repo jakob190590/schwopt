@@ -89,10 +89,10 @@ void LagenstaffelComputer::compute()
 			if (!vergebenePositionen[pos])
 			{
 				const int disziplin = disziplinenAufPositionen[pos];
-				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
-					schwimmerSortiert[disziplin].begin(),
-					schwimmerSortiert[disziplin].end(),
-					disziplin);
+//				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
+//					schwimmerSortiert[disziplin].begin(),
+//					schwimmerSortiert[disziplin].end(),
+//					disziplin);
 				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
 				eingesetzteSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
 				result[pos] = schw;
@@ -108,8 +108,10 @@ void LagenstaffelComputer::compute()
 
 		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this));
 //		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmer);
-		clog << "Groesster Abstand: " << schw->kuerzel << " auf Position " << position << endl;
+//		clog << "Groesster Abstand: " << schw->kuerzel << " auf Position " << position << endl;
 //		outputSchwimmerAbstand(clog, abstaendeInDisziplinen[disziplin], disziplin);
+
+		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eingesetzteSchwimmer, abstaendeInDisziplinen);
 
 		nichtvergebenePositionen--;
 		vergebenePositionen[position] = true;

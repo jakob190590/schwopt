@@ -155,7 +155,7 @@ ostream& SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const Sort
 
 void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		const SchwoptAlgoComputer::DisziplinenAufPositionen& disziplinen,
-		const SchwimmerVector schwimmerSortiert[Disziplin::ANZAHL],
+		const SchwimmerList schwimmerSortiert[Disziplin::ANZAHL],
 		const SchwoptAlgoComputer::PositionSchwimmerPairVector& vec,
 		const SchwoptAlgoComputer::SchwimmerAbstandMap abstaende[Disziplin::ANZAHL],
 		unsigned anzahlNaechstbester, bool showDisziplin) const
@@ -185,8 +185,8 @@ void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		os << schwimmer->kuerzel << schwimmer->zeiten[disziplin];
 		os << "-" << abstaende[disziplin].find(schwimmer)->second << "-";
 
-		const SchwimmerVector& naechstbesteSchwimmer = schwimmerSortiert[disziplin];
-		SchwimmerVector::const_iterator next = naechstbesteSchwimmer.begin();
+		const SchwimmerList& naechstbesteSchwimmer = schwimmerSortiert[disziplin];
+		SchwimmerList::const_iterator next = naechstbesteSchwimmer.begin();
 		next++; // der erste Schwimmer ist ja schon ausgegeben
 		for (unsigned i = 0; i < anzahlNaechstbester && next != naechstbesteSchwimmer.end(); i++)
 		{

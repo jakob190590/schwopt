@@ -58,7 +58,7 @@ public:
 
 	void gscheideDebugAusgabe(ostream&,
 			const SchwoptAlgoComputer::DisziplinenAufPositionen&,
-			const SchwimmerVector[Disziplin::ANZAHL],
+			const SchwimmerList[Disziplin::ANZAHL],
 			const SchwoptAlgoComputer::PositionSchwimmerPairVector&,
 			const SchwoptAlgoComputer::SchwimmerAbstandMap[Disziplin::ANZAHL],
 			unsigned anzahlNaechstbester = 2, bool showDisziplin = true) const;
