@@ -53,3 +53,12 @@ Basisklasse aller Optimierungsrechner.  Stellt Memberfunktionen bereit und auch 
 - `void outputResult(ostream&);` // Ergebnis ausgeben
 
 Achtung: Eine OptComputer-Instanz ist ein "Einmal-und-Wegwerf-Computer".  Die Funktion `compute` darf nur ein einziges Mal an einem Objekt aufgerufen werden -- danach ist das Verhalten undefiniert.  Dadurch wird die Implementierung vereinfacht (es müssen nicht alle Membervariablen als lokale Variablen kopiert werden, sondern können direkt verwendet werden).
+
+Algorithmus
+-----------
+
+Der Algorithmus ist grob wie folgt:
+
+Solange es freie Positionen gibt
+ - Freie Positionen mit besten freien Schwimmern besetzen
+ - Den Schwimmer festsetzen, der am meisten Zeit reinholt
