@@ -197,11 +197,11 @@ void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		const SchwimmerList& naechstbesteSchwimmer = schwimmerSortiert[disziplin];
 		SchwimmerList::const_iterator next = naechstbesteSchwimmer.begin();
 		next++; // der erste Schwimmer ist ja schon ausgegeben
-		for (unsigned i = 0; i < anzahlNaechstbester && next != naechstbesteSchwimmer.end(); i++)
+		for (unsigned i = 0; i < anzahlNaechstbester && next != naechstbesteSchwimmer.end(); i++, next++)
 		{
 			Schwimmer* const nextSchwimmer = *next;
 			os << nextSchwimmer->kuerzel << ' ' << nextSchwimmer->zeiten[disziplin];
-			os << " -" << abstaende[disziplin].find(nextSchwimmer)->second << "- ";
+			os << " -" << setw(4) << setiosflags(ios::right) << abstaende[disziplin].find(nextSchwimmer)->second << resetiosflags(ios::right) << "-  ";
 		}
 		os << endl;
 	}
