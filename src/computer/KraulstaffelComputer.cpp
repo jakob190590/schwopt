@@ -66,7 +66,7 @@ void KraulstaffelComputer::compute()
 	}
 }
 
-ostream& KraulstaffelComputer::outputResult(ostream& os)
+ostream& KraulstaffelComputer::outputResult(ostream& os) const
 {
 	string diszi = Disziplin::convertToString(DISZIPLIN);
 	os << "Kraulstaffel (" << ANZAHL_POSITIONEN_IN_STAFFEL << " x " << diszi << ")" << endl; // TODO freistil oder kraul?

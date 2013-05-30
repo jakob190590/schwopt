@@ -18,7 +18,7 @@ public:
 
 	LagenstaffelComputerBase(const SchwimmerVector&);
 
-	ostream& outputResult(ostream&);
+	ostream& outputResult(ostream&) const;
 };
 
 #endif /* LAGENSTAFFELCOMUTERBASE_H_ */

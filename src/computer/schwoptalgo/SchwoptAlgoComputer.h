@@ -52,7 +52,7 @@ public:
 			SchwimmerAbstandMap abstaendeInDisziplinen[Disziplin::ANZAHL]);
 
 	SchwoptAlgoComputer(const SchwimmerVector&);
-	ostream& outputResult(ostream& os);
+	ostream& outputResult(ostream& os) const;
 
 	// Debugging
 	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin) const;

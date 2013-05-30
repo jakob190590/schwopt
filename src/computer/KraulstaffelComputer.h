@@ -22,7 +22,7 @@ public:
 	KraulstaffelComputer(const SchwimmerVector&);
 
 	void compute();
-	ostream& outputResult(ostream&);
+	ostream& outputResult(ostream&) const;
 };
 
 #endif /* KRAULSTAFFELCOMUTER_H_ */

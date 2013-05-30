@@ -47,7 +47,7 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
 			!= availableSchwimmer.end())
 		// hier wird it ungueltig, wegen "erase(it)", deshalb "while (find_if"
-		removeFromAvailable(*it, availableSchwimmer);
+		removeFromAvailable(*it, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
 }
 
 LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
@@ -113,7 +113,7 @@ void LagenstaffelComputer::compute()
 
 		nichtvergebenePositionen--;
 		vergebenePositionen[position] = true;
-		removeFromAvailable(schw, availableSchwimmer);
+		removeFromAvailable(schw, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
 		ensureMixedBedingung(*schw, neededGeschlecht, availableSchwimmer);
 		gesamtzeit += schw->zeiten[disziplin];
 
@@ -122,7 +122,7 @@ void LagenstaffelComputer::compute()
 	}
 }
 
-ostream& LagenstaffelComputer::outputResult(ostream& os)
+ostream& LagenstaffelComputer::outputResult(ostream& os) const
 {
 	os << "Lagenstaffel (4 x 50 m Lagen)" << endl;
 	SchwoptAlgoComputer::outputResult(os);

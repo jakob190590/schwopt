@@ -100,7 +100,7 @@ SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
 	gesamtzeit = 0;
 }
 
-ostream& SchwoptAlgoComputer::outputResult(ostream& os)
+ostream& SchwoptAlgoComputer::outputResult(ostream& os) const
 {
 	for (unsigned pos = 0; pos < disziplinenAufPositionen.size(); pos++)
 	{

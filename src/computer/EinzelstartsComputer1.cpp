@@ -185,7 +185,7 @@ void EinzelstartsComputer1::compute()
 //		clog << it->first->kuerzel << " " << it->second << endl;
 }
 
-ostream& EinzelstartsComputer1::outputResult(ostream& os)
+ostream& EinzelstartsComputer1::outputResult(ostream& os) const
 {
 	os << "Einzelstarts (Lage)" << endl;
 	for (int i = 0; i < ANZAHL_POSITIONEN; i++)

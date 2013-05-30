@@ -21,7 +21,7 @@ LagenstaffelComputerBase::LagenstaffelComputerBase(const SchwimmerVector& schwim
 }
 
 
-ostream& LagenstaffelComputerBase::outputResult(ostream& os)
+ostream& LagenstaffelComputerBase::outputResult(ostream& os) const
 {
 	os << "Lagenstaffel (4 x 50 m Lagen)" << endl;
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)

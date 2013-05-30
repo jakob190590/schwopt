@@ -42,12 +42,12 @@ OptComputer::OptComputer(const SchwimmerVector& schwimmer) :
 	}
 }
 
-unsigned OptComputer::getTime()
+unsigned OptComputer::getTime() const
 {
 	return gesamtzeit;
 }
 
-SchwimmerVector OptComputer::getResult()
+SchwimmerVector OptComputer::getResult() const
 {
 	return result;
 }

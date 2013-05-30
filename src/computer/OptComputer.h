@@ -30,9 +30,9 @@ public:
 	OptComputer(const SchwimmerVector&);
 
 	virtual void compute() = 0;
-	virtual unsigned getTime();
-	virtual SchwimmerVector getResult();
-	virtual ostream& outputResult(ostream&) = 0;
+	virtual unsigned getTime() const;
+	virtual SchwimmerVector getResult() const;
+	virtual ostream& outputResult(ostream&) const = 0;
 };
 
 #endif /* OPTCOMPUTER_H_ */

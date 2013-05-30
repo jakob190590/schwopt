@@ -19,7 +19,7 @@ public:
 	LagenstaffelComputer(const SchwimmerVector&);
 
 	void compute();
-	ostream& outputResult(ostream&);
+	ostream& outputResult(ostream&) const;
 };
 
 #endif /* LAGENSTAFFELCOMPUTER_H_ */

@@ -41,7 +41,7 @@ public:
 	void removeFromAvailable(Schwimmer*);
 
 	void compute();
-	ostream& outputResult(ostream&);
+	ostream& outputResult(ostream&) const;
 };
 
 #endif /* EINZELSTARTSCOMPUTER1_H_ */
