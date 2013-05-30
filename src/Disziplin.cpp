@@ -52,7 +52,7 @@ string Disziplin::convertToString(int disziplin, bool lageAusgeben,
 
 	string result;
 	if (streckeAusgeben)
-		result = strecke + " " + meterAusgabe + " ";
+		result = strecke + meterAusgabe;
 	if (lageAusgeben)
 		result += lage;
 

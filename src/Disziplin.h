@@ -33,7 +33,7 @@ public:
 	static Strecke getStrecke(int disziplin);
 	static int convertStreckeToInt(Strecke);
 	static string convertToString(int disziplin, bool lageAusgeben = true,
-			bool streckeAusgeben = true, string meterAusgabe = "Meter");
+			bool streckeAusgeben = true, string meterAusgabe = " Meter ");
 };
 
 #endif /* DISZIPLIN_H_ */
