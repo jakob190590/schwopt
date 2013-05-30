@@ -42,12 +42,15 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 	if (--neededGeschlecht[schw.geschlecht] > 0) // zaehler nach dekrement noch groesser 0
 		return; // nichts weiter zu tun
 
-	SchwimmerSet::iterator it;
-	Schwimmer::GeschlechtPredicate pred(schw.geschlecht);
-	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
-			!= availableSchwimmer.end())
-		// hier wird it ungueltig, wegen "erase(it)", deshalb "while (find_if"
-		removeFromAvailable(*it, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+	// Alle Schwimmer des gegebenen Geschlechts rausloeschen
+	SchwimmerSet::iterator it, toBeErased; // nicht const_iterator, weil element geloescht wird -- wenn auch nicht direkt ueber diese iterator
+	for (it = availableSchwimmer.begin(); it != availableSchwimmer.end(); ++it)
+		if ((*it)->geschlecht == schw.geschlecht)
+		{
+			toBeErased = it;
+			--it; // it eins zurueckfahren; hier ist er sicher waehrend vorige position geloescht wird
+			removeFromAvailable(*toBeErased, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+		}
 }
 
 LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
