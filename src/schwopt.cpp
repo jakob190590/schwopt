@@ -21,8 +21,8 @@
 using namespace std;
 
 
-int main(int argc, char* argv[]) {
-
+int main(int argc, char* argv[])
+{
 	if (argc == 1)
 	{
 		cout << "usage: schwopt <datafilename>" << endl;
@@ -33,12 +33,10 @@ int main(int argc, char* argv[]) {
 
 	SchwimmerVector schwimmer;
 	ifstream ifs(argv[1]);
-//	istream& inputstream = ifs || cin
 	while (!ifs.eof())
 	{
 		Schwimmer* schw = new Schwimmer();
 		ifs >> schw;
-//		cout << schw;
 		schwimmer.push_back(schw);
 	}
 	ifs.close();
