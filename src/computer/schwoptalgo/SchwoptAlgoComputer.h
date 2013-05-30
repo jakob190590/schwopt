@@ -47,7 +47,9 @@ public:
 	DisziplinenAufPositionen disziplinenAufPositionen;
 	SchwimmerAbstandMap abstaendeInDisziplinen[Disziplin::ANZAHL];
 
-	void removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer);
+	void removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer,
+			SchwimmerList schwimmerSortiert[Disziplin::ANZAHL],
+			SchwimmerAbstandMap abstaendeInDisziplinen[Disziplin::ANZAHL]);
 
 	SchwoptAlgoComputer(const SchwimmerVector&);
 	ostream& outputResult(ostream& os);
