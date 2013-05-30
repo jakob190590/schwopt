@@ -171,7 +171,7 @@ void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 	const int COL_WIDTH_POSITION = 5;
 	const int COL_WIDTH_DISZIPLIN = 10;
 	const int COL_WIDTH_SCHWIMMER = 6;
-	const int COL_WIDTH_ZEIT = 14;
+	const int COL_WIDTH_ZEIT = 10;
 
 	os << setiosflags(ios::left); // default
 
@@ -199,8 +199,8 @@ void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		if (showDisziplin)
 			os << setw(COL_WIDTH_DISZIPLIN) << Disziplin::convertToString(disziplin, true, true, "m").substr(0, COL_WIDTH_DISZIPLIN - 2);
 		os     << setw(COL_WIDTH_SCHWIMMER) << schwimmer->kuerzel;
-		os     << setw(COL_WIDTH_ZEIT / 2 - 1) << schwimmer->zeiten[disziplin];
-		os     << "-" << setw(4) << setiosflags(ios::right) << abstaende[disziplin].find(schwimmer)->second << resetiosflags(ios::right) << "-  ";
+		os     << setw(COL_WIDTH_ZEIT / 2 - 1) << schwimmer->zeiten[disziplin] / 100;
+		os     << "-" << setw(2) << setiosflags(ios::right) << abstaende[disziplin].find(schwimmer)->second / 100 << resetiosflags(ios::right) << "-  ";
 
 		const SchwimmerList& naechstbesteSchwimmer = schwimmerSortiert[disziplin];
 		SchwimmerList::const_iterator next = naechstbesteSchwimmer.begin();
@@ -208,8 +208,8 @@ void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		for (unsigned i = 0; i < anzahlNaechstbester && next != naechstbesteSchwimmer.end(); i++, next++)
 		{
 			Schwimmer* const nextSchwimmer = *next;
-			os << nextSchwimmer->kuerzel << ' ' << nextSchwimmer->zeiten[disziplin];
-			os << " -" << setw(4) << setiosflags(ios::right) << abstaende[disziplin].find(nextSchwimmer)->second << resetiosflags(ios::right) << "-  ";
+			os << nextSchwimmer->kuerzel << ' ' << nextSchwimmer->zeiten[disziplin] / 100;
+			os << " -" << setw(2) << setiosflags(ios::right) << abstaende[disziplin].find(nextSchwimmer)->second / 100 << resetiosflags(ios::right) << "-  ";
 		}
 		os << endl;
 	}
