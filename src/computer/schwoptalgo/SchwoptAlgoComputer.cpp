@@ -28,8 +28,8 @@ bool SchwoptAlgoComputer::NormAbstandComparer::operator ()(const PositionSchwimm
 }
 
 void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer,
-		vector<SchwimmerList> schwimmerSortiert,
-		vector<SchwoptAlgoComputer::SchwimmerAbstandMap> abstaendeInDisziplinen)
+		vector<SchwimmerList>& schwimmerSortiert,
+		vector<SchwoptAlgoComputer::SchwimmerAbstandMap>& abstaendeInDisziplinen)
 {
 	availableSchwimmer.erase(schw);
 
@@ -163,9 +163,9 @@ ostream& SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const Sort
 
 void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		const SchwoptAlgoComputer::DisziplinenAufPositionen& disziplinen,
-		const vector<SchwimmerList> schwimmerSortiert,
+		const vector<SchwimmerList>& schwimmerSortiert,
 		const SchwoptAlgoComputer::PositionSchwimmerPairVector& vec,
-		const vector<SchwoptAlgoComputer::SchwimmerAbstandMap> abstaende,
+		const vector<SchwoptAlgoComputer::SchwimmerAbstandMap>& abstaende,
 		unsigned anzahlNaechstbester, bool showDisziplin) const
 {
 	const int COL_WIDTH_POSITION = 5;
