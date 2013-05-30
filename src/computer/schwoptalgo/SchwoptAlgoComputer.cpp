@@ -51,11 +51,10 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 		}
 
 		// Standardfall: Abstand neu berechnen
-		it--; // decrement it before remove
-		schwimmerzeitList.remove(schw); // TODO warum nicht erase(it--); waere doch schneller, weil schw nicht gesucht werden muss
+		schwimmerzeitList.erase(it--);
 
-		SchwimmerList::iterator next = it; // next soll auf Naechstschlechteren zeigen
-		next++;
+		SchwimmerList::iterator next = it;
+		next++; // next soll auf Naechstschlechteren zeigen
 
 		unsigned itZeit   = (*it)->zeiten[disziplin];
 		unsigned nextZeit = Zeit::MAX_UNSIGNED_VALUE; // falls it der letzte Schwimmer ist...
