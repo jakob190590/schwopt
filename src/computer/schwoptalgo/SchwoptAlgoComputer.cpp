@@ -31,18 +31,17 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 {
 	availableSchwimmer.erase(schw);
 
-	// Eigentlich reicht's fuer Disziplinen der Staffel
-	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++) // (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-	{	// int disziplin = DISZIPLINEN_IN_STAFFEL[i];
+	// Eigentlich reicht's fuer Disziplinen der Staffel (Vorsicht: Eine Disziplin kann in Staffel ja mehrfach vorkommen)
+	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++)
+	{
 		SchwimmerList& schwimmerzeitList = schwimmerSortiert[disziplin]; // list, sorted by zeiten in disziplin, with Schwimmer*
 		SchwimmerAbstandMap& abstandsMap = abstaendeInDisziplinen[disziplin]; // map, sorted by abstand der zeiten in disziplin, Schwimmer* => unsigned
 
 		abstandsMap.erase(schw);
 
+		// Abstaende in abstandsMap evtl. korrigieren!
 		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
 		assert(it != schwimmerzeitList.end()); // schw muss in der list sein
-		if (it == schwimmerzeitList.end()) // nicht gefunden (??) -- anyway
-			continue;
 
 		if (it == schwimmerzeitList.begin())
 		{

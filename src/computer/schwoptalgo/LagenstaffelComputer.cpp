@@ -75,8 +75,6 @@ void LagenstaffelComputer::compute()
 	SchwimmerSet availableSchwimmer(schwimmer.begin(), schwimmer.end());
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
 	int neededGeschlecht[2] = { 2, 2 };
-	// Size of result setzen!
-
 
 	// hier geht's los!
 	while (nichtvergebenePositionen > 0)
