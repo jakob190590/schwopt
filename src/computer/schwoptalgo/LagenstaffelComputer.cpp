@@ -79,24 +79,17 @@ void LagenstaffelComputer::compute()
 	// hier geht's los!
 	while (nichtvergebenePositionen > 0)
 	{
-//		clog << "nichtvergebenePositionen == " << nichtvergebenePositionen << endl;
-
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
 		PositionSchwimmerPairVector eingesetzteSchwimmer; // eigentlich nur "testweise eingesetzte Schwimmer"!
 		for (unsigned pos = 0; pos < disziplinenAufPositionen.size(); pos++)
 			if (!vergebenePositionen[pos])
 			{
 				const int disziplin = disziplinenAufPositionen[pos];
-//				outputSchwimmerZeiten<SchwimmerList::const_iterator>(clog,
-//					schwimmerSortiert[disziplin].begin(),
-//					schwimmerSortiert[disziplin].end(),
-//					disziplin);
 				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
 				eingesetzteSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
 				result[pos] = schw;
 			}
 
-		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!
 		PositionSchwimmerPair* mostWanted = findMostWanted(eingesetzteSchwimmer);
 
 		// Diesen Schwimmer festsetzen fuer seine Position
@@ -104,11 +97,7 @@ void LagenstaffelComputer::compute()
 		Schwimmer* const schw = mostWanted->second;
 		const int disziplin   = disziplinenAufPositionen[position];
 
-		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this));
-//		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmer);
-//		clog << "Groesster Abstand: " << schw->kuerzel << " auf Position " << position << endl;
-//		outputSchwimmerAbstand(clog, abstaendeInDisziplinen[disziplin], disziplin);
-
+		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
 		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eingesetzteSchwimmer, abstaendeInDisziplinen);
 
 		nichtvergebenePositionen--;
@@ -116,9 +105,6 @@ void LagenstaffelComputer::compute()
 		removeFromAvailable(schw, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
 		ensureMixedBedingung(*schw, neededGeschlecht, availableSchwimmer);
 		gesamtzeit += schw->zeiten[disziplin];
-
-//		outputSchwimmerAbstand(clog, abstaendeInDisziplinen[disziplin], disziplin);
-
 	}
 }
 
