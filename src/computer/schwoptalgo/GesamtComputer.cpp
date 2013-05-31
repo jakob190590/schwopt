@@ -18,7 +18,7 @@ using namespace std;
 GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
 		SchwoptAlgoComputer(schwimmer)
 {
-	disziplinenAufPositionen.reserve(18);
+	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
 	// Lagenstaffel (4 x 50 m Lagen)
 	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
 	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
@@ -42,7 +42,18 @@ GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
 
 	// Ergebnis initialisieren
-	result.resize(disziplinenAufPositionen.size());
+	result.resize(ANZAHL_POSITIONEN);
+}
+
+int GesamtComputer::convertPositionToBlock(int position)
+{
+	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN)
+		return BLOCK_LAGENSTAFFEL;
+	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL)
+		return BLOCK_KRAULSTAFFEL;
+	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL + EinzelstartsComputer::ANZAHL_POSITIONEN / 2)
+		return BLOCK_EINZELSTARTS_50;
+	return BLOCK_EINZELSTARTS_100;
 }
 
 void GesamtComputer::compute()

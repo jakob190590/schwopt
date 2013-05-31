@@ -16,6 +16,8 @@ class LagenstaffelComputer: public SchwoptAlgoComputer
 	void ensureMixedBedingung(Schwimmer&, int neededGeschlecht[2], SchwimmerSet& availableSchwimmer);
 
 public:
+	static const int ANZAHL_POSITIONEN = 4;
+
 	LagenstaffelComputer(const SchwimmerVector&);
 
 	void compute();

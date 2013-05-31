@@ -19,7 +19,7 @@ using namespace std;
 EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 		SchwoptAlgoComputer(schwimmer)
 {
-	disziplinenAufPositionen.reserve(8);
+	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
 	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
 	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
 	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50);
@@ -31,7 +31,7 @@ EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
 
 	// Ergebnis initialisieren
-	result.resize(disziplinenAufPositionen.size());
+	result.resize(ANZAHL_POSITIONEN);
 }
 
 

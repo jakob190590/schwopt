@@ -56,7 +56,7 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
 		SchwoptAlgoComputer(schwimmer)
 {
-	disziplinenAufPositionen.reserve(4);
+	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
 	// Lagenstaffel (4 x 50 m Lagen)
 	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50);
 	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
@@ -64,7 +64,7 @@ LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
 
 	// Ergebnis initialisieren
-	result.resize(disziplinenAufPositionen.size());
+	result.resize(ANZAHL_POSITIONEN);
 }
 
 void LagenstaffelComputer::compute()

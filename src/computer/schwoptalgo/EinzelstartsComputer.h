@@ -13,6 +13,8 @@
 class EinzelstartsComputer: public SchwoptAlgoComputer
 {
 public:
+	static const int ANZAHL_POSITIONEN = 8;
+
 	EinzelstartsComputer(const SchwimmerVector&);
 
 	void compute();
