@@ -185,7 +185,7 @@ void EinzelstartsComputer1::compute()
 //		clog << it->first->kuerzel << " " << it->second << endl;
 }
 
-ostream& EinzelstartsComputer1::outputResult(ostream& os) const
+void EinzelstartsComputer1::outputResult(ostream& os) const
 {
 	os << "Einzelstarts (Lage)" << endl;
 	for (int i = 0; i < ANZAHL_POSITIONEN; i++)
@@ -196,10 +196,9 @@ ostream& EinzelstartsComputer1::outputResult(ostream& os) const
 		os << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
-	return os;
 }
 
-ostream& EinzelstartsComputer1::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
+void EinzelstartsComputer1::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
@@ -213,10 +212,9 @@ ostream& EinzelstartsComputer1::outputSchwimmerAbstand(ostream& os, const Schwim
 		os << setw(14) << Zeit::convertToString(it->second) << endl;
 		os << resetiosflags(ios::right);
 	}
-	return os;
 }
 
-ostream& EinzelstartsComputer1::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set)
+void EinzelstartsComputer1::outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet& set)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
@@ -235,5 +233,4 @@ ostream& EinzelstartsComputer1::outputAbstaendeSortiert(ostream& os, const Sorte
 		os << resetiosflags(ios::right);
 		os << Disziplin::convertToString(disziplin) << endl;
 	}
-	return os;
 }

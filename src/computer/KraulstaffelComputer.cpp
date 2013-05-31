@@ -66,7 +66,7 @@ void KraulstaffelComputer::compute()
 	}
 }
 
-ostream& KraulstaffelComputer::outputResult(ostream& os) const
+void KraulstaffelComputer::outputResult(ostream& os) const
 {
 	string diszi = Disziplin::convertToString(DISZIPLIN);
 	os << "Kraulstaffel (" << ANZAHL_POSITIONEN_IN_STAFFEL << " x " << diszi << ")" << endl; // TODO freistil oder kraul?
@@ -75,5 +75,4 @@ ostream& KraulstaffelComputer::outputResult(ostream& os) const
 		os << (i + 1) << ". Schwimmer   " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[DISZIPLIN]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
-	return os;
 }

@@ -30,8 +30,8 @@ class EinzelstartsComputer1: public OptComputer
 	SchwimmerAbstandMap abstaende[Disziplin::ANZAHL];
 
 // Debugging
-	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
-	ostream& outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet&);
+	void outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
+	void outputAbstaendeSortiert(ostream& os, const SortedPositionSchwimmerSet&);
 public:
 	static const int ANZAHL_POSITIONEN = 8;
 	static const int DISZIPLINEN[];
@@ -41,7 +41,7 @@ public:
 	void removeFromAvailable(Schwimmer*);
 
 	void compute();
-	ostream& outputResult(ostream&) const;
+	void outputResult(ostream&) const;
 };
 
 #endif /* EINZELSTARTSCOMPUTER1_H_ */

@@ -17,7 +17,7 @@
 
 using namespace std;
 
-template <typename Iterator> ostream& outputSchwimmerZeiten(ostream& os,
+template <typename Iterator> void outputSchwimmerZeiten(ostream& os,
 		const Iterator& begin, const Iterator& end, int disziplin)
 {
 	os << "-----------------------------------------" << endl;
@@ -31,7 +31,6 @@ template <typename Iterator> ostream& outputSchwimmerZeiten(ostream& os,
 		os << setw(14) << Zeit::convertToString(schw.zeiten[disziplin]) << endl;
 		os << resetiosflags(ios::right);
 	}
-	return os;
 }
 
 #endif /* DEBUGGING_H_ */

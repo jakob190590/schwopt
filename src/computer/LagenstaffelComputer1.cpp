@@ -201,7 +201,7 @@ void LagenstaffelComputer1::compute()
 }
 
 
-ostream& LagenstaffelComputer1::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
+void LagenstaffelComputer1::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
@@ -215,10 +215,9 @@ ostream& LagenstaffelComputer1::outputSchwimmerAbstand(ostream& os, const Schwim
 		os << setw(14) << Zeit::convertToString(it->second) << endl;
 		os << resetiosflags(ios::right);
 	}
-	return os;
 }
 
-ostream& LagenstaffelComputer1::outputEingesetzteSchwimmer(ostream& os, const PositionSchwimmerPairVector& vec)
+void LagenstaffelComputer1::outputEingesetzteSchwimmer(ostream& os, const PositionSchwimmerPairVector& vec)
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
@@ -237,5 +236,4 @@ ostream& LagenstaffelComputer1::outputEingesetzteSchwimmer(ostream& os, const Po
 		os << resetiosflags(ios::right);
 		os << Disziplin::convertToString(disziplin) << endl;
 	}
-	return os;
 }

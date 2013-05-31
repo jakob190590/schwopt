@@ -52,11 +52,11 @@ public:
 			vector<SchwimmerAbstandMap>& abstaendeInDisziplinen);
 
 	SchwoptAlgoComputer(const SchwimmerVector&);
-	ostream& outputResult(ostream& os) const;
+	void outputResult(ostream& os) const;
 
 	// Debugging
-	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin) const;
-	ostream& outputEingesetzteSchwimmer(ostream& os, const SortedPositionSchwimmerSet&) const;
+	void outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin) const;
+	void outputEingesetzteSchwimmer(ostream& os, const SortedPositionSchwimmerSet&) const;
 
 	void gscheideDebugAusgabe(ostream&,
 			const SchwoptAlgoComputer::DisziplinenAufPositionen&,

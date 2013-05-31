@@ -21,7 +21,7 @@ LagenstaffelComputerBase::LagenstaffelComputerBase(const SchwimmerVector& schwim
 }
 
 
-ostream& LagenstaffelComputerBase::outputResult(ostream& os) const
+void LagenstaffelComputerBase::outputResult(ostream& os) const
 {
 	os << "Lagenstaffel (4 x 50 m Lagen)" << endl;
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
@@ -30,5 +30,4 @@ ostream& LagenstaffelComputerBase::outputResult(ostream& os) const
 		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
-	return os;
 }

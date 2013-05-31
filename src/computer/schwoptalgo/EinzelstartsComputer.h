@@ -16,7 +16,7 @@ public:
 	EinzelstartsComputer(const SchwimmerVector&);
 
 	void compute();
-	ostream& outputResult(ostream&) const;
+	void outputResult(ostream&) const;
 };
 
 #endif /* EINZELSTARTSCOMPUTER_H_ */

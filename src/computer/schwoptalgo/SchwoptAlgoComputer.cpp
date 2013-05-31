@@ -108,7 +108,7 @@ SchwoptAlgoComputer::SchwoptAlgoComputer(const SchwimmerVector& schwimmer) :
 	gesamtzeit = 0;
 }
 
-ostream& SchwoptAlgoComputer::outputResult(ostream& os) const
+void SchwoptAlgoComputer::outputResult(ostream& os) const
 {
 	for (unsigned pos = 0; pos < disziplinenAufPositionen.size(); pos++)
 	{
@@ -118,11 +118,10 @@ ostream& SchwoptAlgoComputer::outputResult(ostream& os) const
 		os << getResult()[pos]->kuerzel << "  " << Zeit::convertToString(result[pos]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(gesamtzeit) << endl << endl;
-	return os;
 }
 
 
-ostream& SchwoptAlgoComputer::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin) const
+void SchwoptAlgoComputer::outputSchwimmerAbstand(ostream& os, const SchwimmerAbstandMap& map, int disziplin) const
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand, Disziplin: " << Disziplin::convertToString(disziplin) << endl;
@@ -136,10 +135,9 @@ ostream& SchwoptAlgoComputer::outputSchwimmerAbstand(ostream& os, const Schwimme
 		os << setw(14) << Zeit::convertToString(it->second) << endl;
 		os << resetiosflags(ios::right);
 	}
-	return os;
 }
 
-ostream& SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const SortedPositionSchwimmerSet& set) const
+void SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const SortedPositionSchwimmerSet& set) const
 {
 	os << "-----------------------------------------" << endl;
 	os << "Schwimmer/Zeiten/Abstand/Position/Disziplin, Sortiert nach Abstand" << endl;
@@ -158,7 +156,6 @@ ostream& SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const Sort
 		os << resetiosflags(ios::right);
 		os << Disziplin::convertToString(disziplin) << endl;
 	}
-	return os;
 }
 
 void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,

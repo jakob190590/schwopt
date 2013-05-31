@@ -32,7 +32,7 @@ public:
 	virtual void compute() = 0;
 	virtual unsigned getTime() const;
 	virtual SchwimmerVector getResult() const;
-	virtual ostream& outputResult(ostream&) const = 0;
+	virtual void outputResult(ostream&) const = 0;
 };
 
 #endif /* OPTCOMPUTER_H_ */

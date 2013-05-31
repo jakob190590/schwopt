@@ -34,8 +34,8 @@ class LagenstaffelComputer1: public LagenstaffelComputerBase
 	void ensureMixedBedingung(Schwimmer&, int neededGeschlecht[2], SchwimmerSet& availableSchwimmer);
 
 	// Debugging
-	ostream& outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
-	ostream& outputEingesetzteSchwimmer(ostream&, const PositionSchwimmerPairVector&);
+	void outputSchwimmerAbstand(ostream&, const SchwimmerAbstandMap&, int disziplin);
+	void outputEingesetzteSchwimmer(ostream&, const PositionSchwimmerPairVector&);
 
 public:
 	LagenstaffelComputer1(const SchwimmerVector&);

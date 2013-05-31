@@ -50,9 +50,8 @@ void GesamtComputer::compute()
 
 }
 
-ostream& GesamtComputer::outputResult(ostream& os) const
+void GesamtComputer::outputResult(ostream& os) const
 {
 	os << "Gesamt OMP" << endl;
 	SchwoptAlgoComputer::outputResult(os);
-	return os;
 }

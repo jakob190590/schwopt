@@ -105,9 +105,8 @@ void EinzelstartsComputer::compute()
 //		clog << it->first->kuerzel << " " << it->second << endl;
 }
 
-ostream& EinzelstartsComputer::outputResult(ostream& os) const
+void EinzelstartsComputer::outputResult(ostream& os) const
 {
 	os << "Einzelstarts (Lage)" << endl;
 	SchwoptAlgoComputer::outputResult(os);
-	return os;
 }
