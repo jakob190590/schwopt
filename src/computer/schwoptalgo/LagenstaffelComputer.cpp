@@ -100,7 +100,7 @@ void LagenstaffelComputer::compute()
 		Schwimmer* const schw = mostWanted->second;
 		const int disziplin   = disziplinenAufPositionen[position];
 
-		sort(eingesetzteSchwimmer.begin(), eingesetzteSchwimmer.end(), NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
+		eingesetzteSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
 		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eingesetzteSchwimmer, abstaendeInDisziplinen);
 
 		nichtvergebenePositionen--;
