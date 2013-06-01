@@ -229,13 +229,7 @@ void GesamtComputer::compute()
 		nAvailableSchwimmer[schw]--;
 		sexNeededPerBlock[block][schw->geschlecht]--;
 
-		if (!nAvailableSchwimmer[schw])
-		{
-			removeFromAvailable(schw, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
-			for (int bl = 0; bl < ANZAHL_BLOCKE; bl++)
-				removeFromAvailable(schw, availableSchwimmerPerBlock[bl], schwimmerSortiertPerBlock[bl], abstaendeInDisziplinenPerBlock[bl]);
-		}
-//		ensureMax3Bedingung(schw, nAvailableSchwimmer, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
+		ensureMax3Bedingung(schw, nAvailableSchwimmer, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 		ensureStaffelBedingung(schw, block, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 		ensureMixedBedingung(sexNeededPerBlock[block], vacantPositionenPerBlock[block], availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 
