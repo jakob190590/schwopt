@@ -28,7 +28,7 @@ public:
 	typedef vector<int> DisziplinenAufPositionen;
 
 	typedef pair<int, Schwimmer*> PositionSchwimmerPair;
-	typedef vector<PositionSchwimmerPair> PositionSchwimmerPairVector;
+	typedef list<PositionSchwimmerPair> PositionSchwimmerPairList;
 	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
 	typedef map<Schwimmer*, int> SchwimmerIntMap;
 
@@ -61,7 +61,7 @@ public:
 	void gscheideDebugAusgabe(ostream&,
 			const SchwoptAlgoComputer::DisziplinenAufPositionen&,
 			const vector<SchwimmerList>&,
-			const SchwoptAlgoComputer::PositionSchwimmerPairVector&,
+			const SchwoptAlgoComputer::PositionSchwimmerPairList&,
 			const vector<SchwoptAlgoComputer::SchwimmerAbstandMap>&,
 			unsigned anzahlNaechstbester = 2, bool showDisziplin = true) const;
 protected:

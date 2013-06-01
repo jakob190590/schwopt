@@ -12,7 +12,7 @@
 
 class LagenstaffelComputer: public SchwoptAlgoComputer
 {
-	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairVector&);
+	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairList&);
 	void ensureMixedBedingung(Schwimmer&, int neededGeschlecht[2], SchwimmerSet& availableSchwimmer);
 
 public:

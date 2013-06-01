@@ -161,7 +161,7 @@ void SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const SortedPo
 void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		const SchwoptAlgoComputer::DisziplinenAufPositionen& disziplinen,
 		const vector<SchwimmerList>& schwimmerSortiert,
-		const SchwoptAlgoComputer::PositionSchwimmerPairVector& vec,
+		const SchwoptAlgoComputer::PositionSchwimmerPairList& vec,
 		const vector<SchwoptAlgoComputer::SchwimmerAbstandMap>& abstaende,
 		unsigned anzahlNaechstbester, bool showDisziplin) const
 {
