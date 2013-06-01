@@ -18,6 +18,11 @@ protected:
 	int getBlock(int position);
 	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairList& list);
 	void removeFromAvailable(Schwimmer*,
+			SchwimmerSet& availableSchwimmer,
+			SchwimmerListVector& schwimmerSortiert,
+			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
+	void ensureMixedBedingung(Schwimmer* schw, int sexNeeded[2],
+			SchwimmerSet& availableSchwimmer,
 			SchwimmerListVector& schwimmerSortiert,
 			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
 public:

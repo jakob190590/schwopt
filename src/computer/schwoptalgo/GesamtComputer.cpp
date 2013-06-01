@@ -77,9 +77,11 @@ LagenstaffelComputer::PositionSchwimmerPair* GesamtComputer::findMostWanted(Posi
 }
 
 void GesamtComputer::removeFromAvailable(Schwimmer* schw,
+		SchwimmerSet& availableSchwimmer,
 		SchwimmerListVector& schwimmerSortiert,
 		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
 {
+	availableSchwimmer.erase(schw);
 	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++)
 	{
 		SchwimmerList& schwimmerzeitList = schwimmerSortiert[disziplin]; // list, sorted by zeiten in disziplin, with Schwimmer*
@@ -113,6 +115,27 @@ void GesamtComputer::removeFromAvailable(Schwimmer* schw,
 	}
 }
 
+void GesamtComputer::ensureMixedBedingung(Schwimmer* schw, int sexNeeded[2],
+		SchwimmerSet& availableSchwimmer,
+		SchwimmerListVector& schwimmerSortiert,
+		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
+{
+	// Zum sicherstellen der "Mixed"-Bedingung fuer einen Block
+	sexNeeded[schw->geschlecht]--;
+	if (sexNeeded[schw->geschlecht] == 0) // TODO das is ein schmarrn, das galt vllt fuer lagenstaffel, aber nicht hier!
+	{
+		// Alle Schwimmer des gegebenen Geschlechts rausloeschen
+		SchwimmerSet::iterator it;
+		for (it = availableSchwimmer.begin(); it != availableSchwimmer.end(); ++it)
+			if ((*it)->geschlecht == schw->geschlecht)
+			{
+				SchwimmerSet::iterator toBeErased = it;
+				--it; // it eins zurueckfahren; dann ist er sicher waehrend vorige position geloescht wird
+				removeFromAvailable(*toBeErased, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+			}
+	}
+}
+
 void GesamtComputer::compute()
 {
 	// Anzahl Positionen, die noch nicht vergeben sind
@@ -127,10 +150,15 @@ void GesamtComputer::compute()
 	bitset<ANZAHL_POSITIONEN> assignedPositionen;
 
 	// Noch verfuegbare Schwimmer
-	SchwimmerIntMap availableSchwimmer;
+	SchwimmerSet availableSchwimmer;
+	SchwimmerIntMap nAvailableSchwimmer;
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();
 			it != schwimmer.end(); ++it)
-		availableSchwimmer[*it] = 3; // Jeder Schwimmer maximal 3 x
+		nAvailableSchwimmer[*it] = 3; // Jeder Schwimmer maximal 3 x
+
+	vector<SchwimmerSet>              availableSchwimmerPerBlock    (ANZAHL_BLOCKE, SchwimmerSet(schwimmer.begin(), schwimmer.end()));
+	vector<SchwimmerListVector>       schwimmerSortiertPerBlock     (ANZAHL_BLOCKE, this->schwimmerSortiert);
+	vector<SchwimmerAbstandMapVector> abstaendeInDisziplinenPerBlock(ANZAHL_BLOCKE, this->abstaendeInDisziplinen);
 
 	// Fuer "Mixed"-Bedingungen, Wettkampfbestimmungen (7)
 	int sexNeededPerBlock[ANZAHL_BLOCKE][2] = {
@@ -150,7 +178,7 @@ void GesamtComputer::compute()
 			if (!assignedPositionen[pos])
 			{
 				const int disziplin = disziplinenAufPositionen[pos];
-				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
+				Schwimmer* const schw = *schwimmerSortiertPerBlock[getBlock(pos)][disziplin].begin();
 				eligibleSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
 			}
 
@@ -169,11 +197,17 @@ void GesamtComputer::compute()
 		vacantPositionen--;
 		vacantPositionenPerBlock[block]--;
 		assignedPositionen[position] = true;
-		assert(availableSchwimmer[schw] > 0); // sonst haette schw gar nicht eingesetzt werden duerfen
-		availableSchwimmer[schw]--;
+		assert(nAvailableSchwimmer[schw] > 0); // sonst haette schw gar nicht eingesetzt werden duerfen
+		nAvailableSchwimmer[schw]--;
 
-		if (!availableSchwimmer[schw])
-			removeFromAvailable(schw, schwimmerSortiert, abstaendeInDisziplinen);
+		if (!nAvailableSchwimmer[schw])
+		{
+			removeFromAvailable(schw, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+			for (int bl = 0; bl < ANZAHL_BLOCKE; bl++)
+				removeFromAvailable(schw, availableSchwimmerPerBlock[bl], schwimmerSortiertPerBlock[bl], abstaendeInDisziplinenPerBlock[bl]);
+		}
+
+		ensureMixedBedingung(schw, sexNeededPerBlock[block], availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 
 		// Ergebnis updaten
 		ergebnis[position] = schw;
