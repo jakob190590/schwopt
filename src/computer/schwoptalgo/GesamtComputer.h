@@ -14,7 +14,7 @@
 
 class GesamtComputer: public SchwoptAlgoComputer
 {
-	int convertPositionToBlock(int position);
+	int getBlock(int position);
 public:
 	static const int ANZAHL_POSITIONEN_KRAULSTAFFEL = 6;
 	static const int ANZAHL_POSITIONEN = LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL + EinzelstartsComputer::ANZAHL_POSITIONEN;

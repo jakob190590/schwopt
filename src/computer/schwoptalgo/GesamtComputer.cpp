@@ -45,7 +45,7 @@ GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
 	result.resize(ANZAHL_POSITIONEN);
 }
 
-int GesamtComputer::convertPositionToBlock(int position)
+int GesamtComputer::getBlock(int position)
 {
 	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN)
 		return BLOCK_LAGENSTAFFEL;
