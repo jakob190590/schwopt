@@ -122,19 +122,19 @@ void GesamtComputer::ensureMixedBedingung(int sexNeeded[2], int vacantPositionen
 		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
 {
 	// Zum sicherstellen der "Mixed"-Bedingung fuer einen Block
-	sexNeeded[schw->geschlecht]--;
-	if (sexNeeded[schw->geschlecht] == 0) // TODO das is ein schmarrn, das galt vllt fuer lagenstaffel, aber nicht hier!
-	{
-		// Alle Schwimmer des gegebenen Geschlechts rausloeschen
-		SchwimmerSet::iterator it;
-		for (it = availableSchwimmer.begin(); it != availableSchwimmer.end(); ++it)
-			if ((*it)->geschlecht == schw->geschlecht)
-			{
-				SchwimmerSet::iterator toBeErased = it;
-				--it; // it eins zurueckfahren; dann ist er sicher waehrend vorige position geloescht wird
-				removeFromAvailable(*toBeErased, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
-			}
-	}
+	Schwimmer::Geschlecht geschlechtToBeEliminated;
+	if (sexNeeded[Schwimmer::WEIBLICH] == vacantPositionen) // Frauen aus Performancegruenden zuerst
+		geschlechtToBeEliminated = Schwimmer::MAENNLICH;
+	else if (sexNeeded[Schwimmer::MAENNLICH] == vacantPositionen)
+		geschlechtToBeEliminated = Schwimmer::WEIBLICH;
+	else
+		return;
+
+	// Alle Schwimmer des Geschlechts rausloeschen
+	for (SchwimmerSet::iterator it = availableSchwimmer.begin();
+			it != availableSchwimmer.end(); ++it)
+		if ((*it)->geschlecht == geschlechtToBeEliminated)
+			removeFromAvailable(*(it--), availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
 }
 
 void GesamtComputer::compute()
