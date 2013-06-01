@@ -14,6 +14,16 @@
 
 class GesamtComputer: public SchwoptAlgoComputer
 {
+public:
+	static const int ANZAHL_POSITIONEN_KRAULSTAFFEL = 6;
+	static const int ANZAHL_POSITIONEN = LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL + EinzelstartsComputer::ANZAHL_POSITIONEN;
+
+	static const int ANZAHL_BLOCKE = 4; // Lagenstaffel, Kraulstaffel, Einzelstarts (50 m), Einzelstarts (100 m)
+	static const int BLOCK_LAGENSTAFFEL = 0;
+	static const int BLOCK_KRAULSTAFFEL = 1;
+	static const int BLOCK_EINZELSTARTS_50  = 2;
+	static const int BLOCK_EINZELSTARTS_100 = 3;
+
 protected:
 	int getBlock(int position);
 	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairList& list);
@@ -33,20 +43,13 @@ protected:
 			vector<SchwimmerSet>& availableSchwimmerPerBlock,
 			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
 			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
-	void ensureMixedBedingung(int sexNeeded[2], int vacantPositionen,
-			SchwimmerSet& availableSchwimmer,
-			SchwimmerListVector& schwimmerSortiert,
-			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
+	void ensureMixedBedingung(int block,
+			int sexNeeded[ANZAHL_BLOCKE][2],
+			int vacantPositionenPerBlock[ANZAHL_BLOCKE],
+			vector<SchwimmerSet>& availableSchwimmerPerBlock,
+			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
+			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
 public:
-	static const int ANZAHL_POSITIONEN_KRAULSTAFFEL = 6;
-	static const int ANZAHL_POSITIONEN = LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL + EinzelstartsComputer::ANZAHL_POSITIONEN;
-
-	static const int ANZAHL_BLOCKE = 4; // Lagenstaffel, Kraulstaffel, Einzelstarts (50 m), Einzelstarts (100 m)
-	static const int BLOCK_LAGENSTAFFEL = 0;
-	static const int BLOCK_KRAULSTAFFEL = 1;
-	static const int BLOCK_EINZELSTARTS_50  = 2;
-	static const int BLOCK_EINZELSTARTS_100 = 3;
-
 	GesamtComputer(const SchwimmerVector&);
 
 	void compute();

@@ -143,25 +143,29 @@ void GesamtComputer::ensureStaffelBedingung(Schwimmer* schw, int block,
 	// weil dieser schwimmer in dieser staffel (block) dann nicht mehr darf.
 }
 
-void GesamtComputer::ensureMixedBedingung(int sexNeeded[2], int vacantPositionen,
-		SchwimmerSet& availableSchwimmer,
-		SchwimmerListVector& schwimmerSortiert,
-		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
+void GesamtComputer::ensureMixedBedingung(int block,
+		int sexNeededPerBlock[ANZAHL_BLOCKE][2],
+		int vacantPositionenPerBlock[ANZAHL_BLOCKE],
+		vector<SchwimmerSet>& availableSchwimmerPerBlock,
+		vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
+		vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const
 {
 	// Zum sicherstellen der "Mixed"-Bedingung fuer einen Block
+	int const * const sex =    sexNeededPerBlock[block];
+	const int& vacant = vacantPositionenPerBlock[block];
 	Schwimmer::Geschlecht geschlechtToBeEliminated;
-	if (sexNeeded[Schwimmer::WEIBLICH] == vacantPositionen) // Frauen aus Performancegruenden zuerst
+	if (sex[Schwimmer::WEIBLICH] == vacant) // Frauen aus Performancegruenden zuerst
 		geschlechtToBeEliminated = Schwimmer::MAENNLICH;
-	else if (sexNeeded[Schwimmer::MAENNLICH] == vacantPositionen)
+	else if (sex[Schwimmer::MAENNLICH] == vacant)
 		geschlechtToBeEliminated = Schwimmer::WEIBLICH;
 	else
 		return;
 
 	// Alle Schwimmer des Geschlechts rausloeschen
-	for (SchwimmerSet::iterator it = availableSchwimmer.begin();
-			it != availableSchwimmer.end(); ++it)
+	for (SchwimmerSet::iterator it = availableSchwimmerPerBlock[block].begin();
+			it != availableSchwimmerPerBlock[block].end(); ++it)
 		if ((*it)->geschlecht == geschlechtToBeEliminated)
-			removeFromAvailable(*(it--), availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+			removeFromAvailable(*(it--), availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 }
 
 void GesamtComputer::compute()
@@ -222,6 +226,8 @@ void GesamtComputer::compute()
 		const int disziplin   = disziplinenAufPositionen[position];
 		const int block       = getBlock(position);
 
+		cout << position << endl;
+
 		vacantPositionen--;
 		vacantPositionenPerBlock[block]--;
 		assignedPositionen[position] = true;
@@ -231,7 +237,7 @@ void GesamtComputer::compute()
 
 		ensureMax3Bedingung(schw, nAvailableSchwimmer, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 		ensureStaffelBedingung(schw, block, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
-		ensureMixedBedingung(sexNeededPerBlock[block], vacantPositionenPerBlock[block], availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
+		ensureMixedBedingung(sexNeededPerBlock, vacantPositionenPerBlock, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 
 		// Ergebnis updaten
 		ergebnis[position] = schw;
