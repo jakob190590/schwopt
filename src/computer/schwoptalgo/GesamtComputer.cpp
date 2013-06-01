@@ -9,6 +9,7 @@
 #include <bitset>
 #include <cassert>
 #include <iomanip>
+#include <algorithm>
 
 #include "GesamtComputer.h"
 #include "../../Zeit.h"
@@ -56,6 +57,62 @@ int GesamtComputer::getBlock(int position)
 	return BLOCK_EINZELSTARTS_100;
 }
 
+LagenstaffelComputer::PositionSchwimmerPair* GesamtComputer::findMostWanted(PositionSchwimmerPairList& list)
+{
+	PositionSchwimmerPair* result = NULL;
+	// Abstand in Diziplin auf der angegebenen Position, fuer den Schwimmer, der fuer diese Position vorgesehen ist
+	unsigned greatestAbstand = 0;
+
+	for (PositionSchwimmerPairList::iterator it = list.begin();
+			it != list.end(); ++it)
+	{
+		unsigned abstand = abstaendeInDisziplinen[disziplinenAufPositionen[it->first]][it->second];
+		if (abstand > greatestAbstand)
+		{
+			greatestAbstand = abstand;
+			result = &*it;
+		}
+	}
+	return result;
+}
+
+void GesamtComputer::removeFromAvailable(Schwimmer* schw,
+		SchwimmerListVector& schwimmerSortiert,
+		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
+{
+	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++)
+	{
+		SchwimmerList& schwimmerzeitList = schwimmerSortiert[disziplin]; // list, sorted by zeiten in disziplin, with Schwimmer*
+		SchwimmerAbstandMap& abstandsMap = abstaendeInDisziplinen[disziplin]; // map, sorted by abstand der zeiten in disziplin, Schwimmer* => unsigned
+
+		abstandsMap.erase(schw);
+
+		// Abstaende in abstandsMap evtl. korrigieren!
+		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
+		assert(it != schwimmerzeitList.end()); // schw muss in der list sein
+
+		if (it == schwimmerzeitList.begin())
+		{
+			// nothing to do (except remove from list)
+			schwimmerzeitList.remove(schw);
+			continue;
+		}
+
+		// Standardfall: Abstand neu berechnen
+		schwimmerzeitList.erase(it--);
+
+		SchwimmerList::iterator next = it;
+		next++; // next soll auf Naechstschlechteren zeigen
+
+		unsigned itZeit   = (*it)->zeiten[disziplin];
+		unsigned nextZeit = Zeit::MAX_UNSIGNED_VALUE; // falls it der letzte Schwimmer ist...
+		if (next != schwimmerzeitList.end())
+			nextZeit = (*next)->zeiten[disziplin];
+
+		abstandsMap[*it] = nextZeit - itZeit;
+	}
+}
+
 void GesamtComputer::compute()
 {
 	// Anzahl Positionen, die noch nicht vergeben sind
@@ -84,7 +141,45 @@ void GesamtComputer::compute()
 			{ 1, 1 }  // Einzelstarts 100 m
 	};
 
+	// Hier geht's los
+	while (vacantPositionen)
+	{
+		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
+		PositionSchwimmerPairList eligibleSchwimmer;
+		for (int pos = 0; pos < ANZAHL_POSITIONEN; pos++)
+			if (!assignedPositionen[pos])
+			{
+				const int disziplin = disziplinenAufPositionen[pos];
+				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
+				eligibleSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
+			}
 
+		// Debug
+		eligibleSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
+		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
+
+		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
+
+		// Diesen Schwimmer festsetzen fuer seine Position
+		const int position    = mostWanted->first;
+		Schwimmer* const schw = mostWanted->second;
+		const int disziplin   = disziplinenAufPositionen[position];
+		const int block       = getBlock(position);
+
+		vacantPositionen--;
+		vacantPositionenPerBlock[block]--;
+		assignedPositionen[position] = true;
+		assert(availableSchwimmer[schw] > 0); // sonst haette schw gar nicht eingesetzt werden duerfen
+		availableSchwimmer[schw]--;
+
+		if (!availableSchwimmer[schw])
+			removeFromAvailable(schw, schwimmerSortiert, abstaendeInDisziplinen);
+//		ensureMixedBedingung(*schw, block, sexNeededPerBlock, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+
+		// Ergebnis updaten
+		ergebnis[position] = schw;
+		gesamtzeit += schw->zeiten[disziplin];
+	}
 }
 
 void GesamtComputer::outputResult(ostream& os) const

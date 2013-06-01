@@ -16,6 +16,10 @@ class GesamtComputer: public SchwoptAlgoComputer
 {
 protected:
 	int getBlock(int position);
+	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairList& list);
+	void removeFromAvailable(Schwimmer*,
+			SchwimmerListVector& schwimmerSortiert,
+			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
 public:
 	static const int ANZAHL_POSITIONEN_KRAULSTAFFEL = 6;
 	static const int ANZAHL_POSITIONEN = LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL + EinzelstartsComputer::ANZAHL_POSITIONEN;
