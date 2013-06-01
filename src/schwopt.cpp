@@ -66,10 +66,10 @@ int main(int argc, char* argv[])
 //	einzelstartsComputer.compute();
 //	einzelstartsComputer.outputResult(cout);
 
-//	cout << "// [SchwoptAlgo] GesamtComputer" << endl;
-//	GesamtComputer gesamtComputer(schwimmer);
-//	gesamtComputer.compute();
-//	gesamtComputer.outputResult(cout);
+	cout << "// [SchwoptAlgo] GesamtComputer" << endl;
+	GesamtComputer gesamtComputer(schwimmer);
+	gesamtComputer.compute();
+	gesamtComputer.outputResult(cout);
 
 
 	// Schwimmer im vector freigeben
