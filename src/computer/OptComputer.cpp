@@ -49,6 +49,6 @@ unsigned OptComputer::getTime() const
 
 SchwimmerVector OptComputer::getResult() const
 {
-	return result;
+	return ergebnis;
 }
 

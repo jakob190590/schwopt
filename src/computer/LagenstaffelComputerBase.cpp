@@ -27,7 +27,7 @@ void LagenstaffelComputerBase::outputResult(ostream& os) const
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{
 		int diszi = DISZIPLINEN_IN_STAFFEL[i];
-		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
+		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(ergebnis[i]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
 }

@@ -25,7 +25,7 @@ void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], i
     if(fehlt[schw->geschlecht] > 0)
        fehlt[schw->geschlecht]--; // bis 0 runterzaehlen
 
-    result[position] = schw;
+    ergebnis[position] = schw;
     gesamtzeit += schw->zeiten[DISZIPLIN];
     positionenLeft--;
     position++;
@@ -39,7 +39,7 @@ void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], i
  */
 void KraulstaffelComputer::compute()
 {
-	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
+	ergebnis.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 	gesamtzeit = 0;
 
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
@@ -72,7 +72,7 @@ void KraulstaffelComputer::outputResult(ostream& os) const
 	os << "Kraulstaffel (" << ANZAHL_POSITIONEN_IN_STAFFEL << " x " << diszi << ")" << endl; // TODO freistil oder kraul?
 	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
 	{
-		os << (i + 1) << ". Schwimmer   " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[DISZIPLIN]) << endl;
+		os << (i + 1) << ". Schwimmer   " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(ergebnis[i]->zeiten[DISZIPLIN]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
 }

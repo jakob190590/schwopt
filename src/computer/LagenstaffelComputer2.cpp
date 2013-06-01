@@ -41,7 +41,7 @@ void LagenstaffelComputer2::compute()
 {
 	typedef vector<int> IntVec;
 
-	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
+	ergebnis.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 
 	typedef SchwimmerVector::const_iterator It;
 	const It begin = schwimmer.begin();
@@ -115,10 +115,10 @@ void LagenstaffelComputer2::compute()
 					if (summe0123 < best)
 					{
 						best = summe0123;
-						result[0] = *it_s0;
-						result[1] = *it_s1;
-						result[2] = *it_s2;
-						result[3] = *it_s3;
+						ergebnis[0] = *it_s0;
+						ergebnis[1] = *it_s1;
+						ergebnis[2] = *it_s2;
+						ergebnis[3] = *it_s3;
 					}
 				}
 			}

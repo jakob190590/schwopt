@@ -152,8 +152,8 @@ void LagenstaffelComputer1::compute()
 	SchwimmerSet availableSchwimmer(schwimmer.begin(), schwimmer.end());
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
 	int neededGeschlecht[2] = { 2, 2 };
-	// Size of result setzen!
-	result.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
+	// Size of ergebnis setzen!
+	ergebnis.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
 	gesamtzeit = 0;
 
 	// hier geht's los!
@@ -173,7 +173,7 @@ void LagenstaffelComputer1::compute()
 					disziplin);
 				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
 				eingesetzteSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
-				result[pos] = schw;
+				ergebnis[pos] = schw;
 			}
 
 		// Nach Abstand absteigend sortierte Liste durchgehen und Schwimmer festsetzen, wenn noch nicht vergeben!

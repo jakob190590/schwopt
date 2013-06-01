@@ -26,7 +26,7 @@ protected:
 	SchwimmerListVector schwimmerSortiert;
 
 	// Ergebnisse, werden gefuellt von compute()
-	SchwimmerVector result;
+	SchwimmerVector ergebnis;
 	unsigned gesamtzeit;
 public:
 	OptComputer(const SchwimmerVector&);

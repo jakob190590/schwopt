@@ -132,8 +132,8 @@ void EinzelstartsComputer1::compute()
 //	quoten[100][0] = 1;
 //	quoten[100][1] = 1;
 
-	// Size of result setzen!
-	result.resize(ANZAHL_POSITIONEN);
+	// Size of ergebnis setzen!
+	ergebnis.resize(ANZAHL_POSITIONEN);
 	gesamtzeit = 0;
 
 	// hier geht's los!
@@ -153,7 +153,7 @@ void EinzelstartsComputer1::compute()
 						DISZIPLINEN[i]);
 				Schwimmer* schw = *schwimmerSortiert[DISZIPLINEN[i]].begin();
 				eingesetzteSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, schw));
-				result[i] = schw;
+				ergebnis[i] = schw;
 			}
 
 		outputAbstaendeSortiert(clog, eingesetzteSchwimmerSortiertNachAbstand);
@@ -193,7 +193,7 @@ void EinzelstartsComputer1::outputResult(ostream& os) const
 		int diszi = DISZIPLINEN[i];
 		os << setiosflags(ios::left) << setw(15) << Disziplin::convertToString(diszi, true, false);
 		os << setiosflags(ios::right) << setw(8) << Disziplin::convertToString(diszi, false, true, "m") << resetiosflags(ios::right) << " ";
-		os << getResult()[i]->kuerzel << "  " << Zeit::convertToString(result[i]->zeiten[diszi]) << endl;
+		os << getResult()[i]->kuerzel << "  " << Zeit::convertToString(ergebnis[i]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
 }

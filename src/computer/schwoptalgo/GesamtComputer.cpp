@@ -42,7 +42,7 @@ GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
 
 	// Ergebnis initialisieren
-	result.resize(ANZAHL_POSITIONEN);
+	ergebnis.resize(ANZAHL_POSITIONEN);
 }
 
 int GesamtComputer::getBlock(int position)

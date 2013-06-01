@@ -31,7 +31,7 @@ EinzelstartsComputer::EinzelstartsComputer(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
 
 	// Ergebnis initialisieren
-	result.resize(ANZAHL_POSITIONEN);
+	ergebnis.resize(ANZAHL_POSITIONEN);
 }
 
 
@@ -73,7 +73,7 @@ void EinzelstartsComputer::compute()
 						disziplinenAufPositionen[i]);
 				Schwimmer* schw = *schwimmerSortiert[disziplinenAufPositionen[i]].begin();
 				eingesetzteSchwimmerSortiertNachAbstand.insert(pair<int, Schwimmer*>(i, schw));
-				result[i] = schw;
+				ergebnis[i] = schw;
 			}
 
 		outputEingesetzteSchwimmer(clog, eingesetzteSchwimmerSortiertNachAbstand);

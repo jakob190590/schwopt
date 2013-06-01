@@ -64,7 +64,7 @@ LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
 
 	// Ergebnis initialisieren
-	result.resize(ANZAHL_POSITIONEN);
+	ergebnis.resize(ANZAHL_POSITIONEN);
 }
 
 void LagenstaffelComputer::compute()
@@ -90,7 +90,7 @@ void LagenstaffelComputer::compute()
 				const int disziplin = disziplinenAufPositionen[pos];
 				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
 				eingesetzteSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
-				result[pos] = schw;
+				ergebnis[pos] = schw;
 			}
 
 		PositionSchwimmerPair* mostWanted = findMostWanted(eingesetzteSchwimmer);
