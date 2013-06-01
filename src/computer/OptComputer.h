@@ -15,13 +15,15 @@
 // Alle OptComputer sind Einmal-Computer, d.h. es ist pro Objekt nur ein einziger Aufruf von compute moeglich.
 // Danach koennen sie weggeworfen werden!
 class OptComputer {
+public:
+	typedef vector<SchwimmerList> SchwimmerListVector;
 protected:
 	// Array mit Comperator (Less)-Funktionen, um Schwimmer nach verschiedenen Disziplinen zu sortieren
 	static bool (*schwimmerZeitLessComperators[])
 			(Schwimmer const * const, Schwimmer const * const);
 
 	SchwimmerVector schwimmer;
-	vector<SchwimmerList> schwimmerSortiert;
+	SchwimmerListVector schwimmerSortiert;
 
 	// Ergebnisse, werden gefuellt von compute()
 	SchwimmerVector result;

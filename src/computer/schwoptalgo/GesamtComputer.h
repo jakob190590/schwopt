@@ -14,6 +14,7 @@
 
 class GesamtComputer: public SchwoptAlgoComputer
 {
+protected:
 	int getBlock(int position);
 public:
 	static const int ANZAHL_POSITIONEN_KRAULSTAFFEL = 6;

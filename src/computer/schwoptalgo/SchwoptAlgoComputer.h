@@ -34,6 +34,7 @@ public:
 
 	// Fuer Abstaende je eines Schwimmern zum Naechstschlechteren in einer Disziplin
 	typedef map<Schwimmer*, unsigned> SchwimmerAbstandMap;
+	typedef vector<SchwimmerAbstandMap> SchwimmerAbstandMapVector;
 
 	class NormAbstandComparer
 	{
@@ -45,11 +46,11 @@ public:
 
 	SchwimmerList schwimmerzeitList;
 	DisziplinenAufPositionen disziplinenAufPositionen;
-	vector<SchwimmerAbstandMap> abstaendeInDisziplinen;
+	SchwimmerAbstandMapVector abstaendeInDisziplinen;
 
 	void removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer,
-			vector<SchwimmerList>& schwimmerSortiert,
-			vector<SchwimmerAbstandMap>& abstaendeInDisziplinen);
+			SchwimmerListVector& schwimmerSortiert,
+			SchwimmerAbstandMapVector& abstaendeInDisziplinen);
 
 	SchwoptAlgoComputer(const SchwimmerVector&);
 	void outputResult(ostream& os) const;
@@ -60,12 +61,12 @@ public:
 
 	void gscheideDebugAusgabe(ostream&,
 			const SchwoptAlgoComputer::DisziplinenAufPositionen&,
-			const vector<SchwimmerList>&,
+			const SchwimmerListVector&,
 			const SchwoptAlgoComputer::PositionSchwimmerPairList&,
 			const vector<SchwoptAlgoComputer::SchwimmerAbstandMap>&,
 			unsigned anzahlNaechstbester = 2, bool showDisziplin = true) const;
 protected:
-    virtual vector<SchwimmerAbstandMap> createAbstandsMap(const vector<SchwimmerList>) const;
+    virtual SchwimmerAbstandMapVector createAbstandsMap(const SchwimmerListVector) const;
 };
 
 #endif /* SCHWOPTALGOCOMPUTER_H_ */

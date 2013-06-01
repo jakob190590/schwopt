@@ -28,7 +28,7 @@ bool SchwoptAlgoComputer::NormAbstandComparer::operator ()(const PositionSchwimm
 }
 
 void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& availableSchwimmer,
-		vector<SchwimmerList>& schwimmerSortiert,
+		SchwimmerListVector& schwimmerSortiert,
 		vector<SchwoptAlgoComputer::SchwimmerAbstandMap>& abstaendeInDisziplinen)
 {
 	availableSchwimmer.erase(schw);
@@ -67,9 +67,9 @@ void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw, SchwimmerSet& ava
 	}
 }
 
-vector<SchwoptAlgoComputer::SchwimmerAbstandMap> SchwoptAlgoComputer::createAbstandsMap(const vector<SchwimmerList> schwimmerSortiert) const
+vector<SchwoptAlgoComputer::SchwimmerAbstandMap> SchwoptAlgoComputer::createAbstandsMap(const SchwimmerListVector schwimmerSortiert) const
 {
-	vector<SchwimmerAbstandMap> result(Disziplin::ANZAHL);
+	SchwimmerAbstandMapVector result(Disziplin::ANZAHL);
 
     // Abstand zum Naechstschlechteren berechnen
     for (int i = 0; i < Disziplin::ANZAHL; i++)
@@ -160,7 +160,7 @@ void SchwoptAlgoComputer::outputEingesetzteSchwimmer(ostream& os, const SortedPo
 
 void SchwoptAlgoComputer::gscheideDebugAusgabe(ostream& os,
 		const SchwoptAlgoComputer::DisziplinenAufPositionen& disziplinen,
-		const vector<SchwimmerList>& schwimmerSortiert,
+		const SchwimmerListVector& schwimmerSortiert,
 		const SchwoptAlgoComputer::PositionSchwimmerPairList& list,
 		const vector<SchwoptAlgoComputer::SchwimmerAbstandMap>& abstaende,
 		unsigned anzahlNaechstbester, bool showDisziplin) const
