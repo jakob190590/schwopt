@@ -174,7 +174,6 @@ void GesamtComputer::compute()
 
 		if (!availableSchwimmer[schw])
 			removeFromAvailable(schw, schwimmerSortiert, abstaendeInDisziplinen);
-//		ensureMixedBedingung(*schw, block, sexNeededPerBlock, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
 
 		// Ergebnis updaten
 		ergebnis[position] = schw;
