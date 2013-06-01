@@ -15,13 +15,14 @@ Der Name schwopt hat zu tun mit "Schwimmwettkampfoptimierung".
 Begriffe
 --------
 
-### Staffel/Einzelstarts
+### Block
 
 Begriff für die beiden einzelnen Staffeln (Lagenstaffel und Kraulstaffel) bzw. die Lagen-Einzelstarts.
+Also, 4 x 50 m Lagen sind ein Block; die Kraulstaffel (6 x 50 m Kraul) ist ein Block.  Die Einzelstarts werden in zwei Blöcke unterteilt: 4 x 50 m und 4 x 100 m.
 
 ### Position
 
-Die Position innerhalb einer Staffel bzw. bei den Einzelstarts.  Zum Beispiel ist "50 m Schmetterling" die dritte Position innerhalb der Lagenstaffel.
+Eine Position im Wettkampf.  Zum Beispiel ist "50 m Schmetterling" die dritte Position innerhalb der Lagenstaffel.
 
 ### Disziplin
 
