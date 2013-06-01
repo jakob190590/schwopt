@@ -58,6 +58,32 @@ int GesamtComputer::getBlock(int position)
 
 void GesamtComputer::compute()
 {
+	// Anzahl Positionen, die noch nicht vergeben sind
+	int vacantPositionen = ANZAHL_POSITIONEN;
+	int vacantPositionenPerBlock[ANZAHL_BLOCKE] = {
+			LagenstaffelComputer::ANZAHL_POSITIONEN,
+			ANZAHL_POSITIONEN_KRAULSTAFFEL,
+			EinzelstartsComputer::ANZAHL_POSITIONEN / 2,
+			EinzelstartsComputer::ANZAHL_POSITIONEN / 2 };
+
+	// Positionen, die schon fest vergeben sind
+	bitset<ANZAHL_POSITIONEN> assignedPositionen;
+
+	// Noch verfuegbare Schwimmer
+	SchwimmerIntMap availableSchwimmer;
+	for (SchwimmerVector::const_iterator it = schwimmer.begin();
+			it != schwimmer.end(); ++it)
+		availableSchwimmer[*it] = 3; // Jeder Schwimmer maximal 3 x
+
+	// Fuer "Mixed"-Bedingungen, Wettkampfbestimmungen (7)
+	int sexNeededPerBlock[ANZAHL_BLOCKE][2] = {
+		//    m  w   (see enum Schwimmer::Geschlecht)
+			{ 2, 2 }, // Lagenstaffel
+			{ 2, 2 }, // Kraulstaffel
+			{ 1, 1 }, // Einzelstarts  50 m
+			{ 1, 1 }  // Einzelstarts 100 m
+	};
+
 
 }
 
