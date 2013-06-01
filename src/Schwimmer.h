@@ -12,6 +12,7 @@
 #include <list>
 #include <set>
 #include <string>
+#include <algorithm>
 
 #include "Disziplin.h"
 
@@ -30,8 +31,16 @@ public:
 	{
 		const Schwimmer::Geschlecht& geschlecht;
 	public:
-		GeschlechtPredicate(const Schwimmer::Geschlecht&);
-		bool operator ()(const Schwimmer*);
+		GeschlechtPredicate(const Schwimmer::Geschlecht& g) : geschlecht(g) { };
+		bool operator ()(const Schwimmer* s) { return s->geschlecht == geschlecht; };
+	};
+	class KuerzelPredicate
+	{
+		const string kuerzel;
+	public:
+		KuerzelPredicate(const string& k) : kuerzel(k) { };
+		bool operator ()(const Schwimmer* s) { return s->kuerzel == kuerzel; };
+
 	};
 
 	// Daten zum Schwimmer
@@ -55,6 +64,16 @@ public:
 	friend istream& operator >>(istream&, Schwimmer&);
 
 };
+
+template<typename C> Schwimmer* lookupSchwimmer(const C& container, const string& kuerzel)
+{
+	typename C::const_iterator it = find_if(container.begin(), container.end(),
+			Schwimmer::KuerzelPredicate(kuerzel));
+	if (it != container.end())
+		return *it;
+	return NULL;
+}
+//Schwimmer* lookupSchwimmer<SchwimmerVector>(const SchwimmerVector&, const string&);
 
 ostream& operator <<(ostream&, Schwimmer const * const);
 istream& operator >>(istream&, Schwimmer * const);

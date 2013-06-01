@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
+#include <cassert>
 
 #include "Schwimmer.h"
 #include "computer/KraulstaffelComputer.h"
@@ -40,6 +41,10 @@ int main(int argc, char* argv[])
 		schwimmer.push_back(schw);
 	}
 	ifs.close();
+
+	// lookupSchwimmer Test
+	assert(lookupSchwimmer(schwimmer, "LH") == schwimmer[0]);
+	assert(lookupSchwimmer(schwimmer, "lh") == NULL);
 
 	// So, ab hier kann mit dem vector schwimmer gearbeitet werden
 	cout << endl << "Nachname       Vorname Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100";
