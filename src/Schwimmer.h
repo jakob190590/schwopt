@@ -30,8 +30,16 @@ public:
 	{
 		const Schwimmer::Geschlecht& geschlecht;
 	public:
-		GeschlechtPredicate(const Schwimmer::Geschlecht&);
-		bool operator ()(const Schwimmer*);
+		GeschlechtPredicate(const Schwimmer::Geschlecht& g) : geschlecht(g) { };
+		bool operator ()(const Schwimmer* s) { return s->geschlecht == geschlecht; };
+	};
+	class KuerzelPredicate
+	{
+		const string kuerzel;
+	public:
+		KuerzelPredicate(const string& k) : kuerzel(k) { };
+		bool operator ()(const Schwimmer* s) { return s->kuerzel == kuerzel; };
+
 	};
 
 	// Daten zum Schwimmer
