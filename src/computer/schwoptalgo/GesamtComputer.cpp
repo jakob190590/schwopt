@@ -116,6 +116,33 @@ void GesamtComputer::removeFromAvailable(Schwimmer* schw,
 	}
 }
 
+void GesamtComputer::ensureMax3Bedingung(Schwimmer* schw,
+		SchwimmerIntMap& nAvailableSchwimmer,
+		SchwimmerSet& availableSchwimmer,
+		SchwimmerListVector& schwimmerSortiert,
+		SchwimmerAbstandMapVector& abstaendeInDisziplinen,
+		vector<SchwimmerSet>& availableSchwimmerPerBlock,
+		vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
+		vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const
+{
+	if (!nAvailableSchwimmer[schw])
+	{
+		removeFromAvailable(schw, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+		for (int block = 0; block < ANZAHL_BLOCKE; block++)
+			removeFromAvailable(schw, availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
+	}
+}
+
+void GesamtComputer::ensureStaffelBedingung(Schwimmer* schw, int block,
+		SchwimmerSet& availableSchwimmer,
+		SchwimmerListVector& schwimmerSortiert,
+		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
+{
+	if (block == BLOCK_LAGENSTAFFEL || block == BLOCK_KRAULSTAFFEL)
+		removeFromAvailable(schw, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+	// weil dieser schwimmer in dieser staffel (block) dann nicht mehr darf.
+}
+
 void GesamtComputer::ensureMixedBedingung(int sexNeeded[2], int vacantPositionen,
 		SchwimmerSet& availableSchwimmer,
 		SchwimmerListVector& schwimmerSortiert,
@@ -208,7 +235,8 @@ void GesamtComputer::compute()
 			for (int bl = 0; bl < ANZAHL_BLOCKE; bl++)
 				removeFromAvailable(schw, availableSchwimmerPerBlock[bl], schwimmerSortiertPerBlock[bl], abstaendeInDisziplinenPerBlock[bl]);
 		}
-
+//		ensureMax3Bedingung(schw, nAvailableSchwimmer, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
+		ensureStaffelBedingung(schw, block, availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 		ensureMixedBedingung(sexNeededPerBlock[block], vacantPositionenPerBlock[block], availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 
 		// Ergebnis updaten

@@ -21,6 +21,18 @@ protected:
 			SchwimmerSet& availableSchwimmer,
 			SchwimmerListVector& schwimmerSortiert,
 			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
+	void ensureMax3Bedingung(Schwimmer* schw,
+			SchwimmerIntMap& nAvailableSchwimmer,
+			SchwimmerSet& availableSchwimmer,
+			SchwimmerListVector& schwimmerSortiert,
+			SchwimmerAbstandMapVector& abstaendeInDisziplinen,
+			vector<SchwimmerSet>& availableSchwimmerPerBlock,
+			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
+			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
+	void ensureStaffelBedingung(Schwimmer* schw, int block,
+			SchwimmerSet& availableSchwimmer,
+			SchwimmerListVector& schwimmerSortiert,
+			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
 	void ensureMixedBedingung(int sexNeeded[2], int vacantPositionen,
 			SchwimmerSet& availableSchwimmer,
 			SchwimmerListVector& schwimmerSortiert,
