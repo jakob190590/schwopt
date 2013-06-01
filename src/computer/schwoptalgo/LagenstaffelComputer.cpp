@@ -17,14 +17,14 @@
 
 using namespace std;
 
-LagenstaffelComputer::PositionSchwimmerPair* LagenstaffelComputer::findMostWanted(PositionSchwimmerPairList& vec)
+LagenstaffelComputer::PositionSchwimmerPair* LagenstaffelComputer::findMostWanted(PositionSchwimmerPairList& list)
 {
 	PositionSchwimmerPair* result = NULL;
 	// Abstand in Diziplin auf der angegebenen Position, fuer den Schwimmer, der fuer diese Position vorgesehen ist
 	unsigned greatestAbstand = 0;
 
-	for (PositionSchwimmerPairList::iterator it = vec.begin();
-			it != vec.end(); ++it)
+	for (PositionSchwimmerPairList::iterator it = list.begin();
+			it != list.end(); ++it)
 	{
 		unsigned abstand = abstaendeInDisziplinen[disziplinenAufPositionen[it->first]][it->second];
 		if (abstand > greatestAbstand)
