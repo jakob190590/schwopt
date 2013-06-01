@@ -91,12 +91,13 @@ void GesamtComputer::removeFromAvailable(Schwimmer* schw,
 
 		// Abstaende in abstandsMap evtl. korrigieren!
 		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
-		assert(it != schwimmerzeitList.end()); // schw muss in der list sein
+		if (it == schwimmerzeitList.end())
+			continue;
 
 		if (it == schwimmerzeitList.begin())
 		{
 			// nothing to do (except remove from list)
-			schwimmerzeitList.remove(schw);
+			schwimmerzeitList.erase(it);
 			continue;
 		}
 
