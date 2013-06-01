@@ -12,6 +12,7 @@
 #include <list>
 #include <set>
 #include <string>
+#include <algorithm>
 
 #include "Disziplin.h"
 
@@ -63,6 +64,16 @@ public:
 	friend istream& operator >>(istream&, Schwimmer&);
 
 };
+
+template<typename C> Schwimmer* lookupSchwimmer(const C& container, const string& kuerzel)
+{
+	typename C::const_iterator it = find_if(container.begin(), container.end(),
+			Schwimmer::KuerzelPredicate(kuerzel));
+	if (it != container.end())
+		return *it;
+	return NULL;
+}
+//Schwimmer* lookupSchwimmer<SchwimmerVector>(const SchwimmerVector&, const string&);
 
 ostream& operator <<(ostream&, Schwimmer const * const);
 istream& operator >>(istream&, Schwimmer * const);
