@@ -75,7 +75,11 @@ void SchwoptAlgoComputer::outputResult(ostream& os) const
 		int diszi = disziplinenAufPositionen[pos];
 		os << setiosflags(ios::left) << setw(15) << Disziplin::convertToString(diszi, true, false);
 		os << setiosflags(ios::right) << setw(8) << Disziplin::convertToString(diszi, false, true, "m") << resetiosflags(ios::right) << " ";
-		os << getResult()[pos]->kuerzel << "  " << Zeit::convertToString(ergebnis[pos]->zeiten[diszi]) << endl;
+		Schwimmer* schw = ergebnis[pos];
+		if (schw != NULL)
+			os << schw->kuerzel << "  " << Zeit::convertToString(schw->zeiten[diszi]) << endl;
+		else
+			os << "(kann nicht besetzt werden)" << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(gesamtzeit) << endl << endl;
 }

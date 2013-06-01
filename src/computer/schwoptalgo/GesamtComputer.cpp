@@ -44,6 +44,8 @@ GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
 
 	// Ergebnis initialisieren
 	ergebnis.resize(ANZAHL_POSITIONEN);
+	for (SchwimmerVector::size_type i = 0; i < ergebnis.size(); i++)
+		ergebnis[i] = NULL;
 }
 
 int GesamtComputer::getBlock(int position)
@@ -204,13 +206,18 @@ void GesamtComputer::compute()
 	// Hier geht's los
 	while (vacantPositionen)
 	{
+
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
 		PositionSchwimmerPairList eligibleSchwimmer;
 		for (int pos = 0; pos < ANZAHL_POSITIONEN; pos++)
 			if (!assignedPositionen[pos])
 			{
 				const int disziplin = disziplinenAufPositionen[pos];
-				Schwimmer* const schw = *schwimmerSortiertPerBlock[getBlock(pos)][disziplin].begin();
+				SchwimmerList::const_iterator first = schwimmerSortiertPerBlock[getBlock(pos)][disziplin].begin();
+				if (first == schwimmerSortiertPerBlock[getBlock(pos)][disziplin].end()) // Kein passender Schwimmer verfuegbar :O
+					continue; // D. h. wir haben fuer diese Position keinen Vorschlag
+
+				Schwimmer* const schw = *first;
 				eligibleSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
 			}
 
@@ -219,6 +226,8 @@ void GesamtComputer::compute()
 		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
 
 		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
+		if (mostWanted == NULL)
+			break; // dann is' es vorbei (sollte nur vorkommen, wenn uebrige positionen nicht mehr besetzt werden koennen)
 
 		// Diesen Schwimmer festsetzen fuer seine Position
 		const int position    = mostWanted->first;
@@ -237,7 +246,7 @@ void GesamtComputer::compute()
 
 		ensureMax3Bedingung(schw, nAvailableSchwimmer, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 		ensureStaffelBedingung(schw, block, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
-		ensureMixedBedingung(sexNeededPerBlock, vacantPositionenPerBlock, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
+		ensureMixedBedingung(block, sexNeededPerBlock, vacantPositionenPerBlock, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 
 		// Ergebnis updaten
 		ergebnis[position] = schw;
