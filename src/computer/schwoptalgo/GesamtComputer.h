@@ -21,7 +21,7 @@ protected:
 			SchwimmerSet& availableSchwimmer,
 			SchwimmerListVector& schwimmerSortiert,
 			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
-	void ensureMixedBedingung(Schwimmer* schw, int sexNeeded[2],
+	void ensureMixedBedingung(int sexNeeded[2], int vacantPositionen,
 			SchwimmerSet& availableSchwimmer,
 			SchwimmerListVector& schwimmerSortiert,
 			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;

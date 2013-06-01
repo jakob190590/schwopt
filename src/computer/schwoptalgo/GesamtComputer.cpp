@@ -115,7 +115,7 @@ void GesamtComputer::removeFromAvailable(Schwimmer* schw,
 	}
 }
 
-void GesamtComputer::ensureMixedBedingung(Schwimmer* schw, int sexNeeded[2],
+void GesamtComputer::ensureMixedBedingung(int sexNeeded[2], int vacantPositionen,
 		SchwimmerSet& availableSchwimmer,
 		SchwimmerListVector& schwimmerSortiert,
 		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
@@ -199,6 +199,7 @@ void GesamtComputer::compute()
 		assignedPositionen[position] = true;
 		assert(nAvailableSchwimmer[schw] > 0); // sonst haette schw gar nicht eingesetzt werden duerfen
 		nAvailableSchwimmer[schw]--;
+		sexNeededPerBlock[block][schw->geschlecht]--;
 
 		if (!nAvailableSchwimmer[schw])
 		{
@@ -207,7 +208,7 @@ void GesamtComputer::compute()
 				removeFromAvailable(schw, availableSchwimmerPerBlock[bl], schwimmerSortiertPerBlock[bl], abstaendeInDisziplinenPerBlock[bl]);
 		}
 
-		ensureMixedBedingung(schw, sexNeededPerBlock[block], availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
+		ensureMixedBedingung(sexNeededPerBlock[block], vacantPositionenPerBlock[block], availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 
 		// Ergebnis updaten
 		ergebnis[position] = schw;
