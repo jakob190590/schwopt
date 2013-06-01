@@ -27,47 +27,6 @@ bool SchwoptAlgoComputer::NormAbstandComparer::operator ()(const PositionSchwimm
 	return computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p1.first]][p1.second] > computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p2.first]][p2.second];
 }
 
-void SchwoptAlgoComputer::removeFromAvailable(Schwimmer* schw,
-		SchwimmerSet& availableSchwimmer,
-		SchwimmerListVector& schwimmerSortiert,
-		SchwimmerAbstandMapVector& abstaendeInDisziplinen)
-{
-	availableSchwimmer.erase(schw);
-
-	// Eigentlich reicht's fuer Disziplinen der Staffel (Vorsicht: Eine Disziplin kann in Staffel ja mehrfach vorkommen)
-	for (int disziplin = 0; disziplin < Disziplin::ANZAHL; disziplin++)
-	{
-		SchwimmerList& schwimmerzeitList = schwimmerSortiert[disziplin]; // list, sorted by zeiten in disziplin, with Schwimmer*
-		SchwimmerAbstandMap& abstandsMap = abstaendeInDisziplinen[disziplin]; // map, sorted by abstand der zeiten in disziplin, Schwimmer* => unsigned
-
-		abstandsMap.erase(schw);
-
-		// Abstaende in abstandsMap evtl. korrigieren!
-		SchwimmerList::iterator it = find(schwimmerzeitList.begin(), schwimmerzeitList.end(), schw);
-		assert(it != schwimmerzeitList.end()); // schw muss in der list sein
-
-		if (it == schwimmerzeitList.begin())
-		{
-			// nothing to do (except remove from list)
-			schwimmerzeitList.remove(schw);
-			continue;
-		}
-
-		// Standardfall: Abstand neu berechnen
-		schwimmerzeitList.erase(it--);
-
-		SchwimmerList::iterator next = it;
-		next++; // next soll auf Naechstschlechteren zeigen
-
-		unsigned itZeit   = (*it)->zeiten[disziplin];
-		unsigned nextZeit = Zeit::MAX_UNSIGNED_VALUE; // falls it der letzte Schwimmer ist...
-		if (next != schwimmerzeitList.end())
-			nextZeit = (*next)->zeiten[disziplin];
-
-		abstandsMap[*it] = nextZeit - itZeit;
-	}
-}
-
 vector<SchwoptAlgoComputer::SchwimmerAbstandMap> SchwoptAlgoComputer::createAbstandsMap(const SchwimmerListVector schwimmerSortiert) const
 {
 	SchwimmerAbstandMapVector result(Disziplin::ANZAHL);
