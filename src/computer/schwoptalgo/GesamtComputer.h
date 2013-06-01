@@ -30,9 +30,9 @@ protected:
 			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
 			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
 	void ensureStaffelBedingung(Schwimmer* schw, int block,
-			SchwimmerSet& availableSchwimmer,
-			SchwimmerListVector& schwimmerSortiert,
-			SchwimmerAbstandMapVector& abstaendeInDisziplinen) const;
+			vector<SchwimmerSet>& availableSchwimmerPerBlock,
+			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
+			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
 	void ensureMixedBedingung(int sexNeeded[2], int vacantPositionen,
 			SchwimmerSet& availableSchwimmer,
 			SchwimmerListVector& schwimmerSortiert,

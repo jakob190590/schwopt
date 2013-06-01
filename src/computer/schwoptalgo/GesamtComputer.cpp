@@ -134,12 +134,12 @@ void GesamtComputer::ensureMax3Bedingung(Schwimmer* schw,
 }
 
 void GesamtComputer::ensureStaffelBedingung(Schwimmer* schw, int block,
-		SchwimmerSet& availableSchwimmer,
-		SchwimmerListVector& schwimmerSortiert,
-		SchwimmerAbstandMapVector& abstaendeInDisziplinen) const
+		vector<SchwimmerSet>& availableSchwimmerPerBlock,
+		vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
+		vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const
 {
 	if (block == BLOCK_LAGENSTAFFEL || block == BLOCK_KRAULSTAFFEL)
-		removeFromAvailable(schw, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen);
+		removeFromAvailable(schw, availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 	// weil dieser schwimmer in dieser staffel (block) dann nicht mehr darf.
 }
 
@@ -236,7 +236,7 @@ void GesamtComputer::compute()
 				removeFromAvailable(schw, availableSchwimmerPerBlock[bl], schwimmerSortiertPerBlock[bl], abstaendeInDisziplinenPerBlock[bl]);
 		}
 //		ensureMax3Bedingung(schw, nAvailableSchwimmer, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
-		ensureStaffelBedingung(schw, block, availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
+		ensureStaffelBedingung(schw, block, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 		ensureMixedBedingung(sexNeededPerBlock[block], vacantPositionenPerBlock[block], availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 
 		// Ergebnis updaten
