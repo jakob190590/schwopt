@@ -34,12 +34,15 @@ int main(int argc, char* argv[])
 		return EXIT_FAILURE;
 	}
 
+	// Datei oeffnen
 	ifstream ifs(argv[1]);
 	if (!ifs.is_open())
 	{
 		cerr << "schwopt: cannot open data file" << endl;
 		return EXIT_FAILURE;
 	}
+
+	// Schwimmer aus Datei in list einlesen
 	SchwimmerList schwimmer;
 	while (!ifs.eof())
 	{
@@ -53,7 +56,7 @@ int main(int argc, char* argv[])
 	assert(lookupSchwimmer(schwimmer, "LH") == *schwimmer.begin());
 	assert(lookupSchwimmer(schwimmer, "lh") == NULL);
 
-	// So, ab hier kann mit dem vector schwimmer gearbeitet werden
+	// So, ab hier kann mit der list schwimmer gearbeitet werden
 	cout << endl << "Nachname       Vorname   Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100";
 	cout << endl << "--------------------------------------------------------------------------------------------" << endl;
 	for_each(schwimmer.begin(), schwimmer.end(), coutSchwimmer);
@@ -83,8 +86,9 @@ int main(int argc, char* argv[])
 	gesamtComputer.compute();
 	gesamtComputer.outputResult(cout);
 
-	cout << "// [Eigene Belegung] GesamtComputer" << endl
+	cout << "// [Eigene Belegung] GesamtComputer"    << endl
 	     << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
+	     << "durch Leerzeichen getrennt!"            << endl
 	     << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
 	     << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
 	SchwimmerList eingesetzteSchwimmer;
