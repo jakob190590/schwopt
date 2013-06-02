@@ -39,7 +39,7 @@ Gesamt::Gesamt(const SchwimmerList& schwimmer) :  // + workaround (fu c++ http:/
 	positionDisziplinTable[17] = Disziplin::FREI_100;
 }
 
-int Gesamt::getBlock(int position)
+Gesamt::Block Gesamt::getBlock(int position)
 {
 	if (position < Lagenstaffel::ANZAHL_POSITIONEN)
 		return LAGENSTAFFEL;

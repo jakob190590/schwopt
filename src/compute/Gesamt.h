@@ -23,11 +23,11 @@ public:
 		EINZELSTARTS_100,  // Einzelstarts (100 m)
 		ANZAHL_BLOCKE };
 
+	Block getBlock(int position);
+
 	Gesamt(const SchwimmerList& schwimmer);
 
 	void outputResult(ostream&) const;
-
-	int getBlock(int position);
 };
 
 #endif /* GESAMT_H_ */
