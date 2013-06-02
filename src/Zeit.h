@@ -1,9 +1,3 @@
-/*
- * Zeit.h
- *
- *  Created on: 16.04.2013
- *      Author: jakob190590
- */
 
 #ifndef ZEIT_H_
 #define ZEIT_H_

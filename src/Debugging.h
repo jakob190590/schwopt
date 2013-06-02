@@ -1,9 +1,3 @@
-/*
- * Debugging.h
- *
- *  Created on: 29.04.2013
- *      Author: jakob190590
- */
 
 #ifndef DEBUGGING_H_
 #define DEBUGGING_H_

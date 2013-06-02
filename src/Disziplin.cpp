@@ -1,9 +1,3 @@
-/*
- * Disziplin.cpp
- *
- *  Created on: 21.04.2013
- *      Author: jakob190590
- */
 
 #include <string>
 #include <sstream>

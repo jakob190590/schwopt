@@ -1,9 +1,3 @@
-/*
- * Zeit.cpp
- *
- *  Created on: 16.04.2013
- *      Author: jakob190590
- */
 
 #include <sstream>
 #include <iostream>

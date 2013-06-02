@@ -1,9 +1,3 @@
-/*
- * Schwimmer.cpp
- *
- *  Created on: 14.04.2013
- *      Author: jakob190590
- */
 
 #include <iostream>
 #include <iomanip>

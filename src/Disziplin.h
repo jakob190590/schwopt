@@ -1,9 +1,3 @@
-/*
- * Disziplin.h
- *
- *  Created on: 21.04.2013
- *      Author: jakob190590
- */
 
 #ifndef DISZIPLIN_H_
 #define DISZIPLIN_H_

@@ -1,9 +1,3 @@
-/*
- * Schwimmer.h
- *
- *  Created on: 14.04.2013
- *      Author: jakob190590
- */
 
 #ifndef SCHWIMMER_H_
 #define SCHWIMMER_H_
