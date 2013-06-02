@@ -20,13 +20,13 @@ protected:
 		bool operator ()(const PositionSchwimmerPair& p1, const PositionSchwimmerPair& p2)
 		{
 			// Abstand in Diziplin, die auf der angegebenen Position gilt, und fuer den Schwimmer, der fuer diese Position vorgesehen ist
-			return computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p1.first]][p1.second] > computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p2.first]][p2.second];
+			return computer.abstaendeInDisziplinen[computer.positionDisziplinTable[p1.first]][p1.second] > computer.abstaendeInDisziplinen[computer.positionDisziplinTable[p2.first]][p2.second];
 		}
 	};
 	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
 
 	SchwimmerList schwimmerzeitList;
-	PositionDisziplinTable disziplinenAufPositionen;
+	PositionDisziplinTable positionDisziplinTable;
 	SchwimmerAbstandMapVector abstaendeInDisziplinen;
 
 	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairList& list);

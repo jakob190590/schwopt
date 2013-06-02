@@ -11,7 +11,7 @@
 class Gesamt: public SchwoptComputer
 {
 protected:
-	PositionDisziplinTable disziplinenAufPositionen;
+	PositionDisziplinTable positionDisziplinTable;
 	void outputZwischenergebnis(ostream& os, const unsigned& zeit, const string& divider) const;
 public:
 	static const int ANZAHL_POSITIONEN = Lagenstaffel::ANZAHL_POSITIONEN + Kraulstaffel::ANZAHL_POSITIONEN + Einzelstarts::ANZAHL_POSITIONEN;

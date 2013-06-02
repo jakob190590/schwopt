@@ -16,6 +16,6 @@ void ManuellerGesamtComputer::compute()
 		Schwimmer* schw = *it;
 		ergebnis[pos] = schw;
 		if (schw)
-			gesamtzeit += schw->zeiten[disziplinenAufPositionen[pos]];
+			gesamtzeit += schw->zeiten[positionDisziplinTable[pos]];
 	}
 }

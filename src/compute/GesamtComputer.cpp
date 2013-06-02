@@ -17,28 +17,28 @@ using namespace std;
 GesamtComputer::GesamtComputer(const SchwimmerList& schwimmer) :
 		Gesamt(schwimmer)
 {
-	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
+	positionDisziplinTable.reserve(ANZAHL_POSITIONEN);
 	// Lagenstaffel (4 x 50 m Lagen)
-	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
-	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
-	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
+	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
+	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
 	// Kraulstaffel (8 x 50 m Kraul)
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
 	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
-	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
-	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50);
-	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::BRUST_100);
-	disziplinenAufPositionen.push_back(+Disziplin::RUECK_100);
-	disziplinenAufPositionen.push_back(+Disziplin::SCHM_100);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
+	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
+	positionDisziplinTable.push_back(+Disziplin::RUECK_50);
+	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::BRUST_100);
+	positionDisziplinTable.push_back(+Disziplin::RUECK_100);
+	positionDisziplinTable.push_back(+Disziplin::SCHM_100);
+	positionDisziplinTable.push_back(+Disziplin::FREI_100);
 
 	abstaendeInDisziplinen = createAbstandsMap(schwimmerSortiert);
 }
@@ -52,7 +52,7 @@ PositionSchwimmerPair* GesamtComputer::findMostWanted(PositionSchwimmerPairList&
 	for (PositionSchwimmerPairList::iterator it = list.begin();
 			it != list.end(); ++it)
 	{
-		unsigned abstand = abstaendeInDisziplinen[disziplinenAufPositionen[it->first]][it->second];
+		unsigned abstand = abstaendeInDisziplinen[positionDisziplinTable[it->first]][it->second];
 		if (abstand > greatestAbstand)
 		{
 			greatestAbstand = abstand;
@@ -196,7 +196,7 @@ void GesamtComputer::compute()
 		for (int pos = 0; pos < ANZAHL_POSITIONEN; pos++)
 			if (!assignedPositionen[pos])
 			{
-				const int disziplin = disziplinenAufPositionen[pos];
+				const int disziplin = positionDisziplinTable[pos];
 				SchwimmerList::const_iterator first = schwimmerSortiertPerBlock[getBlock(pos)][disziplin].begin();
 				if (first == schwimmerSortiertPerBlock[getBlock(pos)][disziplin].end()) // Kein passender Schwimmer verfuegbar :O
 					continue; // D. h. wir haben fuer diese Position keinen Vorschlag
@@ -208,7 +208,7 @@ void GesamtComputer::compute()
 
 #ifdef DEBUG
 		eligibleSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
-		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
+		gscheideDebugAusgabe(clog, positionDisziplinTable, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
 #endif
 
 		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
@@ -218,7 +218,7 @@ void GesamtComputer::compute()
 		// Diesen Schwimmer festsetzen fuer seine Position
 		const int position    = mostWanted->first;
 		Schwimmer* const schw = mostWanted->second;
-		const int disziplin   = disziplinenAufPositionen[position];
+		const int disziplin   = positionDisziplinTable[position];
 		const int block       = getBlock(position);
 
 		vacantPositionen--;

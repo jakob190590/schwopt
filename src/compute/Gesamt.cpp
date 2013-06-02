@@ -16,28 +16,28 @@ using namespace std;
 Gesamt::Gesamt(const SchwimmerList& schwimmer) :
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
 {
-	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
+	positionDisziplinTable.reserve(ANZAHL_POSITIONEN);
 	// Lagenstaffel (4 x 50 m Lagen)
-	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
-	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
-	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
+	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
+	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
 	// Kraulstaffel (8 x 50 m Kraul)
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
 	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
-	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
-	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50);
-	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
-	disziplinenAufPositionen.push_back(+Disziplin::BRUST_100);
-	disziplinenAufPositionen.push_back(+Disziplin::RUECK_100);
-	disziplinenAufPositionen.push_back(+Disziplin::SCHM_100);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
+	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
+	positionDisziplinTable.push_back(+Disziplin::RUECK_50);
+	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::BRUST_100);
+	positionDisziplinTable.push_back(+Disziplin::RUECK_100);
+	positionDisziplinTable.push_back(+Disziplin::SCHM_100);
+	positionDisziplinTable.push_back(+Disziplin::FREI_100);
 }
 
 int Gesamt::getBlock(int position)
@@ -68,7 +68,7 @@ void Gesamt::outputResult(ostream& os) const
 	for (int pos = 0; pos < ANZAHL_POSITIONEN; pos++)
 	{
 		Schwimmer* schw = ergebnis[pos];
-		int diszi = disziplinenAufPositionen[pos];
+		int diszi = positionDisziplinTable[pos];
 
 		os << setiosflags(ios::right) << setw(6) << Disziplin::convertToString(diszi, false, true, " m ") << resetiosflags(ios::right) << " ";
 		os << setiosflags(ios::left) << setw(17) << Disziplin::convertToString(diszi, true, false);

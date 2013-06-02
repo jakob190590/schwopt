@@ -20,7 +20,7 @@ PositionSchwimmerPair* LagenstaffelComputer::findMostWanted(PositionSchwimmerPai
 	for (PositionSchwimmerPairList::iterator it = list.begin();
 			it != list.end(); ++it)
 	{
-		unsigned abstand = abstaendeInDisziplinen[disziplinenAufPositionen[it->first]][it->second];
+		unsigned abstand = abstaendeInDisziplinen[positionDisziplinTable[it->first]][it->second];
 		if (abstand > greatestAbstand)
 		{
 			greatestAbstand = abstand;
@@ -91,12 +91,12 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 LagenstaffelComputer::LagenstaffelComputer(const SchwimmerList& schwimmer) :
 		Lagenstaffel(schwimmer)
 {
-	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
+	positionDisziplinTable.reserve(ANZAHL_POSITIONEN);
 	// Lagenstaffel (4 x 50 m Lagen)
-	disziplinenAufPositionen.push_back(+Disziplin::RUECK_50);
-	disziplinenAufPositionen.push_back(+Disziplin::BRUST_50);
-	disziplinenAufPositionen.push_back(+Disziplin::SCHM_50);
-	disziplinenAufPositionen.push_back(+Disziplin::FREI_50);
+	positionDisziplinTable.push_back(+Disziplin::RUECK_50);
+	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
+	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
+	positionDisziplinTable.push_back(+Disziplin::FREI_50);
 
 	abstaendeInDisziplinen = createAbstandsMap(schwimmerSortiert);
 }
@@ -105,9 +105,9 @@ void LagenstaffelComputer::compute()
 {
 	// Variablen fuer die Berechnung:
 	// Anzahl Positionen, die noch nicht vergeben sind
-	int nichtvergebenePositionen = disziplinenAufPositionen.size();
+	int nichtvergebenePositionen = positionDisziplinTable.size();
 	// Positionen, die schon fest vergeben sind
-	vector<bool> vergebenePositionen(disziplinenAufPositionen.size(), false);
+	vector<bool> vergebenePositionen(positionDisziplinTable.size(), false);
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer(schwimmer.begin(), schwimmer.end());
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
@@ -118,10 +118,10 @@ void LagenstaffelComputer::compute()
 	{
 		// Ueberall wo noch nicht vergeben ist, Besten einsetzen
 		PositionSchwimmerPairList eingesetzteSchwimmer; // eigentlich nur "testweise eingesetzte Schwimmer"!
-		for (unsigned pos = 0; pos < disziplinenAufPositionen.size(); pos++)
+		for (unsigned pos = 0; pos < positionDisziplinTable.size(); pos++)
 			if (!vergebenePositionen[pos])
 			{
-				const int disziplin = disziplinenAufPositionen[pos];
+				const int disziplin = positionDisziplinTable[pos];
 				Schwimmer* const schw = *schwimmerSortiert[disziplin].begin();
 				eingesetzteSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
 				ergebnis[pos] = schw;
@@ -132,11 +132,11 @@ void LagenstaffelComputer::compute()
 		// Diesen Schwimmer festsetzen fuer seine Position
 		const int position    = mostWanted->first;
 		Schwimmer* const schw = mostWanted->second;
-		const int disziplin   = disziplinenAufPositionen[position];
+		const int disziplin   = positionDisziplinTable[position];
 
 #ifdef DEBUG
 		eingesetzteSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
-		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eingesetzteSchwimmer, abstaendeInDisziplinen);
+		gscheideDebugAusgabe(clog, positionDisziplinTable, schwimmerSortiert, eingesetzteSchwimmer, abstaendeInDisziplinen);
 #endif
 
 		nichtvergebenePositionen--;

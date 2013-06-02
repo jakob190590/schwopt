@@ -8,7 +8,7 @@
 class Einzelstarts: public SchwoptComputer
 {
 protected:
-	PositionDisziplinTable disziplinenAufPositionen;
+	PositionDisziplinTable positionDisziplinTable;
 public:
 	static const int ANZAHL_POSITIONEN = 8;
 
