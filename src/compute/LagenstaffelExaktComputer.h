@@ -6,10 +6,10 @@
 
 #include "Lagenstaffel.h"
 
-class LagenstaffelComputer2: public Lagenstaffel
+class LagenstaffelExaktComputer: public Lagenstaffel
 {
 public:
-	LagenstaffelComputer2(const SchwimmerList&);
+	LagenstaffelExaktComputer(const SchwimmerList&);
 
 	void compute();
 };

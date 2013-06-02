@@ -3,13 +3,13 @@
 #include <cassert>
 #include <iomanip>
 
-#include "LagenstaffelComputer2.h"
+#include "LagenstaffelExaktComputer.h"
 #include "../Zeit.h"
 
 using namespace std;
 
 // Optimale Lösung (durchprobieren!)
-LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerList& schwimmer) :
+LagenstaffelExaktComputer::LagenstaffelExaktComputer(const SchwimmerList& schwimmer) :
 		Lagenstaffel(schwimmer)
 {
 }
@@ -31,7 +31,7 @@ LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerList& schwimmer) :
  * In Ordnung, weil n nicht beliebig steigt.
  *
  */
-void LagenstaffelComputer2::compute()
+void LagenstaffelExaktComputer::compute()
 {
 	typedef vector<int> IntVec;
 

@@ -8,7 +8,7 @@
 #include "Schwimmer.h"
 
 #include "compute/KraulstaffelComputer.h"
-#include "compute/LagenstaffelComputer2.h"
+#include "compute/LagenstaffelExaktComputer.h"
 #include "compute/LagenstaffelComputer.h"
 //#include "compute/EinzelstartsComputer.h"
 #include "compute/GesamtComputer.h"
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 	kraulstaffelComputer.outputResult(cout);
 
 	cout << "// [Exakt] LagenstaffelComputer2 (Exakte Loesung, Durchprobieren)" << endl;
-	LagenstaffelComputer2 lagenstaffelComputer2(schwimmer);
+	LagenstaffelExaktComputer lagenstaffelComputer2(schwimmer);
 	lagenstaffelComputer2.compute();
 	lagenstaffelComputer2.outputResult(cout);
 
