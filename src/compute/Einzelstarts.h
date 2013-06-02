@@ -12,7 +12,7 @@ protected:
 public:
 	static const int ANZAHL_POSITIONEN = 8;
 
-	Einzelstarts(const SchwimmerVector&);
+	Einzelstarts(const SchwimmerList&);
 
 	void outputResult(ostream&) const;
 };

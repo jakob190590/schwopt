@@ -9,7 +9,7 @@
 class LagenstaffelComputer2: public Lagenstaffel
 {
 public:
-	LagenstaffelComputer2(const SchwimmerVector&);
+	LagenstaffelComputer2(const SchwimmerList&);
 
 	void compute();
 };

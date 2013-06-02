@@ -68,7 +68,7 @@ protected:
 			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
 			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
 public:
-	GesamtComputer(const SchwimmerVector&);
+	GesamtComputer(const SchwimmerList&);
 
 	void compute();
 };

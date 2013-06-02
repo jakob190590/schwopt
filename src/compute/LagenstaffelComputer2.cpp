@@ -9,7 +9,7 @@
 using namespace std;
 
 // Optimale Lösung (durchprobieren!)
-LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerVector& schwimmer) :
+LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerList& schwimmer) :
 		Lagenstaffel(schwimmer)
 {
 }
@@ -35,7 +35,7 @@ void LagenstaffelComputer2::compute()
 {
 	typedef vector<int> IntVec;
 
-	typedef SchwimmerVector::const_iterator It;
+	typedef SchwimmerList::const_iterator It;
 	const It begin = schwimmer.begin();
 	const It end   = schwimmer.end();
 

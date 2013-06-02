@@ -13,7 +13,7 @@
 
 using namespace std;
 
-Gesamt::Gesamt(const SchwimmerVector& schwimmer) :
+Gesamt::Gesamt(const SchwimmerList& schwimmer) :
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
 {
 	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);

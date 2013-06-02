@@ -8,7 +8,7 @@ class ManuellerGesamtComputer: public Gesamt
 {
 	const SchwimmerList& eingesetzteSchwimmer;
 public:
-	ManuellerGesamtComputer(const SchwimmerVector&, const SchwimmerList&);
+	ManuellerGesamtComputer(const SchwimmerList&, const SchwimmerList&);
 	void compute();
 };
 

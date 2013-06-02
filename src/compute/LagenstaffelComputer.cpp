@@ -121,7 +121,7 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 		}
 }
 
-LagenstaffelComputer::LagenstaffelComputer(const SchwimmerVector& schwimmer) :
+LagenstaffelComputer::LagenstaffelComputer(const SchwimmerList& schwimmer) :
 		Lagenstaffel(schwimmer)
 {
 	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);

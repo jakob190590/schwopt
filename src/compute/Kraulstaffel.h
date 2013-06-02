@@ -10,7 +10,7 @@ public:
 	static const int ANZAHL_POSITIONEN = 6;
 	static const int DISZIPLIN = Disziplin::FREI_50;
 
-	Kraulstaffel(const SchwimmerVector&);
+	Kraulstaffel(const SchwimmerList&);
 
 	void outputResult(ostream&) const;
 };

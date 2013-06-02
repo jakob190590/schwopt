@@ -51,7 +51,7 @@ protected:
 public:
 	static const int ANZAHL_POSITIONEN = 4;
 
-	LagenstaffelComputer(const SchwimmerVector&);
+	LagenstaffelComputer(const SchwimmerList&);
 
 	void compute();
 };

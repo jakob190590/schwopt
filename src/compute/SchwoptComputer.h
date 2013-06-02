@@ -17,14 +17,14 @@ protected:
 	static bool (*schwimmerZeitLessComperators[])
 			(Schwimmer const * const, Schwimmer const * const);
 
-	SchwimmerVector schwimmer;
+	SchwimmerList schwimmer;
 	SchwimmerListVector schwimmerSortiert;
 
 	// Ergebnisse, werden gefuellt von compute()
 	SchwimmerVector ergebnis;
 	unsigned gesamtzeit;
 public:
-	SchwoptComputer(const SchwimmerVector&, const int& numberPositionen);
+	SchwoptComputer(const SchwimmerList&, const int& numberPositionen);
 
 	virtual void compute() = 0;
 	virtual unsigned        getTime()   const { return gesamtzeit; };

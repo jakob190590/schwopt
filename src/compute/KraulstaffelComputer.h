@@ -9,7 +9,7 @@ class KraulstaffelComputer: public Kraulstaffel
     void schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], int& position, int& positionenLeft);
 
 public:
-	KraulstaffelComputer(const SchwimmerVector&);
+	KraulstaffelComputer(const SchwimmerList&);
 
 	void compute();
 };

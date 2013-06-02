@@ -16,12 +16,12 @@ bool (*SchwoptComputer::schwimmerZeitLessComperators[])
 		zeitLess<6>,
 		zeitLess<7> };
 
-SchwoptComputer::SchwoptComputer(const SchwimmerVector& schwimmer, const int& numberPositionen) :
-		anzahlPositionen(numberPositionen), schwimmer(schwimmer), schwimmerSortiert(Disziplin::ANZAHL), // TODO wenn schwimmer list is, kann man schwimmerSortiert gleich richtig initialisieren
+SchwoptComputer::SchwoptComputer(const SchwimmerList& schwimmer, const int& numberPositionen) :
+		anzahlPositionen(numberPositionen), schwimmer(schwimmer), schwimmerSortiert(Disziplin::ANZAHL, schwimmer),
 		ergebnis(numberPositionen, (Schwimmer*) NULL), gesamtzeit(0) // SCHEISS DRECKS CPP/GCC!! zeigt mir iwelche unsagbaren fehler an, nur weil NULL nicht gecastet war
 {
 	// Zeiten von 00:00,0 ersetzen durch maximalen Wert!
-	for (SchwimmerVector::const_iterator it = schwimmer.begin();
+	for (SchwimmerList::const_iterator it = schwimmer.begin();
 			it != schwimmer.end(); ++it)
 		for (int i = 0; i < Disziplin::ANZAHL; i++)
 			if ((*it)->zeiten[i] == 0)
@@ -29,11 +29,6 @@ SchwoptComputer::SchwoptComputer(const SchwimmerVector& schwimmer, const int& nu
 
 	// Schwimmer fuer jede Disziplin sortieren
 	for (int i = 0; i < Disziplin::ANZAHL; i++)
-	{
-		SchwimmerList& schwList = schwimmerSortiert[i];
-		// Schwimmer in leere Liste schwimmerSortiert[i] uebertragen
-		schwList.insert(schwList.begin(), schwimmer.begin(), schwimmer.end());
 		// Aufsteigend sortieren nach Zeit, d. h. Erster = Bester
-		schwList.sort(schwimmerZeitLessComperators[i]);
-	}
+		schwimmerSortiert[i].sort(schwimmerZeitLessComperators[i]);
 }

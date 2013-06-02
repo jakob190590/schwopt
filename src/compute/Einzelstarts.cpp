@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Einzelstarts::Einzelstarts(const SchwimmerVector& schwimmer) :
+Einzelstarts::Einzelstarts(const SchwimmerList& schwimmer) :
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
 {
 	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);

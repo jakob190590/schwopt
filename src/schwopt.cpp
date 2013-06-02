@@ -16,6 +16,16 @@
 
 using namespace std;
 
+void coutSchwimmer(Schwimmer* s)
+{
+	cout << s;
+}
+
+void deleteSchwimmer(Schwimmer* s)
+{
+	delete s;
+}
+
 int main(int argc, char* argv[])
 {
 	if (argc == 1) // keine argumente
@@ -30,7 +40,7 @@ int main(int argc, char* argv[])
 		cerr << "schwopt: cannot open data file" << endl;
 		return EXIT_FAILURE;
 	}
-	SchwimmerVector schwimmer;
+	SchwimmerList schwimmer;
 	while (!ifs.eof())
 	{
 		Schwimmer* schw = new Schwimmer();
@@ -40,13 +50,13 @@ int main(int argc, char* argv[])
 	ifs.close();
 
 	// lookupSchwimmer Test
-	assert(lookupSchwimmer(schwimmer, "LH") == schwimmer[0]);
+	assert(lookupSchwimmer(schwimmer, "LH") == *schwimmer.begin());
 	assert(lookupSchwimmer(schwimmer, "lh") == NULL);
 
 	// So, ab hier kann mit dem vector schwimmer gearbeitet werden
-	cout << endl << "Nachname       Vorname Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100";
+	cout << endl << "Nachname       Vorname   Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100";
 	cout << endl << "--------------------------------------------------------------------------------------------" << endl;
-	cout << schwimmer << endl;
+	for_each(schwimmer.begin(), schwimmer.end(), coutSchwimmer);
 
 	cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
 	KraulstaffelComputer kraulstaffelComputer(schwimmer);
@@ -85,10 +95,9 @@ int main(int argc, char* argv[])
 	manuellerGesamtComputer.compute();
 	manuellerGesamtComputer.outputResult(cout);
 
-	// Schwimmer im vector freigeben
-	for (SchwimmerVector::const_iterator it = schwimmer.begin();
-			it != schwimmer.end(); ++it)
-		delete *it;
+
+	// Schwimmer in list freigeben
+	for_each(schwimmer.begin(), schwimmer.end(), deleteSchwimmer);
 
 	return EXIT_SUCCESS;
 }

@@ -9,7 +9,7 @@
 using namespace std;
 
 // Optimale Lösung
-KraulstaffelComputer::KraulstaffelComputer(const SchwimmerVector& schwimmer) :
+KraulstaffelComputer::KraulstaffelComputer(const SchwimmerList& schwimmer) :
 		Kraulstaffel(schwimmer)
 {
 }

@@ -1,7 +1,7 @@
 
 #include "ManuellerGesamtComputer.h"
 
-ManuellerGesamtComputer::ManuellerGesamtComputer(const SchwimmerVector& schwimmer, const SchwimmerList& eingesetzteSchwimmer) :
+ManuellerGesamtComputer::ManuellerGesamtComputer(const SchwimmerList& schwimmer, const SchwimmerList& eingesetzteSchwimmer) :
 		Gesamt(schwimmer), eingesetzteSchwimmer(eingesetzteSchwimmer)
 {
 }

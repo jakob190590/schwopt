@@ -24,7 +24,7 @@ public:
 		EINZELSTARTS_100,  // Einzelstarts (100 m)
 		ANZAHL_BLOCKE };
 
-	Gesamt(const SchwimmerVector& schwimmer);
+	Gesamt(const SchwimmerList& schwimmer);
 
 	void outputResult(ostream&) const;
 

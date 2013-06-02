@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Kraulstaffel::Kraulstaffel(const SchwimmerVector& schwimmer) :
+Kraulstaffel::Kraulstaffel(const SchwimmerList& schwimmer) :
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
 {
 }

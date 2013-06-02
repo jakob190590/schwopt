@@ -10,7 +10,7 @@ public:
 	static const int ANZAHL_POSITIONEN = 4;
 	static const int DISZIPLINEN_IN_STAFFEL[];
 
-	Lagenstaffel(const SchwimmerVector&);
+	Lagenstaffel(const SchwimmerList&);
 
 	void outputResult(ostream&) const;
 };

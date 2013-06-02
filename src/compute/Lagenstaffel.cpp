@@ -8,7 +8,7 @@ using namespace std;
 
 const int Lagenstaffel::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
 
-Lagenstaffel::Lagenstaffel(const SchwimmerVector& schwimmer) :
+Lagenstaffel::Lagenstaffel(const SchwimmerList& schwimmer) :
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
 {
 }

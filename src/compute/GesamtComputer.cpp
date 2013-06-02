@@ -13,7 +13,7 @@
 
 using namespace std;
 
-GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
+GesamtComputer::GesamtComputer(const SchwimmerList& schwimmer) :
 		Gesamt(schwimmer)
 {
 	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
@@ -202,7 +202,7 @@ void GesamtComputer::compute()
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer;
 	SchwimmerIntMap nAvailableSchwimmer;
-	for (SchwimmerVector::const_iterator it = schwimmer.begin();
+	for (SchwimmerList::const_iterator it = schwimmer.begin();
 			it != schwimmer.end(); ++it)
 		nAvailableSchwimmer[*it] = 3; // Jeder Schwimmer maximal 3 x
 
