@@ -5,13 +5,15 @@
 #include <iomanip>
 #include <algorithm>
 
-#include "GesamtComputerBase.h"
+#include "Gesamt.h"
+#include "Lagenstaffel.h"
+#include "Kraulstaffel.h"
+#include "Einzelstarts.h"
 #include "../Zeit.h"
 
 using namespace std;
 
-// fu C++/GCC!! hier geht's nicht: undef'ed reference to `vtable for ...
-GesamtComputerBase::GesamtComputerBase(const SchwimmerVector& schwimmer) :
+Gesamt::Gesamt(const SchwimmerVector& schwimmer) :
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
 {
 	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
@@ -38,18 +40,18 @@ GesamtComputerBase::GesamtComputerBase(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
 }
 
-int GesamtComputerBase::getBlock(int position)
+int Gesamt::getBlock(int position)
 {
-//	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN)
-//		return BLOCK_LAGENSTAFFEL;
-//	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL)
-//		return BLOCK_KRAULSTAFFEL;
-//	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL + EinzelstartsComputer::ANZAHL_POSITIONEN / 2)
-//		return BLOCK_EINZELSTARTS_50;
-	return BLOCK_EINZELSTARTS_100;
+	if (position < Lagenstaffel::ANZAHL_POSITIONEN)
+		return LAGENSTAFFEL;
+	if (position < Lagenstaffel::ANZAHL_POSITIONEN + Kraulstaffel::ANZAHL_POSITIONEN)
+		return KRAULSTAFFEL;
+	if (position < Lagenstaffel::ANZAHL_POSITIONEN + Kraulstaffel::ANZAHL_POSITIONEN + Einzelstarts::ANZAHL_POSITIONEN / 2)
+		return EINZELSTARTS_50;
+	return EINZELSTARTS_100;
 }
 
-void GesamtComputerBase::outputResult(ostream& os) const
+void Gesamt::outputResult(ostream& os) const
 {
 	const string hr = "------------------------------------------------";
 	os << "Gesamtaufstellung fuer OMP-Wettkampf" << endl;

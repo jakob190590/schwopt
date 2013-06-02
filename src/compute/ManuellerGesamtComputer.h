@@ -2,9 +2,9 @@
 #ifndef MANUELLERGESAMTCOMPUTER_H_
 #define MANUELLERGESAMTCOMPUTER_H_
 
-#include "GesamtComputerBase.h"
+#include "Gesamt.h"
 
-class ManuellerGesamtComputer: public GesamtComputerBase
+class ManuellerGesamtComputer: public Gesamt
 {
 	const SchwimmerList& eingesetzteSchwimmer;
 public:

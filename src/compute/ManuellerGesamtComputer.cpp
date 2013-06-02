@@ -2,7 +2,7 @@
 #include "ManuellerGesamtComputer.h"
 
 ManuellerGesamtComputer::ManuellerGesamtComputer(const SchwimmerVector& schwimmer, const SchwimmerList& eingesetzteSchwimmer) :
-		GesamtComputerBase(schwimmer), eingesetzteSchwimmer(eingesetzteSchwimmer)
+		Gesamt(schwimmer), eingesetzteSchwimmer(eingesetzteSchwimmer)
 {
 }
 

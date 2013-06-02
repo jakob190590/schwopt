@@ -17,7 +17,7 @@ bool (*SchwoptComputer::schwimmerZeitLessComperators[])
 		zeitLess<7> };
 
 SchwoptComputer::SchwoptComputer(const SchwimmerVector& schwimmer, const int& numberPositionen) :
-		anzahlPositionen(numberPositionen), schwimmer(schwimmer), schwimmerSortiert(Disziplin::ANZAHL),
+		anzahlPositionen(numberPositionen), schwimmer(schwimmer), schwimmerSortiert(Disziplin::ANZAHL), // TODO wenn schwimmer list is, kann man schwimmerSortiert gleich richtig initialisieren
 		ergebnis(numberPositionen, (Schwimmer*) NULL), gesamtzeit(0) // SCHEISS DRECKS CPP/GCC!! zeigt mir iwelche unsagbaren fehler an, nur weil NULL nicht gecastet war
 {
 	// Zeiten von 00:00,0 ersetzen durch maximalen Wert!
