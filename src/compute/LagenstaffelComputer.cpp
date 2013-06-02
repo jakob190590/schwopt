@@ -134,8 +134,10 @@ void LagenstaffelComputer::compute()
 		Schwimmer* const schw = mostWanted->second;
 		const int disziplin   = disziplinenAufPositionen[position];
 
+#ifdef DEBUG
 		eingesetzteSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
-//		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eingesetzteSchwimmer, abstaendeInDisziplinen);
+		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eingesetzteSchwimmer, abstaendeInDisziplinen);
+#endif
 
 		nichtvergebenePositionen--;
 		vergebenePositionen[position] = true;

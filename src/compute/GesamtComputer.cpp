@@ -205,9 +205,11 @@ void GesamtComputer::compute()
 				eligibleSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
 			}
 
-		// Debug
+
+#ifdef DEBUG
 		eligibleSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
 		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
+#endif
 
 		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
 		if (mostWanted == NULL)
@@ -218,8 +220,6 @@ void GesamtComputer::compute()
 		Schwimmer* const schw = mostWanted->second;
 		const int disziplin   = disziplinenAufPositionen[position];
 		const int block       = getBlock(position);
-
-		cout << position << endl;
 
 		vacantPositionen--;
 		vacantPositionenPerBlock[block]--;

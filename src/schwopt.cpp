@@ -86,18 +86,18 @@ int main(int argc, char* argv[])
 	gesamtComputer.compute();
 	gesamtComputer.outputResult(cout);
 
-	cout << "// [Eigene Belegung] GesamtComputer"    << endl
-	     << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
-	     << "durch Leerzeichen getrennt!"            << endl
-	     << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
-	     << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
-	SchwimmerList eingesetzteSchwimmer;
-	string input;
-	while (cin >> input)
-		eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-	ManuellerGesamtComputer manuellerGesamtComputer(schwimmer, eingesetzteSchwimmer);
-	manuellerGesamtComputer.compute();
-	manuellerGesamtComputer.outputResult(cout);
+//	cout << "// [Eigene Belegung] GesamtComputer"    << endl
+//	     << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
+//	     << "durch Leerzeichen getrennt!"            << endl
+//	     << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
+//	     << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
+//	SchwimmerList eingesetzteSchwimmer;
+//	string input;
+//	while (cin >> input)
+//		eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
+//	ManuellerGesamtComputer manuellerGesamtComputer(schwimmer, eingesetzteSchwimmer);
+//	manuellerGesamtComputer.compute();
+//	manuellerGesamtComputer.outputResult(cout);
 
 
 	// Schwimmer in list freigeben
