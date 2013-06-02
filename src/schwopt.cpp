@@ -18,6 +18,7 @@
 #include "computer/schwoptalgo/LagenstaffelComputer.h"
 #include "computer/schwoptalgo/EinzelstartsComputer.h"
 #include "computer/schwoptalgo/GesamtComputer.h"
+#include "compute/ManuellerGesamtComputer.h"
 
 using namespace std;
 
@@ -76,6 +77,14 @@ int main(int argc, char* argv[])
 	gesamtComputer.compute();
 	gesamtComputer.outputResult(cout);
 
+	cout << endl << "Manuelle Eingabe von Schwimmerkuerzeln:" << endl;
+	SchwimmerList eingesetzteSchwimmer;
+	string input;
+	while (cin >> input)
+		eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
+	ManuellerGesamtComputer manuellerGesamtComputer(schwimmer, eingesetzteSchwimmer);
+	manuellerGesamtComputer.compute();
+	manuellerGesamtComputer.outputResult(cout);
 
 	// Schwimmer im vector freigeben
 	for (SchwimmerVector::const_iterator it = schwimmer.begin();
