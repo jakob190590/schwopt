@@ -1,6 +1,6 @@
 
-#ifndef MANUELLERGESAMTCOMPUTER_H_
-#define MANUELLERGESAMTCOMPUTER_H_
+#ifndef GESAMTNOTCOMPUTER_H_
+#define GESAMTNOTCOMPUTER_H_
 
 #include "Gesamt.h"
 
@@ -12,4 +12,4 @@ public:
 	void compute();
 };
 
-#endif /* MANUELLERGESAMTCOMPUTER_H_ */
+#endif /* GESAMTNOTCOMPUTER_H_ */

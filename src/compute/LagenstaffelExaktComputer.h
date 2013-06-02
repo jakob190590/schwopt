@@ -1,6 +1,6 @@
 
-#ifndef LAGENSTAFFELCOMUTER2_H_
-#define LAGENSTAFFELCOMUTER2_H_
+#ifndef LAGENSTAFFELEXAKTCOMUTER_H_
+#define LAGENSTAFFELEXAKTCOMUTER_H_
 
 #include <map>
 
@@ -14,4 +14,4 @@ public:
 	void compute();
 };
 
-#endif /* LAGENSTAFFELCOMUTER_H_ */
+#endif /* LAGENSTAFFELEXAKTCOMUTER_H_ */
