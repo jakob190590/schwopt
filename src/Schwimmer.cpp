@@ -85,14 +85,3 @@ istream& operator >>(istream& is, Schwimmer * const schw)
 {
 	return operator >>(is, *schw);
 }
-
-ostream& operator <<(ostream& os, const SchwimmerVector& schwVec)
-{
-	for (SchwimmerVector::const_iterator it = schwVec.begin();
-			it != schwVec.end(); ++it)
-		os << *it;
-
-	return os;
-}
-
-

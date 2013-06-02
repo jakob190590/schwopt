@@ -1,9 +1,3 @@
-/*
- * GesamtComputer.cpp
- *
- *  Created on: 21.04.2013
- *      Author: jakob190590
- */
 
 #include <set>
 #include <bitset>
@@ -12,12 +6,15 @@
 #include <algorithm>
 
 #include "GesamtComputer.h"
-#include "../../Zeit.h"
+#include "Lagenstaffel.h"
+#include "Kraulstaffel.h"
+#include "Einzelstarts.h"
+#include "../Zeit.h"
 
 using namespace std;
 
-GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
-		SchwoptAlgoComputer(schwimmer)
+GesamtComputer::GesamtComputer(const SchwimmerList& schwimmer) :
+		Gesamt(schwimmer)
 {
 	disziplinenAufPositionen.reserve(ANZAHL_POSITIONEN);
 	// Lagenstaffel (4 x 50 m Lagen)
@@ -42,24 +39,43 @@ GesamtComputer::GesamtComputer(const SchwimmerVector& schwimmer) :
 	disziplinenAufPositionen.push_back(+Disziplin::SCHM_100);
 	disziplinenAufPositionen.push_back(+Disziplin::FREI_100);
 
-	// Ergebnis initialisieren
-	ergebnis.resize(ANZAHL_POSITIONEN);
-	for (SchwimmerVector::size_type i = 0; i < ergebnis.size(); i++)
-		ergebnis[i] = NULL;
+	abstaendeInDisziplinen = createAbstandsMap(schwimmerSortiert);
 }
 
-int GesamtComputer::getBlock(int position)
+vector<GesamtComputer::SchwimmerAbstandMap> GesamtComputer::createAbstandsMap(const SchwimmerListVector schwimmerSortiert) const
 {
-	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN)
-		return BLOCK_LAGENSTAFFEL;
-	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL)
-		return BLOCK_KRAULSTAFFEL;
-	if (position < LagenstaffelComputer::ANZAHL_POSITIONEN + ANZAHL_POSITIONEN_KRAULSTAFFEL + EinzelstartsComputer::ANZAHL_POSITIONEN / 2)
-		return BLOCK_EINZELSTARTS_50;
-	return BLOCK_EINZELSTARTS_100;
+	SchwimmerAbstandMapVector result(Disziplin::ANZAHL);
+
+    // Abstand zum Naechstschlechteren berechnen
+    for (int i = 0; i < Disziplin::ANZAHL; i++)
+	{
+		const SchwimmerList& schwSorted = schwimmerSortiert[i];
+
+		// Abstaende zw. Schwimmern fuer aktuelle Disziplin berechnen
+		SchwimmerList::const_iterator it, next;
+		it = next = schwSorted.begin();
+		next++; // Naechstschlechterer Schwimmer
+		for (; it != schwSorted.end(); ++it)
+		{
+			unsigned itZeit = (*it)->zeiten[i];
+			unsigned nextZeit;
+			if (next == schwSorted.end())
+				nextZeit = Zeit::MAX_UNSIGNED_VALUE;
+			else
+			{
+				nextZeit = (*next)->zeiten[i];
+				++next; // next iterator schon mal erhoehen
+			}
+
+			assert(nextZeit >= itZeit); // Fehlerhafte Sortierung oder schwerer Fehler im Algo
+			result[i][*it] = nextZeit - itZeit; // Naechstschlechterer - Aktueller
+		}
+	}
+
+    return result;
 }
 
-LagenstaffelComputer::PositionSchwimmerPair* GesamtComputer::findMostWanted(PositionSchwimmerPairList& list)
+GesamtComputer::PositionSchwimmerPair* GesamtComputer::findMostWanted(PositionSchwimmerPairList& list)
 {
 	PositionSchwimmerPair* result = NULL;
 	// Abstand in Diziplin auf der angegebenen Position, fuer den Schwimmer, der fuer diese Position vorgesehen ist
@@ -140,7 +156,7 @@ void GesamtComputer::ensureStaffelBedingung(Schwimmer* schw, int block,
 		vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
 		vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const
 {
-	if (block == BLOCK_LAGENSTAFFEL || block == BLOCK_KRAULSTAFFEL)
+	if (block == LAGENSTAFFEL || block == KRAULSTAFFEL)
 		removeFromAvailable(schw, availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 	// weil dieser schwimmer in dieser staffel (block) dann nicht mehr darf.
 }
@@ -175,10 +191,10 @@ void GesamtComputer::compute()
 	// Anzahl Positionen, die noch nicht vergeben sind
 	int vacantPositionen = ANZAHL_POSITIONEN;
 	int vacantPositionenPerBlock[ANZAHL_BLOCKE] = {
-			LagenstaffelComputer::ANZAHL_POSITIONEN,
-			ANZAHL_POSITIONEN_KRAULSTAFFEL,
-			EinzelstartsComputer::ANZAHL_POSITIONEN / 2,
-			EinzelstartsComputer::ANZAHL_POSITIONEN / 2 };
+			Lagenstaffel::ANZAHL_POSITIONEN,
+			Kraulstaffel::ANZAHL_POSITIONEN,
+			Einzelstarts::ANZAHL_POSITIONEN / 2,
+			Einzelstarts::ANZAHL_POSITIONEN / 2 }; // TODO
 
 	// Positionen, die schon fest vergeben sind
 	bitset<ANZAHL_POSITIONEN> assignedPositionen;
@@ -186,7 +202,7 @@ void GesamtComputer::compute()
 	// Noch verfuegbare Schwimmer
 	SchwimmerSet availableSchwimmer;
 	SchwimmerIntMap nAvailableSchwimmer;
-	for (SchwimmerVector::const_iterator it = schwimmer.begin();
+	for (SchwimmerList::const_iterator it = schwimmer.begin();
 			it != schwimmer.end(); ++it)
 		nAvailableSchwimmer[*it] = 3; // Jeder Schwimmer maximal 3 x
 
@@ -223,7 +239,7 @@ void GesamtComputer::compute()
 
 		// Debug
 		eligibleSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
-		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
+//		gscheideDebugAusgabe(clog, disziplinenAufPositionen, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
 
 		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
 		if (mostWanted == NULL)
@@ -252,10 +268,4 @@ void GesamtComputer::compute()
 		ergebnis[position] = schw;
 		gesamtzeit += schw->zeiten[disziplin];
 	}
-}
-
-void GesamtComputer::outputResult(ostream& os) const
-{
-	os << "Gesamt OMP" << endl;
-	SchwoptAlgoComputer::outputResult(os);
 }

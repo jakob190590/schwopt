@@ -1,20 +1,15 @@
-/*
- * OptComputer.h
- *
- *  Created on: 17.04.2013
- *      Author: jakob190590
- */
 
-#ifndef OPTCOMPUTER_H_
-#define OPTCOMPUTER_H_
+#ifndef SCHWOPTCOMPUTER_H_
+#define SCHWOPTCOMPUTER_H_
 
 #include <iostream>
 
 #include "../Schwimmer.h"
 
-// Alle OptComputer sind Einmal-Computer, d.h. es ist pro Objekt nur ein einziger Aufruf von compute moeglich.
+// Alle SchwoptComputer sind Einmal-Computer, d.h. es ist pro Objekt nur ein einziger Aufruf von compute moeglich.
 // Danach koennen sie weggeworfen werden!
-class OptComputer {
+class SchwoptComputer {
+	const int anzahlPositionen;
 public:
 	typedef vector<SchwimmerList> SchwimmerListVector;
 protected:
@@ -22,19 +17,21 @@ protected:
 	static bool (*schwimmerZeitLessComperators[])
 			(Schwimmer const * const, Schwimmer const * const);
 
-	SchwimmerVector schwimmer;
+	SchwimmerList schwimmer;
 	SchwimmerListVector schwimmerSortiert;
 
 	// Ergebnisse, werden gefuellt von compute()
 	SchwimmerVector ergebnis;
 	unsigned gesamtzeit;
 public:
-	OptComputer(const SchwimmerVector&);
+	SchwoptComputer(const SchwimmerList&, const int& numberPositionen);
 
 	virtual void compute() = 0;
-	virtual unsigned getTime() const;
-	virtual SchwimmerVector getResult() const;
+	virtual unsigned        getTime()   const { return gesamtzeit; };
+	virtual SchwimmerVector getResult() const { return ergebnis; };
 	virtual void outputResult(ostream&) const = 0;
+
+//	int getNumberPositionen() const { return anzahlPositionen; };
 };
 
-#endif /* OPTCOMPUTER_H_ */
+#endif /* SCHWOPTCOMPUTER_H_ */

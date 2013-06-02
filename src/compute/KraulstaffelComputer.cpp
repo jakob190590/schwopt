@@ -1,9 +1,3 @@
-/*
- * KraulstaffelComputer.cpp
- *
- *  Created on: 21.04.2013
- *      Author: jakob190590
- */
 
 #include <set>
 #include <cassert>
@@ -15,8 +9,8 @@
 using namespace std;
 
 // Optimale Lösung
-KraulstaffelComputer::KraulstaffelComputer(const SchwimmerVector& schwimmer) :
-		OptComputer(schwimmer)
+KraulstaffelComputer::KraulstaffelComputer(const SchwimmerList& schwimmer) :
+		Kraulstaffel(schwimmer)
 {
 }
 
@@ -39,9 +33,6 @@ void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], i
  */
 void KraulstaffelComputer::compute()
 {
-	ergebnis.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
-	gesamtzeit = 0;
-
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
 	// Immer im Hinterkopf behalten: Hier gibt's nur (m/w) -> binaer
 	const int QUOTE = 2;
@@ -49,8 +40,8 @@ void KraulstaffelComputer::compute()
 
 	SchwimmerList::const_iterator it = schwimmerSortiert[DISZIPLIN].begin();
 	for (int position = 0,
-			positionenUebrig = ANZAHL_POSITIONEN_IN_STAFFEL;
-			position < ANZAHL_POSITIONEN_IN_STAFFEL &&
+			positionenUebrig = ANZAHL_POSITIONEN;
+			position < ANZAHL_POSITIONEN &&
 			it != schwimmerSortiert[DISZIPLIN].end(); ++it)
 	{
 		Schwimmer* schw = *it;
@@ -64,15 +55,4 @@ void KraulstaffelComputer::compute()
 		else
 			continue; // Schwimmer ueberspringen, wenn wir ihn wegen der Quote nicht nehmen koennen
 	}
-}
-
-void KraulstaffelComputer::outputResult(ostream& os) const
-{
-	string diszi = Disziplin::convertToString(DISZIPLIN);
-	os << "Kraulstaffel (" << ANZAHL_POSITIONEN_IN_STAFFEL << " x " << diszi << ")" << endl; // TODO freistil oder kraul?
-	for (int i = 0; i < ANZAHL_POSITIONEN_IN_STAFFEL; i++)
-	{
-		os << (i + 1) << ". Schwimmer   " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(ergebnis[i]->zeiten[DISZIPLIN]) << endl;
-	}
-	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
 }

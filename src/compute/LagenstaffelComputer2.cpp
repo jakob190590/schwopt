@@ -1,9 +1,3 @@
-/*
- * LagenstaffelComputer2.cpp
- *
- *  Created on: 21.04.2013
- *      Author: jakob190590
- */
 
 #include <set>
 #include <cassert>
@@ -15,8 +9,8 @@
 using namespace std;
 
 // Optimale Lösung (durchprobieren!)
-LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerVector& schwimmer) :
-		LagenstaffelComputerBase(schwimmer)
+LagenstaffelComputer2::LagenstaffelComputer2(const SchwimmerList& schwimmer) :
+		Lagenstaffel(schwimmer)
 {
 }
 
@@ -41,9 +35,7 @@ void LagenstaffelComputer2::compute()
 {
 	typedef vector<int> IntVec;
 
-	ergebnis.resize(ANZAHL_POSITIONEN_IN_STAFFEL);
-
-	typedef SchwimmerVector::const_iterator It;
+	typedef SchwimmerList::const_iterator It;
 	const It begin = schwimmer.begin();
 	const It end   = schwimmer.end();
 
