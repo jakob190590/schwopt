@@ -13,31 +13,30 @@
 
 using namespace std;
 
-Gesamt::Gesamt(const SchwimmerList& schwimmer) :
-		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
+Gesamt::Gesamt(const SchwimmerList& schwimmer) :  // + workaround (fu c++ http://stackoverflow.com/questions/272900
+		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN), positionDisziplinTable(+ANZAHL_POSITIONEN)
 {
-	positionDisziplinTable.reserve(ANZAHL_POSITIONEN);
 	// Lagenstaffel (4 x 50 m Lagen)
-	positionDisziplinTable.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
-	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	// Kraulstaffel (8 x 50 m Kraul)
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
-	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
-	positionDisziplinTable.push_back(+Disziplin::RUECK_50);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::BRUST_100);
-	positionDisziplinTable.push_back(+Disziplin::RUECK_100);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_100);
-	positionDisziplinTable.push_back(+Disziplin::FREI_100);
+	positionDisziplinTable[0] = Disziplin::RUECK_50;
+	positionDisziplinTable[1] = Disziplin::BRUST_50;
+	positionDisziplinTable[2] = Disziplin::SCHM_50;
+	positionDisziplinTable[3] = Disziplin::FREI_50;
+	// Kraulstaffel (8 x 50 m Kraul
+	positionDisziplinTable[4] = Disziplin::FREI_50;
+	positionDisziplinTable[5] = Disziplin::FREI_50;
+	positionDisziplinTable[6] = Disziplin::FREI_50;
+	positionDisziplinTable[7] = Disziplin::FREI_50;
+	positionDisziplinTable[8] = Disziplin::FREI_50;
+	positionDisziplinTable[9] = Disziplin::FREI_50;
+	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen
+	positionDisziplinTable[10] = Disziplin::BRUST_50;
+	positionDisziplinTable[11] = Disziplin::RUECK_50;
+	positionDisziplinTable[12] = Disziplin::SCHM_50;
+	positionDisziplinTable[13] = Disziplin::FREI_50;
+	positionDisziplinTable[14] = Disziplin::BRUST_100;
+	positionDisziplinTable[15] = Disziplin::RUECK_100;
+	positionDisziplinTable[16] = Disziplin::SCHM_100;
+	positionDisziplinTable[17] = Disziplin::FREI_100;
 }
 
 int Gesamt::getBlock(int position)

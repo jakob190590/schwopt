@@ -11,18 +11,17 @@
 using namespace std;
 
 Einzelstarts::Einzelstarts(const SchwimmerList& schwimmer) :
-		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
+		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN), positionDisziplinTable(+ANZAHL_POSITIONEN)
 {
-	positionDisziplinTable.reserve(ANZAHL_POSITIONEN);
 	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
-	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
-	positionDisziplinTable.push_back(+Disziplin::RUECK_50);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::BRUST_100);
-	positionDisziplinTable.push_back(+Disziplin::RUECK_100);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_100);
-	positionDisziplinTable.push_back(+Disziplin::FREI_100);
+	positionDisziplinTable[0] = Disziplin::BRUST_50;
+	positionDisziplinTable[1] = Disziplin::RUECK_50;
+	positionDisziplinTable[2] = Disziplin::SCHM_50;
+	positionDisziplinTable[3] = Disziplin::FREI_50;
+	positionDisziplinTable[4] = Disziplin::BRUST_100;
+	positionDisziplinTable[5] = Disziplin::RUECK_100;
+	positionDisziplinTable[6] = Disziplin::SCHM_100;
+	positionDisziplinTable[7] = Disziplin::FREI_100;
 }
 
 void Einzelstarts::outputResult(ostream& os) const
