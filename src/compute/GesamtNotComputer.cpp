@@ -1,12 +1,12 @@
 
-#include "ManuellerGesamtComputer.h"
+#include "GesamtNotComputer.h"
 
-ManuellerGesamtComputer::ManuellerGesamtComputer(const SchwimmerList& schwimmer, const SchwimmerList& eingesetzteSchwimmer) :
+GesamtNotComputer::GesamtNotComputer(const SchwimmerList& schwimmer, const SchwimmerList& eingesetzteSchwimmer) :
 		Gesamt(schwimmer), eingesetzteSchwimmer(eingesetzteSchwimmer)
 {
 }
 
-void ManuellerGesamtComputer::compute()
+void GesamtNotComputer::compute()
 {
 	// ergebnis auffuellen und gesamtzeit berechnen
 	SchwimmerList::const_iterator it = eingesetzteSchwimmer.begin();

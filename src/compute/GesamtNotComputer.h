@@ -4,11 +4,11 @@
 
 #include "Gesamt.h"
 
-class ManuellerGesamtComputer: public Gesamt
+class GesamtNotComputer: public Gesamt
 {
 	const SchwimmerList& eingesetzteSchwimmer;
 public:
-	ManuellerGesamtComputer(const SchwimmerList&, const SchwimmerList&);
+	GesamtNotComputer(const SchwimmerList&, const SchwimmerList&);
 	void compute();
 };
 

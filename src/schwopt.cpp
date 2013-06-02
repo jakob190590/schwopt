@@ -12,7 +12,7 @@
 #include "compute/LagenstaffelComputer.h"
 //#include "compute/EinzelstartsComputer.h"
 #include "compute/GesamtComputer.h"
-#include "compute/ManuellerGesamtComputer.h"
+#include "compute/GesamtNotComputer.h"
 
 using namespace std;
 
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
 //	string input;
 //	while (cin >> input)
 //		eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-//	ManuellerGesamtComputer manuellerGesamtComputer(schwimmer, eingesetzteSchwimmer);
+//	GesamtNotComputer manuellerGesamtComputer(schwimmer, eingesetzteSchwimmer);
 //	manuellerGesamtComputer.compute();
 //	manuellerGesamtComputer.outputResult(cout);
 
