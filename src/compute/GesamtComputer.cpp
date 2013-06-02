@@ -15,32 +15,8 @@
 using namespace std;
 
 GesamtComputer::GesamtComputer(const SchwimmerList& schwimmer) :
-		Gesamt(schwimmer)
+		Gesamt(schwimmer), abstaendeInDisziplinen(createAbstandsMap(schwimmerSortiert))
 {
-	positionDisziplinTable.reserve(ANZAHL_POSITIONEN);
-	// Lagenstaffel (4 x 50 m Lagen)
-	positionDisziplinTable.push_back(+Disziplin::RUECK_50); // + workaround (fu c++) http://stackoverflow.com/questions/272900
-	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	// Kraulstaffel (8 x 50 m Kraul)
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
-	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
-	positionDisziplinTable.push_back(+Disziplin::RUECK_50);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-	positionDisziplinTable.push_back(+Disziplin::BRUST_100);
-	positionDisziplinTable.push_back(+Disziplin::RUECK_100);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_100);
-	positionDisziplinTable.push_back(+Disziplin::FREI_100);
-
-	abstaendeInDisziplinen = createAbstandsMap(schwimmerSortiert);
 }
 
 PositionSchwimmerPair* GesamtComputer::findMostWanted(PositionSchwimmerPairList& list)
@@ -162,7 +138,7 @@ void GesamtComputer::compute()
 			Lagenstaffel::ANZAHL_POSITIONEN,
 			Kraulstaffel::ANZAHL_POSITIONEN,
 			Einzelstarts::ANZAHL_POSITIONEN / 2,
-			Einzelstarts::ANZAHL_POSITIONEN / 2 }; // TODO
+			Einzelstarts::ANZAHL_POSITIONEN / 2 };
 
 	// Positionen, die schon fest vergeben sind
 	bitset<ANZAHL_POSITIONEN> assignedPositionen;

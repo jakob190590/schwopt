@@ -24,8 +24,6 @@ protected:
 	};
 	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
 
-	SchwimmerList schwimmerzeitList;
-	PositionDisziplinTable positionDisziplinTable;
 	SchwimmerAbstandMapVector abstaendeInDisziplinen;
 
 	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairList&);

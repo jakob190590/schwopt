@@ -89,16 +89,8 @@ void LagenstaffelComputer::ensureMixedBedingung(Schwimmer& schw, int neededGesch
 }
 
 LagenstaffelComputer::LagenstaffelComputer(const SchwimmerList& schwimmer) :
-		Lagenstaffel(schwimmer)
+		Lagenstaffel(schwimmer), abstaendeInDisziplinen(createAbstandsMap(schwimmerSortiert))
 {
-	positionDisziplinTable.reserve(ANZAHL_POSITIONEN);
-	// Lagenstaffel (4 x 50 m Lagen)
-	positionDisziplinTable.push_back(+Disziplin::RUECK_50);
-	positionDisziplinTable.push_back(+Disziplin::BRUST_50);
-	positionDisziplinTable.push_back(+Disziplin::SCHM_50);
-	positionDisziplinTable.push_back(+Disziplin::FREI_50);
-
-	abstaendeInDisziplinen = createAbstandsMap(schwimmerSortiert);
 }
 
 void LagenstaffelComputer::compute()

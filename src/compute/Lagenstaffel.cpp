@@ -6,21 +6,24 @@
 
 using namespace std;
 
-const int Lagenstaffel::DISZIPLINEN_IN_STAFFEL[] = { Disziplin::RUECK_50, Disziplin::BRUST_50, Disziplin::SCHM_50, Disziplin::FREI_50 };
-
 Lagenstaffel::Lagenstaffel(const SchwimmerList& schwimmer) :
-		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
+		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN), positionDisziplinTable(+ANZAHL_POSITIONEN)
 {
+	// Lagenstaffel (4 x 50 m Lagen)
+	positionDisziplinTable[0] = Disziplin::RUECK_50;
+	positionDisziplinTable[1] = Disziplin::BRUST_50;
+	positionDisziplinTable[2] = Disziplin::SCHM_50;
+	positionDisziplinTable[3] = Disziplin::FREI_50;
 }
 
 
 void Lagenstaffel::outputResult(ostream& os) const
 {
 	os << "Lagenstaffel (4 x 50 m Lagen)" << endl;
-	for (int i = 0; i < ANZAHL_POSITIONEN; i++)
+	for (int pos = 0; pos < ANZAHL_POSITIONEN; pos++)
 	{
-		int diszi = DISZIPLINEN_IN_STAFFEL[i];
-		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << getResult()[i]->kuerzel << "  " << Zeit::convertToString(ergebnis[i]->zeiten[diszi]) << endl;
+		int diszi = positionDisziplinTable[pos];
+		os << setiosflags(ios::left) << setw(23) << Disziplin::convertToString(diszi) << " " << getResult()[pos]->kuerzel << "  " << Zeit::convertToString(ergebnis[pos]->zeiten[diszi]) << endl;
 	}
 	os << "Gesamtzeit: " << Zeit::convertToString(getTime()) << endl << endl;
 }

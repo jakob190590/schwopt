@@ -3,12 +3,14 @@
 #define LAGENSTAFFEL_H_
 
 #include "SchwoptComputer.h"
+#include "SchwoptAlgo.h"
 
 class Lagenstaffel: public SchwoptComputer
 {
+protected:
+	PositionDisziplinTable positionDisziplinTable;
 public:
 	static const int ANZAHL_POSITIONEN = 4;
-	static const int DISZIPLINEN_IN_STAFFEL[];
 
 	Lagenstaffel(const SchwimmerList&);
 
