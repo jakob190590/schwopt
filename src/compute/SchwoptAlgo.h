@@ -22,7 +22,7 @@ typedef map<Schwimmer*, int> SchwimmerIntMap;
 typedef map<Schwimmer*, unsigned> SchwimmerAbstandMap;
 typedef vector<SchwimmerAbstandMap> SchwimmerAbstandMapVector;
 
-
+// vector mit Eintrag fuer jede Disziplin: set: Schwimmer -> Abstand zum Naechstschlechteren
 SchwimmerAbstandMapVector createAbstandsMap(const SchwimmerListVector& schwimmerSortiert);
 
 #endif /* SCHWOPTALGO_H_ */
