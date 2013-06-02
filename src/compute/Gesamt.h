@@ -3,7 +3,7 @@
 #define GESAMT_H_
 
 #include "SchwoptComputer.h"
-
+#include "SchwoptAlgo.h"
 #include "Lagenstaffel.h"
 #include "Kraulstaffel.h"
 #include "Einzelstarts.h"
@@ -11,9 +11,7 @@
 class Gesamt: public SchwoptComputer
 {
 protected:
-	typedef vector<int> DisziplinenAufPositionen;
-
-	DisziplinenAufPositionen disziplinenAufPositionen;
+	PositionDisziplinTable disziplinenAufPositionen;
 public:
 	static const int ANZAHL_POSITIONEN = Lagenstaffel::ANZAHL_POSITIONEN + Kraulstaffel::ANZAHL_POSITIONEN + Einzelstarts::ANZAHL_POSITIONEN;
 

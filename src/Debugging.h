@@ -14,6 +14,7 @@
 #include "Zeit.h"
 #include "Schwimmer.h"
 #include "Disziplin.h"
+#include "compute/SchwoptAlgo.h"
 
 using namespace std;
 
@@ -32,5 +33,12 @@ template <typename Iterator> void outputSchwimmerZeiten(ostream& os,
 		os << resetiosflags(ios::right);
 	}
 }
+
+void gscheideDebugAusgabe(ostream& os,
+		const PositionDisziplinTable& disziplinen,
+		const SchwimmerListVector& schwimmerSortiert,
+		const PositionSchwimmerPairList& list,
+		const vector<SchwimmerAbstandMap>& abstaende,
+		unsigned anzahlNaechstbester = 2, bool showDisziplin = true);
 
 #endif /* DEBUGGING_H_ */

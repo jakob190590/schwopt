@@ -23,6 +23,7 @@ class Schwimmer; // forward declaration
 typedef vector<Schwimmer*> SchwimmerVector;
 typedef list<Schwimmer*> SchwimmerList;
 typedef set<Schwimmer*> SchwimmerSet;
+typedef vector<SchwimmerList> SchwimmerListVector;
 
 class Schwimmer {
 public:

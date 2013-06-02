@@ -3,12 +3,12 @@
 #define EINZELSTARTS_H_
 
 #include "SchwoptComputer.h"
+#include "SchwoptAlgo.h"
 
 class Einzelstarts: public SchwoptComputer
 {
 protected:
-	typedef vector<int> DisziplinenAufPositionen;
-	DisziplinenAufPositionen disziplinenAufPositionen;
+	PositionDisziplinTable disziplinenAufPositionen;
 public:
 	static const int ANZAHL_POSITIONEN = 8;
 

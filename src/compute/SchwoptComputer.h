@@ -10,8 +10,6 @@
 // Danach koennen sie weggeworfen werden!
 class SchwoptComputer {
 	const int anzahlPositionen;
-public:
-	typedef vector<SchwimmerList> SchwimmerListVector;
 protected:
 	// Array mit Comperator (Less)-Funktionen, um Schwimmer nach verschiedenen Disziplinen zu sortieren
 	static bool (*schwimmerZeitLessComperators[])

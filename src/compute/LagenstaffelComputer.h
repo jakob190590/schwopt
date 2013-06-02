@@ -6,24 +6,11 @@
 #include <vector>
 
 #include "Lagenstaffel.h"
+#include "SchwoptAlgo.h"
 
 class LagenstaffelComputer: public Lagenstaffel
 {
 protected:
-	class NormAbstandComparer;
-
-	typedef vector<int> DisziplinenAufPositionen;
-
-	typedef pair<int, Schwimmer*> PositionSchwimmerPair;
-	typedef list<PositionSchwimmerPair> PositionSchwimmerPairList;
-	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
-	typedef map<Schwimmer*, int> SchwimmerIntMap;
-
-	// Fuer Abstaende je eines Schwimmern zum Naechstschlechteren in einer Disziplin
-	typedef map<Schwimmer*, unsigned> SchwimmerAbstandMap;
-	typedef vector<SchwimmerAbstandMap> SchwimmerAbstandMapVector;
-
-
 	class NormAbstandComparer
 	{
 		LagenstaffelComputer& computer;
@@ -35,12 +22,11 @@ protected:
 			return computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p1.first]][p1.second] > computer.abstaendeInDisziplinen[computer.disziplinenAufPositionen[p2.first]][p2.second];
 		}
 	};
+	typedef set<PositionSchwimmerPair, NormAbstandComparer> SortedPositionSchwimmerSet;
 
 	SchwimmerList schwimmerzeitList;
-	DisziplinenAufPositionen disziplinenAufPositionen;
+	PositionDisziplinTable disziplinenAufPositionen;
 	SchwimmerAbstandMapVector abstaendeInDisziplinen;
-
-	virtual SchwimmerAbstandMapVector createAbstandsMap(const SchwimmerListVector) const;
 
 	PositionSchwimmerPair* findMostWanted(PositionSchwimmerPairList&);
 	void ensureMixedBedingung(Schwimmer&, int neededGeschlecht[2], SchwimmerSet& availableSchwimmer);
