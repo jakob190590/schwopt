@@ -16,12 +16,12 @@
 
 using namespace std;
 
-void coutSchwimmer(Schwimmer* s)
+static void coutSchwimmer(Schwimmer* s)
 {
 	cout << s;
 }
 
-void deleteSchwimmer(Schwimmer* s)
+static void deleteSchwimmer(Schwimmer* s)
 {
 	delete s;
 }
