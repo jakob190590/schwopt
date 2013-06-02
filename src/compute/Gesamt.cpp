@@ -53,7 +53,7 @@ int Gesamt::getBlock(int position)
 void Gesamt::outputResult(ostream& os) const
 {
 	const int WIDTH_SCHW = 5;
-	const int WIDTH_ZEIT = 7;
+	const int WIDTH_ZEIT = Zeit::MAX_STRING_LENGTH;
 	const string underline(36, '-');
 	const string divider  (55, '-');
 
