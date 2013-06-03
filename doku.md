@@ -99,16 +99,16 @@ Design und Architektur sind eher einfach gehalten.  Gründe:
 - Mit unsigned zu rechnen ist wahrscheinlich schneller als mit Objekten einer Klasse Zeit.
 - Wenn ich anfange Operatoren zu überladen werde ich nicht mehr froh wenn ich konsequent bin.  Und andernfalls wird das Programm inkonsistent.
 
-# Klasse `OptComputer`
+# Klasse SchwoptComputer
 
 Basisklasse aller Optimierungsrechner.  Stellt Memberfunktionen bereit und auch einige protected Membervariablen, die die Kindklassen verwenden können/sollen.
 
 - `void compute();` // Berechnen
-- `unsigned getTime();` // Gesamtzeit abfragen
-- `SchwimmerVector getResult();` // Ergebnis abfragen
-- `void outputResult(ostream&);` // Ergebnis ausgeben
+- `unsigned getTime() const;` // Gesamtzeit abfragen
+- `SchwimmerVector getResult() const;` // Ergebnis abfragen
+- `void outputResult(ostream&) const;` // Ergebnis ausgeben
 
-Achtung: Eine OptComputer-Instanz ist ein "Einmal-und-Wegwerf-Computer".  Die Funktion `compute` darf nur ein einziges Mal an einem Objekt aufgerufen werden -- danach ist das Verhalten undefiniert.  Dadurch wird die Implementierung vereinfacht (es müssen nicht alle Membervariablen als lokale Variablen kopiert werden, sondern können direkt verwendet werden).
+Achtung: Eine SchwoptComputer-Instanz ist ein "Einmal-und-Wegwerf-Computer".  Die Funktion `compute` darf nur ein einziges Mal an einem Objekt aufgerufen werden -- danach ist das Verhalten undefiniert.  Dadurch wird die Implementierung vereinfacht (es müssen nicht alle Membervariablen als lokale Variablen kopiert werden, sondern können direkt verwendet und manipuliert werden).
 
 Algorithmus
 -----------
@@ -116,5 +116,7 @@ Algorithmus
 Der Algorithmus ist grob wie folgt:
 
 Solange es freie Positionen gibt
- - Freie Positionen mit besten freien Schwimmern besetzen
- - Den Schwimmer festsetzen, der am meisten Zeit reinholt
+ 1. Freie Positionen mit besten freien Schwimmern besetzen
+ 2. Den Schwimmer festsetzen, der am meisten Zeit rausholt
+
+"festsetzen" bei 2. heißt: Der Schwimmer wird für die Position fest eingetragen; die Position ist dann nicht mehr frei.  "am meisten Zeit rausholt" in ist so gemeint: Zu jedem Schwimmer ist in jeder Disziplin bekannt, um wieviel er besser ist als der nächstschlechtere Schwimmer.  Am Ende wird der Schwimmer festgesetzt, wo der Abstand zum Nächstschlechteren am größten ist, der also am meisten Zeit rausholt.
