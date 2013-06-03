@@ -52,30 +52,7 @@ ostream& operator <<(ostream& os, const Schwimmer& schw)
 	return os;
 }
 
-istream& operator >>(istream& is, Schwimmer& schw)
-{
-	char geschl;
-	is >> schw.nachname >> schw.vorname >> geschl >> schw.kuerzel;
-	schw.geschlecht = (geschl == 'w') ? Schwimmer::WEIBLICH : Schwimmer::MAENNLICH;
-	for (int i = 0; i < Disziplin::ANZAHL; i++)
-	{
-		string zeitInput;
-		is >> zeitInput;
-		schw.zeiten[i]  = Zeit::convertToUnsigned(zeitInput);
-	}
-
-	// Kommentar weglesen, oder was auch immer in ueberzaehligen Spalten steht
-	char rest[200];
-	is.getline(rest, 200);
-	return is;
-}
-
 ostream& operator <<(ostream& os, Schwimmer const * const schw)
 {
 	return operator <<(os, *schw);
-}
-
-istream& operator >>(istream& is, Schwimmer * const schw)
-{
-	return operator >>(is, *schw);
 }

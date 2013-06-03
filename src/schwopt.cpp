@@ -146,13 +146,33 @@ static void readFile(const string& filename, SchwimmerList& schwimmer)
 	// Datei oeffnen
 	ifstream ifs(filename.c_str());
 	if (!ifs.is_open())
-		exitWithError("cannot open file `" + filename + "'");
+		exitWithError("cannot open data file `" + filename + "'");
 
 	// Schwimmer aus Datei in list einlesen
-	while (!ifs.eof())
+	while (ifs)
 	{
-		Schwimmer* schw = new Schwimmer();
-		ifs >> schw;
+		string line;
+		getline(ifs, line);
+		if (line.length() == 0 || line[0] == '#')
+		{
+			// Leerzeile oder Kommentarzeile
+			continue;
+		}
+
+		istringstream iss(line);
+		string nname, vname, kuerzel;
+		char c;
+		iss >> nname >> vname >> c >> kuerzel;
+		Schwimmer::Geschlecht geschl = (c == 'w') ? Schwimmer::WEIBLICH : Schwimmer::MAENNLICH;
+		Schwimmer* schw = new Schwimmer(geschl, nname, vname, kuerzel);
+
+		for (int i = 0; iss && i < Disziplin::ANZAHL; i++)
+		{
+			string zeitInput;
+			iss >> zeitInput;
+			schw->zeiten[i] = Zeit::convertToUnsigned(zeitInput);
+		}
+
 		schwimmer.push_back(schw);
 	}
 	ifs.close();

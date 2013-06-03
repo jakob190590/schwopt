@@ -71,7 +71,6 @@ template<typename C> Schwimmer* lookupSchwimmer(const C& container, const string
 //Schwimmer* lookupSchwimmer<SchwimmerVector>(const SchwimmerVector&, const string&);
 
 ostream& operator <<(ostream&, Schwimmer const * const);
-istream& operator >>(istream&, Schwimmer * const);
 
 // template (non-specialized) function's impl must be visible to a translation unit that uses it.
 // otherwiese: "undefinied reference to <template function>"
