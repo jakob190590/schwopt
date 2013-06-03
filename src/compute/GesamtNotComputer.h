@@ -4,6 +4,8 @@
 
 #include "Gesamt.h"
 
+// Berechnet nicht die optimale Besetzung der Positionen, sondern
+// fuer eine gegebene Belegung die Zwischen- und Gesamtzeiten.
 class GesamtNotComputer: public Gesamt
 {
 	const SchwimmerList& eingesetzteSchwimmer;

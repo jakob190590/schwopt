@@ -8,7 +8,6 @@
 
 using namespace std;
 
-// Optimale Lösung
 KraulstaffelComputer::KraulstaffelComputer(const SchwimmerList& schwimmer) :
 		Kraulstaffel(schwimmer)
 {

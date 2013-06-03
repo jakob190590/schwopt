@@ -8,7 +8,6 @@
 
 using namespace std;
 
-// Optimale Lösung (durchprobieren!)
 LagenstaffelExaktComputer::LagenstaffelExaktComputer(const SchwimmerList& schwimmer) :
 		Lagenstaffel(schwimmer)
 {

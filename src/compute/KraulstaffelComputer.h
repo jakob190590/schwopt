@@ -4,6 +4,7 @@
 
 #include "Kraulstaffel.h"
 
+// Berechnet die exakte Lösung (weil's einfach ist bei Kraulstaffel)
 class KraulstaffelComputer: public Kraulstaffel
 {
     void schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], int& position, int& positionenLeft);

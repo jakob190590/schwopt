@@ -6,6 +6,8 @@
 
 #include "Lagenstaffel.h"
 
+// Berechnet die exakte Lösung durch Durchprobieren.
+// Bei vier Positionen geht das noch...
 class LagenstaffelExaktComputer: public Lagenstaffel
 {
 public:
