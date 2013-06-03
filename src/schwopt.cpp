@@ -29,7 +29,7 @@ static void exitWithError(const string& errmsg)
 	exit(EXIT_FAILURE);
 }
 
-static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_input, int& flag_verbose, Class& val_class, Block& val_block, string& val_input, string& val_param)
+static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_input, int& flag_plain, int& flag_verbose, Class& val_class, Block& val_block, string& val_input, string& val_param)
 {
 	int c;
 	while (1)
@@ -44,6 +44,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 			{ "version",     no_argument, 0, 'V' },
 			{ "dry",         no_argument, 0, 'd' },
 			{ "input", optional_argument, 0, 'i' },
+			{ "plain",       no_argument, 0, 'p' },
 			{ "verbose",     no_argument, 0, 'v' },
 			{ "class", required_argument, 0, 'C' },
 			{ "block", required_argument, 0, 'B' },
@@ -53,7 +54,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 		/* getopt_long stores the option index here. */
 		int option_index = 0;
 
-		c = getopt_long(argc, argv, "div", long_options, &option_index);
+		c = getopt_long(argc, argv, "dipv", long_options, &option_index);
 
 		/* Detect the end of the options. */
 		if (c == -1)
@@ -77,6 +78,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 					 << setw(OPTION_COL_WIDTH) << ""                    << "gesamt (default)" << endl
 					 << setw(OPTION_COL_WIDTH) << " -d, --dry"          << "Nicht berechnen, nur leeres Ergebnis anzeigen" << endl
 					 << setw(OPTION_COL_WIDTH) << " -i, --input[=FILE]" << "Nicht berechnen, Belegung der Positionen selbst eingeben" << endl
+					 << setw(OPTION_COL_WIDTH) << " -p, --plain"        << "Nur die Schwimmerkuerzel als Ergebnis ausgeben" << endl
 					 << setw(OPTION_COL_WIDTH) << " -v, --verbose"      << endl;
 				exit(EXIT_SUCCESS);
 			}
@@ -93,6 +95,9 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 			flag_input = 1;
 			if (optarg)
 				val_input = string(optarg);
+			break;
+		case 'p':
+			flag_plain = 1;
 			break;
 		case 'v':
 			flag_verbose = 1;
@@ -185,6 +190,23 @@ static void coutSchwimmer(Schwimmer* s)
 	cout << s;
 }
 
+static void outputResult(ostream& os, const SchwoptComputer& computer, const bool& plain = false)
+{
+	if (!plain)
+		computer.outputResult(os);
+	else
+	{
+		SchwimmerVector vec = computer.getResult();
+		for (SchwimmerVector::const_iterator it = vec.begin();
+				it != vec.end(); ++it)
+		{
+			if (*it)
+				os << (*it)->kuerzel;
+			os << endl;
+		}
+	}
+}
+
 static void deleteSchwimmer(Schwimmer* s)
 {
 	delete s;
@@ -194,13 +216,14 @@ int main(int argc, char* argv[])
 {
 	int flagDry = 0;
 	int flagInput = 0;
+	int flagPlain = 0;
 	int flagVerbose = 0;
 	Class valClass = MIXED;
 	Block valBlock = GESAMT;
 	string valInput, valParam; // empty
 
 	parseArguments(argc, argv,
-			flagDry, flagInput, flagVerbose,
+			flagDry, flagInput, flagPlain, flagVerbose,
 			valClass, valBlock, valInput, valParam);
 
 	SchwimmerList schwimmer;
@@ -209,8 +232,8 @@ int main(int argc, char* argv[])
 	// So, ab hier kann mit der list schwimmer gearbeitet werden
 	if (flagVerbose)
 	{
-		cout << endl << "Nachname       Vorname   Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100";
-		cout << endl << "--------------------------------------------------------------------------------------------" << endl;
+		cout << "Nachname       Vorname   Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100" << endl
+		     << "--------------------------------------------------------------------------------------------" << endl;
 		for_each(schwimmer.begin(), schwimmer.end(), coutSchwimmer);
 		cout << endl;
 	}
@@ -221,16 +244,16 @@ int main(int argc, char* argv[])
 		case LAGENSTAFFEL:
 			{
 				if (flagVerbose) cout << "// [Exakt] LagenstaffelExaktComputer (Exakte Loesung, Durchprobieren)" << endl;
-				LagenstaffelExaktComputer lagenstaffelComputer2(schwimmer);
-				lagenstaffelComputer2.compute();
-				lagenstaffelComputer2.outputResult(cout);
+				LagenstaffelExaktComputer lagenstaffelExaktComputer(schwimmer);
+				lagenstaffelExaktComputer.compute();
+				outputResult(cout, lagenstaffelExaktComputer, flagPlain);
 
 				if (flagVerbose)
 				{
 					cout << "// [SchwoptAlgo] LagenstaffelComputer" << endl;
 					LagenstaffelComputer lagenstaffelComputer(schwimmer);
 					lagenstaffelComputer.compute();
-					lagenstaffelComputer.outputResult(cout);
+					outputResult(cout, lagenstaffelComputer, flagPlain);
 				}
 			}
 			break;
@@ -240,7 +263,7 @@ int main(int argc, char* argv[])
 				if (flagVerbose) cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
 				KraulstaffelComputer kraulstaffelComputer(schwimmer);
 				kraulstaffelComputer.compute();
-				kraulstaffelComputer.outputResult(cout);
+				outputResult(cout, kraulstaffelComputer, flagPlain);
 			}
 			break;
 
@@ -249,7 +272,7 @@ int main(int argc, char* argv[])
 //				if (flagVerbose) cout << "// [SchwoptAlgo] Einzelstarts" << endl;
 //				EinzelstartsComputer einzelstartsComputer(schwimmer);
 //				einzelstartsComputer.compute();
-//				einzelstartsComputer.outputResult(cout);
+//				outputResult(cout, einzelstartsComputer, flagPlain);
 			}
 			break;
 
@@ -260,7 +283,7 @@ int main(int argc, char* argv[])
 				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
 				GesamtComputer gesamtComputer(schwimmer);
 				gesamtComputer.compute();
-				gesamtComputer.outputResult(cout);
+				outputResult(cout, gesamtComputer, flagPlain);
 			}
 			else
 			{
@@ -288,9 +311,9 @@ int main(int argc, char* argv[])
 					}
 				}
 
-				GesamtNotComputer manuellerGesamtComputer(schwimmer, eingesetzteSchwimmer);
-				manuellerGesamtComputer.compute();
-				manuellerGesamtComputer.outputResult(cout);
+				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
+				gesamtNotComputer.compute();
+				outputResult(cout, gesamtNotComputer, flagPlain);
 			}
 			break;
 
