@@ -29,7 +29,7 @@ static void exitWithError(const string& errmsg)
 	exit(EXIT_FAILURE);
 }
 
-static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& flag_dry, int& flag_verbose, Class& val_class, Block& val_block, string& val_param)
+static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_input, int& flag_verbose, Class& val_class, Block& val_block, string& val_input, string& val_param)
 {
 	int c;
 	while (1)
@@ -43,7 +43,7 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 			{ "help",        no_argument, 0, 'H' },
 			{ "version",     no_argument, 0, 'V' },
 			{ "dry",         no_argument, 0, 'd' },
-			{ "no-compute",  no_argument, 0, 'n' },
+			{ "input", optional_argument, 0, 'i' },
 			{ "verbose",     no_argument, 0, 'v' },
 			{ "class", required_argument, 0, 'C' },
 			{ "block", required_argument, 0, 'B' },
@@ -53,7 +53,7 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 		/* getopt_long stores the option index here. */
 		int option_index = 0;
 
-		c = getopt_long(argc, argv, "dnv", long_options, &option_index);
+		c = getopt_long(argc, argv, "div", long_options, &option_index);
 
 		/* Detect the end of the options. */
 		if (c == -1)
@@ -67,17 +67,17 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 
 		case 'H':
 			{
-				const int OPTION_COL_WIDTH = 18;
+				const int OPTION_COL_WIDTH = 20;
 				cout << usage << endl << setiosflags(ios::left)
-					 << setw(OPTION_COL_WIDTH) << " --help"           << endl
-					 << setw(OPTION_COL_WIDTH) << " --version"        << endl
-					 << setw(OPTION_COL_WIDTH) << " --class=CLASS"    << "mini-mixed, jugend-w, jugend-m, jugend-mixed," << endl
-					 << setw(OPTION_COL_WIDTH) << ""                  << "damen, herren, mixed (default)" << endl
-					 << setw(OPTION_COL_WIDTH) << " --block=BLOCK"    << "lagenstaffel, schlussstaffel," << endl
-					 << setw(OPTION_COL_WIDTH) << ""                  << "einzelstarts, gesamt (default)" << endl
-					 << setw(OPTION_COL_WIDTH) << " -d, --dry"        << "Nicht berechnen, nur leeres Ergebnis anzeigen" << endl
-					 << setw(OPTION_COL_WIDTH) << " -n, --no-compute" << "Nicht berechnen, Belegung der Positionen selbst eingeben" << endl
-					 << setw(OPTION_COL_WIDTH) << " -v, --verbose"    << endl;
+					 << setw(OPTION_COL_WIDTH) << " --help"             << endl
+					 << setw(OPTION_COL_WIDTH) << " --version"          << endl
+					 << setw(OPTION_COL_WIDTH) << " --class=CLASS"      << "mini-mixed, jugend-w, jugend-m, jugend-mixed, damen, " << endl
+					 << setw(OPTION_COL_WIDTH) << ""                    << "herren, mixed (default)" << endl
+					 << setw(OPTION_COL_WIDTH) << " --block=BLOCK"      << "lagenstaffel, schlussstaffel, einzelstarts," << endl
+					 << setw(OPTION_COL_WIDTH) << ""                    << "gesamt (default)" << endl
+					 << setw(OPTION_COL_WIDTH) << " -d, --dry"          << "Nicht berechnen, nur leeres Ergebnis anzeigen" << endl
+					 << setw(OPTION_COL_WIDTH) << " -i, --input[=FILE]" << "Nicht berechnen, Belegung der Positionen selbst eingeben" << endl
+					 << setw(OPTION_COL_WIDTH) << " -v, --verbose"      << endl;
 				exit(EXIT_SUCCESS);
 			}
 			break;
@@ -89,8 +89,10 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 		case 'd':
 			flag_dry = 1;
 			break;
-		case 'n':
-			flag_no_compute = 1;
+		case 'i':
+			flag_input = 1;
+			if (optarg)
+				val_input = string(optarg);
 			break;
 		case 'v':
 			flag_verbose = 1;
@@ -190,16 +192,16 @@ static void deleteSchwimmer(Schwimmer* s)
 
 int main(int argc, char* argv[])
 {
-	int flagNoCompute = 0;
 	int flagDry = 0;
+	int flagInput = 0;
 	int flagVerbose = 0;
 	Class valClass = MIXED;
 	Block valBlock = GESAMT;
-	string valParam; // empty
+	string valInput, valParam; // empty
 
 	parseArguments(argc, argv,
-			flagNoCompute, flagDry, flagVerbose,
-			valClass, valBlock, valParam);
+			flagDry, flagInput, flagVerbose,
+			valClass, valBlock, valInput, valParam);
 
 	SchwimmerList schwimmer;
 	readFile(valParam, schwimmer);
@@ -210,6 +212,7 @@ int main(int argc, char* argv[])
 		cout << endl << "Nachname       Vorname   Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100";
 		cout << endl << "--------------------------------------------------------------------------------------------" << endl;
 		for_each(schwimmer.begin(), schwimmer.end(), coutSchwimmer);
+		cout << endl;
 	}
 
 	switch (valClass) {
@@ -251,7 +254,7 @@ int main(int argc, char* argv[])
 			break;
 
 		case GESAMT:
-			if (!flagDry && !flagNoCompute)
+			if (!flagDry && !flagInput)
 			{
 				// Normale Berechnung und Ausgabe
 				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
@@ -262,9 +265,9 @@ int main(int argc, char* argv[])
 			else
 			{
 				SchwimmerList eingesetzteSchwimmer;
-				if (flagNoCompute)
+				if (flagInput)
 				{
-					if (flagVerbose)
+					if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
 						cout << "// [Eigene Belegung] GesamtComputer"    << endl
 							 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
 							 << "durch Leerzeichen getrennt!"            << endl
@@ -272,8 +275,17 @@ int main(int argc, char* argv[])
 							 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
 
 					string input;
-					while (cin >> input)
-						eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
+					if (valInput.empty())
+						while (cin >> input)
+							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
+					else
+					{
+						ifstream ifs(valInput.c_str());
+						if (!ifs.is_open())
+							exitWithError("cannot open input file `" + valInput + "'");
+						while (ifs >> input)
+							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
+					}
 				}
 
 				GesamtNotComputer manuellerGesamtComputer(schwimmer, eingesetzteSchwimmer);
