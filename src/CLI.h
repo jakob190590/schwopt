@@ -18,9 +18,9 @@ enum Class {
 	ANZAHL_CLASSES
 };
 
-Class defaultClass = MIXED;
+const Class defaultClass = MIXED;
 
-char* classNameTable[ANZAHL_CLASSES] = {
+char const * const classNameTable[ANZAHL_CLASSES] = {
 	"mini-mixed",
 	"jugend-w",
 	"jugend-m",
@@ -40,9 +40,9 @@ enum Block {
 	ANZAHL_BLOCKS
 };
 
-Block defaultBlock = GESAMT;
+const Block defaultBlock = GESAMT;
 
-char* blockNameTable[ANZAHL_BLOCKS] = {
+char const * const blockNameTable[ANZAHL_BLOCKS] = {
 	"gesamt",
 	"lagenstaffel",
 	"schlussstaffel",
