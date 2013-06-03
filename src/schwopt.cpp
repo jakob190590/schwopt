@@ -35,13 +35,15 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 	{
 		static struct option long_options[] = {
 			/* These options set a flag. */
-			{ "dry", no_argument, &flag_dry, 1 },
+			//{ "dry", no_argument, &flag_dry, 1 }, // wird jetzt unten behandelt, zusammen mit abkuerzung -d
 			/* These options don't set a flag.
 			 We distinguish them by their indices. */
 			// Grossbuchstaben heissen bei mir, es gibt KEINE Kurzform
-			{ "help",    no_argument, 0, 'H' },
-			{ "version", no_argument, 0, 'V' },
-			{ "verbose", no_argument, 0, 'v' },
+			{ "help",        no_argument, 0, 'H' },
+			{ "version",     no_argument, 0, 'V' },
+			{ "dry",         no_argument, 0, 'd' },
+			{ "no-compute",  no_argument, 0, 'n' },
+			{ "verbose",     no_argument, 0, 'v' },
 			{ "class", required_argument, 0, 'C' },
 			{ "block", required_argument, 0, 'B' },
 			{ 0, 0, 0, 0 }
@@ -50,7 +52,7 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 		/* getopt_long stores the option index here. */
 		int option_index = 0;
 
-		c = getopt_long(argc, argv, "vn", long_options, &option_index);
+		c = getopt_long(argc, argv, "dnv", long_options, &option_index);
 
 		/* Detect the end of the options. */
 		if (c == -1)
@@ -77,12 +79,14 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 			// no version info yet
 			exit(EXIT_SUCCESS);
 			break;
-		case 'v':
-			flag_verbose = 1;
+		case 'd':
+			flag_dry = 1;
 			break;
 		case 'n':
-			puts("no-compute");
 			flag_no_compute = 1;
+			break;
+		case 'v':
+			flag_verbose = 1;
 			break;
 		case 'C':
 			{
@@ -166,16 +170,13 @@ int main(int argc, char* argv[])
 	Class valClass = MIXED;
 	Block valBlock = GESAMT;
 	string valParam; // empty
+
 	parseArguments(argc, argv,
 			flagNoCompute, flagDry, flagVerbose,
 			valClass, valBlock, valParam);
 
 	SchwimmerList schwimmer;
 	readFile(valParam, schwimmer);
-
-	// lookupSchwimmer Test
-	assert(lookupSchwimmer(schwimmer, "LH") == *schwimmer.begin());
-	assert(lookupSchwimmer(schwimmer, "lh") == NULL);
 
 	// So, ab hier kann mit der list schwimmer gearbeitet werden
 	if (flagVerbose)
