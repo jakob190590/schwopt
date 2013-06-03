@@ -7,6 +7,7 @@
 #include <cassert>
 #include <sstream>
 #include <getopt.h>
+#include <iomanip>
 
 #include "Schwimmer.h"
 #include "CLI.h"
@@ -65,18 +66,24 @@ static void parseArguments(int argc, char* argv[], int& flag_no_compute, int& fl
 			break;
 
 		case 'H':
-			cout << usage << endl
-			     << " --help   Hilfe" << endl
-			     << " --version   Versionsinfo" << endl
-			     << " --class=CLASS   CLASS: mini-mixed, jugend-w, jugend-m, jugend-mixed, damen, herren, mixed (default)" << endl
-			     << " --block=BLOCK   BLOCK: lagenstaffel, schlussstaffel, einzelstarts, gesamt (default)" << endl
-			     << " --dry   " << endl
-			     << " -n, --no-compute   " << endl
-			     << " -v, --verbose   " << endl;
-			exit(EXIT_SUCCESS);
+			{
+				const int OPTION_COL_WIDTH = 18;
+				cout << usage << endl << setiosflags(ios::left)
+					 << setw(OPTION_COL_WIDTH) << " --help"           << endl
+					 << setw(OPTION_COL_WIDTH) << " --version"        << endl
+					 << setw(OPTION_COL_WIDTH) << " --class=CLASS"    << "mini-mixed, jugend-w, jugend-m, jugend-mixed," << endl
+					 << setw(OPTION_COL_WIDTH) << ""                  << "damen, herren, mixed (default)" << endl
+					 << setw(OPTION_COL_WIDTH) << " --block=BLOCK"    << "lagenstaffel, schlussstaffel," << endl
+					 << setw(OPTION_COL_WIDTH) << ""                  << "einzelstarts, gesamt (default)" << endl
+					 << setw(OPTION_COL_WIDTH) << " -d, --dry"        << "Nicht berechnen, nur leeres Ergebnis anzeigen" << endl
+					 << setw(OPTION_COL_WIDTH) << " -n, --no-compute" << "Nicht berechnen, Belegung der Positionen selbst eingeben" << endl
+					 << setw(OPTION_COL_WIDTH) << " -v, --verbose"    << endl;
+				exit(EXIT_SUCCESS);
+			}
 			break;
 		case 'V':
 			// no version info yet
+			cout << "schwopt version 1.0.0" << endl;
 			exit(EXIT_SUCCESS);
 			break;
 		case 'd':
@@ -163,7 +170,6 @@ static void deleteSchwimmer(Schwimmer* s)
 
 int main(int argc, char* argv[])
 {
-
 	int flagNoCompute = 0;
 	int flagDry = 0;
 	int flagVerbose = 0;
