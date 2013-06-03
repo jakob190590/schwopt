@@ -4,13 +4,68 @@ Dokumentation zu schwopt
 Allgemein
 ---------
 
-Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf [Oberbayerischer Mannschaftspokal (OMP)](http://www.bsv-oberbayern.de/omp/start.html).  Es setzt die Schwimmer in die Positionen der Staffeln und Einzelstarts möglichst optimal ein.  Dabei handelt es sich aber nicht um die exakte Lösung sondern eine Näherungslösung.  Diese kann mit der exakten Lösung übereinstimmen.
+Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf [Oberbayerischer Mannschaftspokal (OMP)](http://www.bsv-oberbayern.de/omp/start.html).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln und Einzelstarts) möglichst optimal ein.  Dabei handelt es sich aber nicht um die exakte Lösung sondern eine Näherungslösung.  Diese kann mit der exakten Lösung übereinstimmen.
 
-Aufruf:
+Der Name des Programms "schwopt" hat mit Schwimmwettkampf und Optimierung zu tun.
 
-    schwopt <datafilename>
+Manual
+------
 
-Der Name schwopt hat zu tun mit "Schwimmwettkampfoptimierung".
+    schwopt [OPTION] ... DATAFILE
+
+    Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf Oberbayerischer
+    Mannschaftspokal (OMP).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln
+    und Einzelstarts) möglichst optimal ein.
+
+    DATAFILE muss angegeben werden (außer bei --version und --help).  DATAFILE ist eine Textdatei,
+    die Namen, Daten und Zeiten der Schwimmer enthält.  Jede Zeile enthält die Daten zu einem
+    Schwimmer.  Leerzeilen und Zeilen die mit `#' beginnen werden ignoriert.  Folgende, durch
+    Whitespace getrennte Felder müssen für jeden Schwimmer definiert sein, in dieser Reihenfolge:
+    Nachname, Vorname, Geschlecht, Kürzel, Bestzeiten für 50 und 100 m (je aufeinanderfolgend)
+    Brust, Rückenkraul, Schmetterling, Kraul.  Der Rest der Zeile wird ignoriert.
+
+    --class=CLASS
+        Legt die Klasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich'.  Nicht alle
+        beim OMP möglichen Klassen werden unterstützt.  Genauergesagt wird bis jetzt nur die
+        sog. offene Klasse `Mixed' (d. h. Damen und Herren gemischt) unterstützt.  Als Wert sind
+        die folgenden, im OMP möglichen Klassen, erlaubt: mini-mixed, jugend-w, jugend-m,
+        jugend-mixed, damen, herren, mixed (default)
+
+    --block=BLOCK
+        Legt den Block fest für den die Positionen optimal besetzt werden sollen, z. B.
+        `Lagenstaffel'.  Standardmäßig werden alle Wettkämpfe (Staffeln und Einzelstarts) besetzt.
+        Es wird nicht garantiert, dass alle Blöcke unterstützt werden.  Für alle Klassen außer
+        `Mini Mixed' können grundsätzlich folgende Blöcke berechnet werden:    lagenstaffel,
+        schlussstaffel, einzelstarts, gesamt (default)
+
+    -d, --dry
+        `Trockenlauf', keine Berechnung durchführen.  Die Ausgabe ist die gleiche wie normal, nur
+        dass alle Positionen unbesetzt sind (`N/A').  Durch diese Option kann man sich Positionen
+        und Disziplinen eines Blocks ansehen.
+
+    -i, --input[=FILE]
+        Die Besetzung der Positionen wird nicht vom Programm berechnet, sondern vom Benutzer
+        vorgegeben.  Die Eingabe sind die Kürzel der Schwimmer, getrennt durch Whitespace in der
+        Reihenfolge der Positionen des Blocks.  Ungültige Schwimmerkürzel führen dazu, dass die
+        Position nicht besetzt wird.  Wenn keine Datei angegeben ist, wird von der Standardeingabe
+        gelesen.  Diese Option kann verwendet werden um Zwischenzeiten und Gesamtzeit berechnen
+        und anzeigen zu lassen.
+
+    -p, --plain
+        Das Ergebnis wird in der Form ausgegeben, die bei der vorigen Option als Eingabe erwartet
+        wird: Eine durch Zeilenumbruch getrennte Liste von Schwimmerkürzeln in der Reihenfolge der
+        Positionen des Blocks.  Eine leere Zeile bedeutet dass die Position nicht besetzt ist.
+
+    -v, --verbose
+        Es wird am Anfang die Schwimmer-Zeiten-Liste und generell mehr Text ausgegeben.
+
+    --version
+        Zeigt eine Versionsinformation an.
+
+    --help
+        Zeigt eine Kurzform dieser Hilfe an.
+
+
 
 Begriffe
 --------
