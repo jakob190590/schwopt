@@ -106,7 +106,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 			{
 				int cl; // class
 				for (cl = 0; cl < ANZAHL_CLASSES; cl++)
-					if (strcmp(optarg, classNameTable[cl]) == 0)
+					if (strcmp(optarg, CLASS_NAME_TABLE[cl]) == 0)
 					{
 						val_class = (Class) cl;
 						break;
@@ -119,7 +119,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 			{
 				int bl; // block
 				for (bl = 0; bl < ANZAHL_BLOCKS; bl++)
-					if (strcmp(optarg, blockNameTable[bl]) == 0)
+					if (strcmp(optarg, BLOCK_NAME_TABLE[bl]) == 0)
 					{
 						val_block = (Block) bl;
 						break;
@@ -218,8 +218,8 @@ int main(int argc, char* argv[])
 	int flagInput = 0;
 	int flagPlain = 0;
 	int flagVerbose = 0;
-	Class valClass = MIXED;
-	Block valBlock = GESAMT;
+	Class valClass = DEFAULT_CLASS;
+	Block valBlock = DEFAULT_BLOCK;
 	string valInput, valParam; // empty
 
 	parseArguments(argc, argv,
@@ -318,13 +318,13 @@ int main(int argc, char* argv[])
 			break;
 
 		default:
-			exitWithError("block `" + string(blockNameTable[valBlock]) + "' not supported yet");
+			exitWithError("block `" + string(BLOCK_NAME_TABLE[valBlock]) + "' not supported yet");
 			break;
 		}
 		break;
 
 	default:
-		exitWithError("class `" + string(classNameTable[valClass]) + "' not supported yet");
+		exitWithError("class `" + string(CLASS_NAME_TABLE[valClass]) + "' not supported yet");
 		break;
 	}
 
