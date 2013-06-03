@@ -32,6 +32,8 @@ static void exitWithError(const string& errmsg)
 
 static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_input, int& flag_plain, int& flag_verbose, Class& val_class, Block& val_block, string& val_input, string& val_param)
 {
+	// Lesenwert: http://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html
+	// Argument Syntax Conventions. Z. B. per Konvention aequivalent: -ifile.txt und -i file.txt
 	int c;
 	while (1)
 	{
@@ -55,7 +57,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 		/* getopt_long stores the option index here. */
 		int option_index = 0;
 
-		c = getopt_long(argc, argv, "dipv", long_options, &option_index);
+		c = getopt_long(argc, argv, "di::pv", long_options, &option_index);
 
 		/* Detect the end of the options. */
 		if (c == -1)
