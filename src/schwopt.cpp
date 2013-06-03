@@ -21,7 +21,8 @@
 
 using namespace std;
 
-static const string usage = "usage: schwopt [--help] [or other options] <filename>";
+static const string usage   = "usage: schwopt [--help] [or other options] <filename>";
+static const string version = "schwopt version 1.0.0";
 
 static void exitWithError(const string& errmsg)
 {
@@ -84,8 +85,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 			}
 			break;
 		case 'V':
-			// no version info yet
-			cout << "schwopt version 1.0.0" << endl;
+			cout << version << endl;
 			exit(EXIT_SUCCESS);
 			break;
 		case 'd':
