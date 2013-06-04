@@ -4,7 +4,7 @@ Dokumentation zu schwopt
 Allgemein
 ---------
 
-Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf [Oberbayerischer Mannschaftspokal (OMP)](http://www.bsv-oberbayern.de/omp/start.html).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln und Einzelstarts) möglichst optimal ein.  Dabei handelt es sich aber nicht um die exakte Lösung sondern eine Näherungslösung.  Diese kann mit der exakten Lösung übereinstimmen.
+Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf [Oberbayerischer Mannschaftspokal (OMP)](http://www.bsv-oberbayern.de/omp/start.html).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln und Einzelstarts) möglichst optimal ein.
 
 Der Name des Programms "schwopt" hat mit Schwimmwettkampf und Optimierung zu tun.
 
@@ -12,8 +12,8 @@ Manual
 ------
 
     schwopt
-	
-	Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf Oberbayerischer
+    
+    Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf Oberbayerischer
     Mannschaftspokal (OMP).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln
     und Einzelstarts) möglichst optimal ein.
 
@@ -98,27 +98,52 @@ Architektur
 
 Design und Architektur sind eher einfach gehalten.  Gründe:
 
-- Mit unsigned zu rechnen ist wahrscheinlich schneller als mit Objekten einer Klasse Zeit.
-- Wenn ich anfange Operatoren zu überladen werde ich nicht mehr froh wenn ich konsequent bin.  Und andernfalls wird das Programm inkonsistent.
+ - Mit unsigned zu rechnen ist wahrscheinlich schneller als mit Objekten einer Klasse Zeit.
+ - Wenn ich anfange Operatoren zu überladen werde ich nicht mehr froh wenn ich konsequent bin.  Und andernfalls wird das Programm inkonsistent.
 
-# Klasse SchwoptComputer
+### Klasse SchwoptComputer
 
-Basisklasse aller Optimierungsrechner.  Stellt Memberfunktionen bereit und auch einige protected Membervariablen, die die Kindklassen verwenden können/sollen.
+`SchwoptComputer` ist die Basisklasse aller Optimierungsrechner.  Sie stellt Memberfunktionen bereit und auch einige protected Membervariablen, die die Kindklassen verwenden können/sollen.
 
-- `void compute();` // Berechnen
-- `unsigned getTime() const;` // Gesamtzeit abfragen
-- `SchwimmerVector getResult() const;` // Ergebnis abfragen
-- `void outputResult(ostream&) const;` // Ergebnis ausgeben
+ - `void compute();` // Berechnen
+ - `unsigned getTime() const;` // Gesamtzeit abfragen
+ - `SchwimmerVector getResult() const;` // Ergebnis abfragen
+ - `void outputResult(ostream&) const;` // Ergebnis ausgeben
 
 Achtung: Eine SchwoptComputer-Instanz ist ein "Einmal-und-Wegwerf-Computer".  Die Funktion `compute` darf nur ein einziges Mal an einem Objekt aufgerufen werden -- danach ist das Verhalten undefiniert.  Dadurch wird die Implementierung vereinfacht (es müssen nicht alle Membervariablen als lokale Variablen kopiert werden, sondern können direkt verwendet und manipuliert werden).
+
+Für jeden Block bzw. den gesamten Wettkampf gibt es je eine abgeleitete Klasse.  Diese Klassen dienen wiederum als Basisklassen für die Implementierungen.  In der offenen Wertungsklasse "Mixed" gibt es z. B. die abgeleiteten Klassen `Lagenstaffel`, `Kraulstaffel` (auch "Schlussstaffel" genannt), `Einzelstarts` und `Gesamt`.
 
 Algorithmus
 -----------
 
-Der Algorithmus ist grob wie folgt:
+### Exakte Lösung
+
+Die exakte Lösung kann durch Durchprobieren ermittelt werden.  Der Algorithmus ist grob wie folgt:
+
+    Schwimmer durchprobieren (in geschachtelten Schleifen):
+    
+    Jeden Einzelnen für 1. Position
+      Jeden Einzelnen für 2. Position
+        Jeden Einzelnen für 3. Position
+          ...
+            Jeden Einzelnen für n-te Position
+    
+    Dabei müssen ständig die Bedingungen überprüft werden.
+    Es wird die Kombination gewählt, bei der die Gesamtzeit am geringsten ist.
+
+Laufzeit: Sei n die Anzahl der Schwimmer und m die Anzahl der Positionen.  Dann ist die Laufzeit O(n^m), weil im schlimmsten Fall für jede der m Positionen n Schwimmer durchprobiert werden müssen.  Beim OMP gilt ca.: n = m / 2 => m = 2 * n (z. B. 9 Kandidaten bei 18 Positionen), demnach kann die Laufzeit auch geschrieben werden als O(n^n).
+
+Nachteile: Nicht-rekursiv programmiert erfordert diese Lösung schon bei vier Positionen sehr viel Code.  Die Implementierung ist sehr fehlerträchtig.  Die Laufzeit ist schlecht (bei der Lagenstaffel mit vier Positionen kein Problem, aber bei 18 Positionen wird man's merken).
+
+### Näherungslösung
+
+Der "Schwopt"-Algorithmus stellt eine Näherungslösung dar, die mit der exakten Lösung übereinstimmen kann.  Die Schritte sind grob wie folgt:
 
 Solange es freie Positionen gibt
  1. Freie Positionen mit besten freien Schwimmern besetzen
  2. Den Schwimmer festsetzen, der am meisten Zeit rausholt
 
-"festsetzen" bei 2. heißt: Der Schwimmer wird für die Position fest eingetragen; die Position ist dann nicht mehr frei.  "am meisten Zeit rausholt" in ist so gemeint: Zu jedem Schwimmer ist in jeder Disziplin bekannt, um wieviel er besser ist als der nächstschlechtere Schwimmer.  Am Ende wird der Schwimmer festgesetzt, wo der Abstand zum Nächstschlechteren am größten ist, der also am meisten Zeit rausholt.
+Bemerkungen zu 2.:
+ - "festsetzen" heißt: Der Schwimmer wird für die Position fest eingetragen; die Position ist dann nicht mehr frei.
+ - "am meisten Zeit rausholt" ist so gemeint: Zu jedem Schwimmer ist in jeder Disziplin bekannt, um wieviel er besser ist als der nächstschlechtere Schwimmer.  Am Ende wird der Schwimmer festgesetzt, bei dem der Abstand zum Nächstschlechteren am größten ist, der also am meisten Zeit rausholt.
