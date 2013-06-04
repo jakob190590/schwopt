@@ -204,6 +204,8 @@ static void outputResult(ostream& os, const SchwoptComputer& computer, const boo
 		{
 			if (*it)
 				os << (*it)->kuerzel;
+			else
+				os << "N/A";
 			os << endl;
 		}
 	}

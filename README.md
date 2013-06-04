@@ -52,7 +52,8 @@ Manual
     -p, --plain
         Das Ergebnis wird in der Form ausgegeben, die bei der Option --input als Eingabe erwartet
         wird: Eine durch Zeilenumbruch getrennte Liste von Schwimmerkürzeln in der Reihenfolge der
-        Positionen des Blocks.  Eine leere Zeile bedeutet dass die Position nicht besetzt ist.
+        Positionen des Blocks.  Der Wert `N/A' bedeutet dass die Position nicht besetzt ist.
+		Dieser Wert sollte also nicht als Kürzel für einen Schwimmer verwendet werden!
 
     -v, --verbose
         Es wird am Anfang die Schwimmer-Zeiten-Liste und generell mehr Text ausgegeben.
