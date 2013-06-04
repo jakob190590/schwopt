@@ -17,14 +17,10 @@ Manual
     Mannschaftspokal (OMP).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln
     und Einzelstarts) möglichst optimal ein.
 
-    DATAFILE muss angegeben werden (außer bei --version und --help).  DATAFILE ist eine Textdatei,
-    die Namen, Daten und Zeiten der Schwimmer enthält.  Jede Zeile enthält die Daten zu einem
-    Schwimmer.  Leerzeilen und Zeilen die mit `#' beginnen werden ignoriert.  Folgende, durch
-    Whitespace getrennte Felder müssen für jeden Schwimmer definiert sein, in dieser Reihenfolge:
-    Nachname, Vorname, Geschlecht, Kürzel, Bestzeiten für 50 und 100 m (je aufeinanderfolgend)
-    Brust, Rückenkraul, Schmetterling, Kraul.  Der Rest der Zeile wird ignoriert.
-
     schwopt [OPTION] ... DATAFILE
+
+    DATAFILE -- die Datendatei -- muss angegeben werden (außer bei --version und --help).  Die
+    Textdatei enthält persönliche Daten der Schwimmer und deren Bestzeiten in allen Disziplinen.
 
     --class=CLASS
         Legt die Klasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich'.  Nicht alle
@@ -66,7 +62,17 @@ Manual
 
     --help
         Zeigt eine Kurzform dieser Hilfe an.
-
+    
+    
+    Die Datendatei enthält persönliche Daten und Bestzeiten der Schwimmer.  Die Datendatei ist eine
+    Textdatei.  Jede Zeile enthält Daten zu genau einem Schwimmer.  Ein Schwimmerdatensatz besteht
+    aus folgenden Feldern:
+    
+    Nachname, Vorname, Geschlecht (m/w), Kuerzel (z. B. Initialien), Brust 50 m, Brust 100 m,
+    Rücken 50 m, Rücken 100 m, Schmetterling 50 m, Schmetterling 100 m, Kraul 50 m, Kraul 100 m
+    
+    Die Feldwerte müssen durch Whitespace getrennt sein.  Zeiten müssen in folgendem Format `01:26,8'
+    vorliegen.  Leerzeilen und Zeilen die mit einem Doppelkreuz (`#') beginnen werden ignoriert.
 
 
 Begriffe
