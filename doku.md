@@ -11,9 +11,9 @@ Der Name des Programms "schwopt" hat mit Schwimmwettkampf und Optimierung zu tun
 Manual
 ------
 
-    schwopt [OPTION] ... DATAFILE
-
-    Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf Oberbayerischer
+    schwopt
+	
+	Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf Oberbayerischer
     Mannschaftspokal (OMP).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln
     und Einzelstarts) möglichst optimal ein.
 
@@ -23,6 +23,8 @@ Manual
     Whitespace getrennte Felder müssen für jeden Schwimmer definiert sein, in dieser Reihenfolge:
     Nachname, Vorname, Geschlecht, Kürzel, Bestzeiten für 50 und 100 m (je aufeinanderfolgend)
     Brust, Rückenkraul, Schmetterling, Kraul.  Der Rest der Zeile wird ignoriert.
+
+    schwopt [OPTION] ... DATAFILE
 
     --class=CLASS
         Legt die Klasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich'.  Nicht alle
@@ -35,7 +37,7 @@ Manual
         Legt den Block fest für den die Positionen optimal besetzt werden sollen, z. B.
         `Lagenstaffel'.  Standardmäßig werden alle Wettkämpfe (Staffeln und Einzelstarts) besetzt.
         Es wird nicht garantiert, dass alle Blöcke unterstützt werden.  Für alle Klassen außer
-        `Mini Mixed' können grundsätzlich folgende Blöcke berechnet werden:    lagenstaffel,
+        `Mini Mixed' können grundsätzlich folgende Blöcke berechnet werden: lagenstaffel,
         schlussstaffel, einzelstarts, gesamt (default)
 
     -d, --dry
@@ -52,7 +54,7 @@ Manual
         und anzeigen zu lassen.
 
     -p, --plain
-        Das Ergebnis wird in der Form ausgegeben, die bei der vorigen Option als Eingabe erwartet
+        Das Ergebnis wird in der Form ausgegeben, die bei der Option --input als Eingabe erwartet
         wird: Eine durch Zeilenumbruch getrennte Liste von Schwimmerkürzeln in der Reihenfolge der
         Positionen des Blocks.  Eine leere Zeile bedeutet dass die Position nicht besetzt ist.
 
