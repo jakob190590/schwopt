@@ -4,7 +4,7 @@
 #include <iomanip>
 
 #include "LagenstaffelExaktComputer.h"
-#include "../Zeit.h"
+#include "../../Zeit.h"
 
 using namespace std;
 

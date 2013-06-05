@@ -12,12 +12,11 @@
 #include "Schwimmer.h"
 #include "CLI.h"
 
-#include "compute/KraulstaffelComputer.h"
-#include "compute/LagenstaffelExaktComputer.h"
-#include "compute/LagenstaffelComputer.h"
-//#include "compute/EinzelstartsComputer.h"
-#include "compute/GesamtComputer.h"
-#include "compute/GesamtNotComputer.h"
+#include "compute/mixed/KraulstaffelComputer.h"
+#include "compute/mixed/LagenstaffelExaktComputer.h"
+#include "compute/mixed/LagenstaffelComputer.h"
+#include "compute/mixed/GesamtComputer.h"
+#include "compute/mixed/GesamtNotComputer.h"
 
 using namespace std;
 

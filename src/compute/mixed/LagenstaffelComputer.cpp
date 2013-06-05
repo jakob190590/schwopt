@@ -7,8 +7,8 @@
 #include <algorithm>
 
 #include "LagenstaffelComputer.h"
-#include "../Zeit.h"
-#include "../Debugging.h"
+#include "../../Zeit.h"
+#include "../../Debugging.h"
 
 using namespace std;
 

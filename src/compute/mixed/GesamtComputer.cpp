@@ -6,11 +6,11 @@
 #include <algorithm>
 
 #include "GesamtComputer.h"
-#include "Lagenstaffel.h"
-#include "Kraulstaffel.h"
-#include "Einzelstarts.h"
-#include "../Debugging.h"
-#include "../Zeit.h"
+#include "../Lagenstaffel.h"
+#include "../Kraulstaffel.h"
+#include "../Einzelstarts.h"
+#include "../../Debugging.h"
+#include "../../Zeit.h"
 
 using namespace std;
 

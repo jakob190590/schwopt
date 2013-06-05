@@ -5,8 +5,8 @@
 #include <vector>
 #include <map>
 
-#include "Gesamt.h"
-#include "SchwoptAlgo.h"
+#include "../Gesamt.h"
+#include "../SchwoptAlgo.h"
 
 class GesamtComputer: public Gesamt
 {

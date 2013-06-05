@@ -5,8 +5,8 @@
 #include <map>
 #include <vector>
 
-#include "Lagenstaffel.h"
-#include "SchwoptAlgo.h"
+#include "../Lagenstaffel.h"
+#include "../SchwoptAlgo.h"
 
 class LagenstaffelComputer: public Lagenstaffel
 {

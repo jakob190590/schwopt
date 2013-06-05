@@ -3,7 +3,7 @@
 #include <cassert>
 #include <iomanip>
 
-#include "KraulstaffelComputer.h"
+#include "Kraulstaffel.h"
 #include "../Zeit.h"
 
 using namespace std;

@@ -2,7 +2,7 @@
 #ifndef KRAULSTAFFELCOMUTER_H_
 #define KRAULSTAFFELCOMUTER_H_
 
-#include "Kraulstaffel.h"
+#include "../Kraulstaffel.h"
 
 // Berechnet die exakte Lösung (weil's einfach ist bei Kraulstaffel)
 class KraulstaffelComputer: public Kraulstaffel
