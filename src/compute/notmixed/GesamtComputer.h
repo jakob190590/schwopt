@@ -1,6 +1,6 @@
 
-#ifndef GESAMTCOMPUTER_H_
-#define GESAMTCOMPUTER_H_
+#ifndef NOTMIXED_GESAMTCOMPUTER_H_
+#define NOTMIXED_GESAMTCOMPUTER_H_
 
 #include <vector>
 #include <map>
@@ -55,4 +55,4 @@ public:
 
 }
 
-#endif /* GESAMTCOMPUTER_H_ */
+#endif /* NOTMIXED_GESAMTCOMPUTER_H_ */

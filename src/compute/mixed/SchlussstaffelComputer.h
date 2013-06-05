@@ -1,6 +1,6 @@
 
-#ifndef SCHLUSSSTAFFELCOMUTER_H_
-#define SCHLUSSSTAFFELCOMUTER_H_
+#ifndef MIXED_SCHLUSSSTAFFELCOMUTER_H_
+#define MIXED_SCHLUSSSTAFFELCOMUTER_H_
 
 #include "../Schlussstaffel.h"
 
@@ -20,4 +20,4 @@ public:
 
 }
 
-#endif /* SCHLUSSSTAFFELCOMUTER_H_ */
+#endif /* MIXED_SCHLUSSSTAFFELCOMUTER_H_ */
