@@ -60,7 +60,7 @@ public:
 
 };
 
-template<typename C> Schwimmer* lookupSchwimmer(const C& container, const string& kuerzel)
+template <typename C> Schwimmer* lookupSchwimmer(const C& container, const string& kuerzel)
 {
 	typename C::const_iterator it = find_if(container.begin(), container.end(),
 			Schwimmer::KuerzelPredicate(kuerzel));
@@ -74,7 +74,7 @@ ostream& operator <<(ostream&, Schwimmer const * const);
 
 // template (non-specialized) function's impl must be visible to a translation unit that uses it.
 // otherwiese: "undefinied reference to <template function>"
-template<int disziplin> bool zeitLess(const Schwimmer* schw1, const Schwimmer* schw2)
+template <int disziplin> bool zeitLess(const Schwimmer* schw1, const Schwimmer* schw2)
 {
 	return schw1->zeiten[disziplin] < schw2->zeiten[disziplin];
 }
