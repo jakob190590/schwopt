@@ -187,6 +187,29 @@ static void readDataFile(const string& filename, SchwimmerList& schwimmer)
 	ifs.close();
 }
 
+static void readInput(const bool& flagVerbose, const string& valInput, SchwimmerList& schwimmer)
+{
+	if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
+		cout << "// [Eigene Belegung] GesamtComputer"    << endl
+			 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
+			 << "durch Leerzeichen getrennt!"            << endl
+			 << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
+			 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
+
+	string input;
+	if (valInput.empty())
+		while (cin >> input)
+			schwimmer.push_back(lookupSchwimmer(schwimmer, input));
+	else
+	{
+		ifstream ifs(valInput.c_str());
+		if (!ifs.is_open())
+			exitWithError("cannot open input file `" + valInput + "'");
+		while (ifs >> input)
+			schwimmer.push_back(lookupSchwimmer(schwimmer, input));
+	}
+}
+
 static void coutSchwimmer(Schwimmer* s)
 {
 	cout << s;
@@ -294,27 +317,7 @@ int main(int argc, char* argv[])
 			{
 				SchwimmerList eingesetzteSchwimmer;
 				if (flagInput)
-				{
-					if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
-						cout << "// [Eigene Belegung] GesamtComputer"    << endl
-							 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
-							 << "durch Leerzeichen getrennt!"            << endl
-							 << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
-							 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
-
-					string input;
-					if (valInput.empty())
-						while (cin >> input)
-							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-					else
-					{
-						ifstream ifs(valInput.c_str());
-						if (!ifs.is_open())
-							exitWithError("cannot open input file `" + valInput + "'");
-						while (ifs >> input)
-							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-					}
-				}
+					readInput(flagVerbose, valInput, eingesetzteSchwimmer);
 
 				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
 				gesamtNotComputer.compute();
@@ -346,27 +349,7 @@ int main(int argc, char* argv[])
 			{
 				SchwimmerList eingesetzteSchwimmer;
 				if (flagInput)
-				{
-					if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
-						cout << "// [Eigene Belegung] GesamtComputer"    << endl
-							 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
-							 << "durch Leerzeichen getrennt!"            << endl
-							 << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
-							 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
-
-					string input;
-					if (valInput.empty())
-						while (cin >> input)
-							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-					else
-					{
-						ifstream ifs(valInput.c_str());
-						if (!ifs.is_open())
-							exitWithError("cannot open input file `" + valInput + "'");
-						while (ifs >> input)
-							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-					}
-				}
+					readInput(flagVerbose, valInput, eingesetzteSchwimmer);
 
 				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
 				gesamtNotComputer.compute();
