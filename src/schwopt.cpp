@@ -150,7 +150,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 	}
 }
 
-static void readFile(const string& filename, SchwimmerList& schwimmer)
+static void readDataFile(const string& filename, SchwimmerList& schwimmer)
 {
 	// Datei oeffnen
 	ifstream ifs(filename.c_str());
@@ -231,7 +231,7 @@ int main(int argc, char* argv[])
 			valClass, valBlock, valInput, valParam);
 
 	SchwimmerList schwimmer;
-	readFile(valParam, schwimmer);
+	readDataFile(valParam, schwimmer);
 
 	// So, ab hier kann mit der list schwimmer gearbeitet werden
 	if (flagVerbose)
