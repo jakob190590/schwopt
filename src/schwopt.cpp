@@ -268,6 +268,9 @@ int main(int argc, char* argv[])
 	switch (valClass) {
 	case MIXED:
 	case JUGEND_MIXED:
+		if (flagVerbose)
+			cout << "Wertungsklasse: Mixed (offene Klasse oder Jugend)" << endl;
+
 		switch (valBlock) {
 		case LAGENSTAFFEL:
 			{
@@ -335,6 +338,9 @@ int main(int argc, char* argv[])
 	case HERREN:
 	case JUGEND_W:
 	case JUGEND_M:
+		if (flagVerbose)
+			cout << "Wertungsklasse: Nicht Mixed" << endl;
+
 		switch (valBlock) {
 		case GESAMT:
 			if (!flagDry && !flagInput)
