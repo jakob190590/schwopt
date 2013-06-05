@@ -16,7 +16,7 @@
 #include "compute/mixed/LagenstaffelExaktComputer.h"
 #include "compute/mixed/LagenstaffelComputer.h"
 #include "compute/mixed/GesamtComputer.h"
-#include "compute/mixed/GesamtNotComputer.h"
+#include "compute/GesamtNotComputer.h"
 
 using namespace std;
 
