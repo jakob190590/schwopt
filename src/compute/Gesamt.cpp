@@ -7,7 +7,7 @@
 
 #include "Gesamt.h"
 #include "Lagenstaffel.h"
-#include "Kraulstaffel.h"
+#include "Schlussstaffel.h"
 #include "Einzelstarts.h"
 #include "../Zeit.h"
 
@@ -21,7 +21,7 @@ Gesamt::Gesamt(const SchwimmerList& schwimmer) :  // + workaround (fu c++ http:/
 	positionDisziplinTable[1] = Disziplin::BRUST_50;
 	positionDisziplinTable[2] = Disziplin::SCHM_50;
 	positionDisziplinTable[3] = Disziplin::FREI_50;
-	// Kraulstaffel (8 x 50 m Kraul
+	// Schlussstaffel (8 x 50 m Kraul
 	positionDisziplinTable[4] = Disziplin::FREI_50;
 	positionDisziplinTable[5] = Disziplin::FREI_50;
 	positionDisziplinTable[6] = Disziplin::FREI_50;
@@ -43,9 +43,9 @@ Gesamt::Block Gesamt::getBlock(int position)
 {
 	if (position < Lagenstaffel::ANZAHL_POSITIONEN)
 		return LAGENSTAFFEL;
-	if (position < Lagenstaffel::ANZAHL_POSITIONEN + Kraulstaffel::ANZAHL_POSITIONEN)
+	if (position < Lagenstaffel::ANZAHL_POSITIONEN + Schlussstaffel::ANZAHL_POSITIONEN)
 		return KRAULSTAFFEL;
-	if (position < Lagenstaffel::ANZAHL_POSITIONEN + Kraulstaffel::ANZAHL_POSITIONEN + Einzelstarts::ANZAHL_POSITIONEN / 2)
+	if (position < Lagenstaffel::ANZAHL_POSITIONEN + Schlussstaffel::ANZAHL_POSITIONEN + Einzelstarts::ANZAHL_POSITIONEN / 2)
 		return EINZELSTARTS_50;
 	return EINZELSTARTS_100;
 }
@@ -88,14 +88,14 @@ void Gesamt::outputResult(ostream& os) const
 			sum = 0;
 			break;
 		case Lagenstaffel::ANZAHL_POSITIONEN +
-		     Kraulstaffel::ANZAHL_POSITIONEN - 1:
+		     Schlussstaffel::ANZAHL_POSITIONEN - 1:
 			outputZwischenergebnis(os, sum, divider);
 			os << "Einzelstarts (4 x 50 m + 4 x 100 m Lagen)" << endl
 			   << underline << endl;
 			sum = 0;
 			break;
 		case Lagenstaffel::ANZAHL_POSITIONEN +
-		     Kraulstaffel::ANZAHL_POSITIONEN +
+		     Schlussstaffel::ANZAHL_POSITIONEN +
 		     Einzelstarts::ANZAHL_POSITIONEN - 1:
 			outputZwischenergebnis(os, sum, divider);
 			sum = 0;

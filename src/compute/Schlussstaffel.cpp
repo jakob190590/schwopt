@@ -3,17 +3,17 @@
 #include <cassert>
 #include <iomanip>
 
-#include "Kraulstaffel.h"
+#include "Schlussstaffel.h"
 #include "../Zeit.h"
 
 using namespace std;
 
-Kraulstaffel::Kraulstaffel(const SchwimmerList& schwimmer) :
+Schlussstaffel::Schlussstaffel(const SchwimmerList& schwimmer) :
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN)
 {
 }
 
-void Kraulstaffel::outputResult(ostream& os) const
+void Schlussstaffel::outputResult(ostream& os) const
 {
 	string diszi = Disziplin::convertToString(DISZIPLIN);
 	os << "Kraulstaffel (" << ANZAHL_POSITIONEN << " x " << diszi << ")" << endl; // TODO freistil oder kraul?

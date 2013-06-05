@@ -7,7 +7,7 @@
 
 #include "GesamtComputer.h"
 #include "../Lagenstaffel.h"
-#include "../Kraulstaffel.h"
+#include "../Schlussstaffel.h"
 #include "../Einzelstarts.h"
 #include "../../Debugging.h"
 #include "../../Zeit.h"
@@ -136,7 +136,7 @@ void GesamtComputer::compute()
 	int vacantPositionen = ANZAHL_POSITIONEN;
 	int vacantPositionenPerBlock[ANZAHL_BLOCKE] = {
 			Lagenstaffel::ANZAHL_POSITIONEN,
-			Kraulstaffel::ANZAHL_POSITIONEN,
+			Schlussstaffel::ANZAHL_POSITIONEN,
 			Einzelstarts::ANZAHL_POSITIONEN / 2,
 			Einzelstarts::ANZAHL_POSITIONEN / 2 };
 
@@ -158,7 +158,7 @@ void GesamtComputer::compute()
 	int sexNeededPerBlock[ANZAHL_BLOCKE][2] = {
 		//    m  w   (see enum Schwimmer::Geschlecht)
 			{ 2, 2 }, // Lagenstaffel
-			{ 2, 2 }, // Kraulstaffel
+			{ 2, 2 }, // Schlussstaffel
 			{ 1, 1 }, // Einzelstarts  50 m
 			{ 1, 1 }  // Einzelstarts 100 m
 	};

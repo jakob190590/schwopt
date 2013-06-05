@@ -12,7 +12,7 @@
 #include "Schwimmer.h"
 #include "CLI.h"
 
-#include "compute/mixed/KraulstaffelComputer.h"
+#include "compute/mixed/SchlussstaffelComputer.h"
 #include "compute/mixed/LagenstaffelExaktComputer.h"
 #include "compute/mixed/LagenstaffelComputer.h"
 #include "compute/mixed/GesamtComputer.h"
@@ -264,7 +264,7 @@ int main(int argc, char* argv[])
 		case SCHLUSSSTAFFEL:
 			{
 				if (flagVerbose) cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
-				KraulstaffelComputer kraulstaffelComputer(schwimmer);
+				SchlussstaffelComputer kraulstaffelComputer(schwimmer);
 				kraulstaffelComputer.compute();
 				outputResult(cout, kraulstaffelComputer, flagPlain);
 			}

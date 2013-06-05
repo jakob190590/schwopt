@@ -5,7 +5,7 @@
 #include "SchwoptComputer.h"
 #include "SchwoptAlgo.h"
 #include "Lagenstaffel.h"
-#include "Kraulstaffel.h"
+#include "Schlussstaffel.h"
 #include "Einzelstarts.h"
 
 class Gesamt: public SchwoptComputer
@@ -14,11 +14,11 @@ protected:
 	PositionDisziplinTable positionDisziplinTable;
 	void outputZwischenergebnis(ostream& os, const unsigned& zeit, const string& divider) const;
 public:
-	static const int ANZAHL_POSITIONEN = Lagenstaffel::ANZAHL_POSITIONEN + Kraulstaffel::ANZAHL_POSITIONEN + Einzelstarts::ANZAHL_POSITIONEN;
+	static const int ANZAHL_POSITIONEN = Lagenstaffel::ANZAHL_POSITIONEN + Schlussstaffel::ANZAHL_POSITIONEN + Einzelstarts::ANZAHL_POSITIONEN;
 
 	enum Block {
 		LAGENSTAFFEL = 0,  // Lagenstaffel
-		KRAULSTAFFEL,      // Kraulstaffel
+		KRAULSTAFFEL,      // Schlussstaffel
 		EINZELSTARTS_50,   // Einzelstarts (50 m)
 		EINZELSTARTS_100,  // Einzelstarts (100 m)
 		ANZAHL_BLOCKE };

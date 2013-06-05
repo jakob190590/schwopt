@@ -3,17 +3,17 @@
 #include <cassert>
 #include <iomanip>
 
-#include "KraulstaffelComputer.h"
+#include "SchlussstaffelComputer.h"
 #include "../../Zeit.h"
 
 using namespace std;
 
-KraulstaffelComputer::KraulstaffelComputer(const SchwimmerList& schwimmer) :
-		Kraulstaffel(schwimmer)
+SchlussstaffelComputer::SchlussstaffelComputer(const SchwimmerList& schwimmer) :
+		Schlussstaffel(schwimmer)
 {
 }
 
-void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], int& position, int& positionenLeft)
+void SchlussstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], int& position, int& positionenLeft)
 {
     if(fehlt[schw->geschlecht] > 0)
        fehlt[schw->geschlecht]--; // bis 0 runterzaehlen
@@ -30,7 +30,7 @@ void KraulstaffelComputer::schwimmerFestsetzen(Schwimmer*& schw, int fehlt[2], i
  * mit Rücksicht auf die "Mixed"-Bedingung (Quote).
  *
  */
-void KraulstaffelComputer::compute()
+void SchlussstaffelComputer::compute()
 {
 	// "Mixed"-Bedingungen: 2 Schwimmer, 2 Schwimmerinnen
 	// Immer im Hinterkopf behalten: Hier gibt's nur (m/w) -> binaer
