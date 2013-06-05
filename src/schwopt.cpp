@@ -16,6 +16,7 @@
 #include "compute/mixed/LagenstaffelExaktComputer.h"
 #include "compute/mixed/LagenstaffelComputer.h"
 #include "compute/mixed/GesamtComputer.h"
+#include "compute/notmixed/GesamtComputer.h"
 #include "compute/GesamtNotComputer.h"
 
 using namespace std;
@@ -243,6 +244,7 @@ int main(int argc, char* argv[])
 
 	switch (valClass) {
 	case MIXED:
+	case JUGEND_MIXED:
 		switch (valBlock) {
 		case LAGENSTAFFEL:
 			{
@@ -285,6 +287,58 @@ int main(int argc, char* argv[])
 				// Normale Berechnung und Ausgabe
 				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
 				Mixed::GesamtComputer gesamtComputer(schwimmer);
+				gesamtComputer.compute();
+				outputResult(cout, gesamtComputer, flagPlain);
+			}
+			else
+			{
+				SchwimmerList eingesetzteSchwimmer;
+				if (flagInput)
+				{
+					if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
+						cout << "// [Eigene Belegung] GesamtComputer"    << endl
+							 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
+							 << "durch Leerzeichen getrennt!"            << endl
+							 << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
+							 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
+
+					string input;
+					if (valInput.empty())
+						while (cin >> input)
+							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
+					else
+					{
+						ifstream ifs(valInput.c_str());
+						if (!ifs.is_open())
+							exitWithError("cannot open input file `" + valInput + "'");
+						while (ifs >> input)
+							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
+					}
+				}
+
+				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
+				gesamtNotComputer.compute();
+				outputResult(cout, gesamtNotComputer, flagPlain);
+			}
+			break;
+
+		default:
+			exitWithError("block `" + string(BLOCK_NAME_TABLE[valBlock]) + "' not supported yet");
+			break;
+		}
+		break;
+
+	case DAMEN:
+	case HERREN:
+	case JUGEND_W:
+	case JUGEND_M:
+		switch (valBlock) {
+		case GESAMT:
+			if (!flagDry && !flagInput)
+			{
+				// Normale Berechnung und Ausgabe
+				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
+				NotMixed::GesamtComputer gesamtComputer(schwimmer);
 				gesamtComputer.compute();
 				outputResult(cout, gesamtComputer, flagPlain);
 			}
