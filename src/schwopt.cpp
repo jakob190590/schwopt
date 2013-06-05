@@ -247,14 +247,14 @@ int main(int argc, char* argv[])
 		case LAGENSTAFFEL:
 			{
 				if (flagVerbose) cout << "// [Exakt] LagenstaffelExaktComputer (Exakte Loesung, Durchprobieren)" << endl;
-				LagenstaffelExaktComputer lagenstaffelExaktComputer(schwimmer);
+				Mixed::LagenstaffelExaktComputer lagenstaffelExaktComputer(schwimmer);
 				lagenstaffelExaktComputer.compute();
 				outputResult(cout, lagenstaffelExaktComputer, flagPlain);
 
 				if (flagVerbose)
 				{
 					cout << "// [SchwoptAlgo] LagenstaffelComputer" << endl;
-					LagenstaffelComputer lagenstaffelComputer(schwimmer);
+					Mixed::LagenstaffelComputer lagenstaffelComputer(schwimmer);
 					lagenstaffelComputer.compute();
 					outputResult(cout, lagenstaffelComputer, flagPlain);
 				}
@@ -264,7 +264,7 @@ int main(int argc, char* argv[])
 		case SCHLUSSSTAFFEL:
 			{
 				if (flagVerbose) cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
-				SchlussstaffelComputer kraulstaffelComputer(schwimmer);
+				Mixed::SchlussstaffelComputer kraulstaffelComputer(schwimmer);
 				kraulstaffelComputer.compute();
 				outputResult(cout, kraulstaffelComputer, flagPlain);
 			}
@@ -273,7 +273,7 @@ int main(int argc, char* argv[])
 		case EINZELSTARTS:
 			{
 //				if (flagVerbose) cout << "// [SchwoptAlgo] Einzelstarts" << endl;
-//				EinzelstartsComputer einzelstartsComputer(schwimmer);
+//				Mixed::EinzelstartsComputer einzelstartsComputer(schwimmer);
 //				einzelstartsComputer.compute();
 //				outputResult(cout, einzelstartsComputer, flagPlain);
 			}
@@ -284,7 +284,7 @@ int main(int argc, char* argv[])
 			{
 				// Normale Berechnung und Ausgabe
 				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
-				GesamtComputer gesamtComputer(schwimmer);
+				Mixed::GesamtComputer gesamtComputer(schwimmer);
 				gesamtComputer.compute();
 				outputResult(cout, gesamtComputer, flagPlain);
 			}

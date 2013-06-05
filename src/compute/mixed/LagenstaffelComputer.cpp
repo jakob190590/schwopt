@@ -11,6 +11,7 @@
 #include "../../Debugging.h"
 
 using namespace std;
+using namespace Mixed;
 
 PositionSchwimmerPair* LagenstaffelComputer::findMostWanted(PositionSchwimmerPairList& list)
 {

@@ -6,6 +6,9 @@
 
 #include "../Lagenstaffel.h"
 
+namespace Mixed
+{
+
 // Berechnet die exakte Lösung durch Durchprobieren.
 // Bei vier Positionen geht das noch...
 class LagenstaffelExaktComputer: public Lagenstaffel
@@ -15,5 +18,7 @@ public:
 
 	void compute();
 };
+
+}
 
 #endif /* LAGENSTAFFELEXAKTCOMUTER_H_ */

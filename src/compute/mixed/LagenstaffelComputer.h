@@ -8,6 +8,9 @@
 #include "../Lagenstaffel.h"
 #include "../SchwoptAlgo.h"
 
+namespace Mixed
+{
+
 class LagenstaffelComputer: public Lagenstaffel
 {
 protected:
@@ -39,5 +42,7 @@ public:
 
 	void compute();
 };
+
+}
 
 #endif /* LAGENSTAFFELCOMPUTER_H_ */

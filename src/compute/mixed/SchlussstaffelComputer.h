@@ -4,6 +4,9 @@
 
 #include "../Schlussstaffel.h"
 
+namespace Mixed
+{
+
 // Berechnet die exakte Lösung (weil's einfach ist bei Schlussstaffel)
 class SchlussstaffelComputer: public Schlussstaffel
 {
@@ -14,5 +17,7 @@ public:
 
 	void compute();
 };
+
+}
 
 #endif /* SCHLUSSSTAFFELCOMUTER_H_ */

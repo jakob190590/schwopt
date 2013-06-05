@@ -13,6 +13,7 @@
 #include "../../Zeit.h"
 
 using namespace std;
+using namespace Mixed;
 
 GesamtComputer::GesamtComputer(const SchwimmerList& schwimmer) :
 		Gesamt(schwimmer), abstaendeInDisziplinen(createAbstandsMap(schwimmerSortiert))

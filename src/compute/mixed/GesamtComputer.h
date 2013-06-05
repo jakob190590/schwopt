@@ -8,6 +8,9 @@
 #include "../Gesamt.h"
 #include "../SchwoptAlgo.h"
 
+namespace Mixed
+{
+
 class GesamtComputer: public Gesamt
 {
 protected:
@@ -55,5 +58,7 @@ public:
 
 	void compute();
 };
+
+}
 
 #endif /* GESAMTCOMPUTER_H_ */
