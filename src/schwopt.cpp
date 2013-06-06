@@ -187,7 +187,8 @@ static void readDataFile(const string& filename, SchwimmerList& schwimmer)
 	ifs.close();
 }
 
-static void readInput(const bool& flagVerbose, const string& valInput, SchwimmerList& schwimmer)
+// in allSchwimmer wird mit lookupSchwimmer das Schwimmerkuerzel nachgeschlagen, der resultierende Schwimmer wird in resultSchwimmer eingetragen
+static void readInput(const bool& flagVerbose, const string& valInput, const SchwimmerList& allSchwimmer, SchwimmerList& resultSchwimmer)
 {
 	if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
 		cout << "// [Eigene Belegung] GesamtComputer"    << endl
@@ -199,14 +200,14 @@ static void readInput(const bool& flagVerbose, const string& valInput, Schwimmer
 	string input;
 	if (valInput.empty())
 		while (cin >> input)
-			schwimmer.push_back(lookupSchwimmer(schwimmer, input));
+			resultSchwimmer.push_back(lookupSchwimmer(allSchwimmer, input));
 	else
 	{
 		ifstream ifs(valInput.c_str());
 		if (!ifs.is_open())
 			exitWithError("cannot open input file `" + valInput + "'");
 		while (ifs >> input)
-			schwimmer.push_back(lookupSchwimmer(schwimmer, input));
+			resultSchwimmer.push_back(lookupSchwimmer(allSchwimmer, input));
 	}
 }
 
@@ -265,6 +266,10 @@ int main(int argc, char* argv[])
 		cout << endl;
 	}
 
+	SchwimmerList eingesetzteSchwimmer;
+	if (flagInput)
+		readInput(flagVerbose, valInput, schwimmer, eingesetzteSchwimmer);
+
 	switch (valClass) {
 	case MIXED:
 	case JUGEND_MIXED:
@@ -318,10 +323,6 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				SchwimmerList eingesetzteSchwimmer;
-				if (flagInput)
-					readInput(flagVerbose, valInput, eingesetzteSchwimmer);
-
 				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
 				gesamtNotComputer.compute();
 				outputResult(cout, gesamtNotComputer, flagPlain);
@@ -353,10 +354,6 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				SchwimmerList eingesetzteSchwimmer;
-				if (flagInput)
-					readInput(flagVerbose, valInput, eingesetzteSchwimmer);
-
 				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
 				gesamtNotComputer.compute();
 				outputResult(cout, gesamtNotComputer, flagPlain);
