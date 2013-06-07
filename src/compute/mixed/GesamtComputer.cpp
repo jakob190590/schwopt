@@ -116,6 +116,7 @@ void GesamtComputer::ensureMixedBedingung(int block,
 	// Zum sicherstellen der "Mixed"-Bedingung fuer einen Block
 	int const * const sex =    sexNeededPerBlock[block];
 	const int& vacant = vacantPositionenPerBlock[block];
+
 	Schwimmer::Geschlecht geschlechtToBeEliminated;
 	if (sex[Schwimmer::WEIBLICH] == vacant) // Frauen aus Performancegruenden zuerst
 		geschlechtToBeEliminated = Schwimmer::MAENNLICH;
@@ -125,10 +126,15 @@ void GesamtComputer::ensureMixedBedingung(int block,
 		return;
 
 	// Alle Schwimmer des Geschlechts rausloeschen
-	for (SchwimmerSet::iterator it = availableSchwimmerPerBlock[block].begin();
-			it != availableSchwimmerPerBlock[block].end(); ++it)
-		if ((*it)->geschlecht == geschlechtToBeEliminated)
-			removeFromAvailable(*(it--), availableSchwimmerPerBlock[block], schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
+	Schwimmer::GeschlechtPredicate pred(geschlechtToBeEliminated);
+	SchwimmerSet& availableSchwimmer = availableSchwimmerPerBlock[block];
+	SchwimmerSet::iterator it;
+	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
+			!= availableSchwimmer.end())
+	{
+			removeFromAvailable(*it, availableSchwimmer, schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
+	}
+
 }
 
 void GesamtComputer::compute()
