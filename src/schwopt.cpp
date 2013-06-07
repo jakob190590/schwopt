@@ -22,7 +22,7 @@
 using namespace std;
 
 static const string usage   = "usage: schwopt [--help] [or other options] <filename>";
-static const string version = "schwopt version 1.0.0";
+static const string version = "schwopt version 1.0.1";
 
 static void exitWithError(const string& errmsg)
 {
