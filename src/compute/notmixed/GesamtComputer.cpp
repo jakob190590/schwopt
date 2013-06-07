@@ -25,12 +25,13 @@ PositionSchwimmerPair* GesamtComputer::findMostWanted(PositionSchwimmerPairList&
 	PositionSchwimmerPair* result = NULL;
 	// Abstand in Diziplin auf der angegebenen Position, fuer den Schwimmer, der fuer diese Position vorgesehen ist
 	unsigned greatestAbstand = 0;
+	bool foundOne = false; // ohne dem wird gar keiner gefunden, wenn alle abstaende 0 sind
 
 	for (PositionSchwimmerPairList::iterator it = list.begin();
 			it != list.end(); ++it)
 	{
 		unsigned abstand = abstaendeInDisziplinen[positionDisziplinTable[it->first]][it->second];
-		if (abstand > greatestAbstand)
+		if (abstand > greatestAbstand || !foundOne)
 		{
 			greatestAbstand = abstand;
 			result = &*it;
@@ -149,6 +150,7 @@ void GesamtComputer::compute()
 			}
 
 		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
+
 #ifdef DEBUG
 		eligibleSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
 		gscheideDebugAusgabe(cout, mostWanted, positionDisziplinTable, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
