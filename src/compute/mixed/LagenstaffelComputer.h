@@ -1,12 +1,15 @@
 
-#ifndef LAGENSTAFFELCOMPUTER_H_
-#define LAGENSTAFFELCOMPUTER_H_
+#ifndef MIXED_LAGENSTAFFELCOMPUTER_H_
+#define MIXED_LAGENSTAFFELCOMPUTER_H_
 
 #include <map>
 #include <vector>
 
 #include "../Lagenstaffel.h"
 #include "../SchwoptAlgo.h"
+
+namespace Mixed
+{
 
 class LagenstaffelComputer: public Lagenstaffel
 {
@@ -40,4 +43,6 @@ public:
 	void compute();
 };
 
-#endif /* LAGENSTAFFELCOMPUTER_H_ */
+}
+
+#endif /* MIXED_LAGENSTAFFELCOMPUTER_H_ */

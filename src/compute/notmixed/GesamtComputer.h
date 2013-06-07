@@ -1,6 +1,6 @@
 
-#ifndef MIXED_GESAMTCOMPUTER_H_
-#define MIXED_GESAMTCOMPUTER_H_
+#ifndef NOTMIXED_GESAMTCOMPUTER_H_
+#define NOTMIXED_GESAMTCOMPUTER_H_
 
 #include <vector>
 #include <map>
@@ -8,7 +8,7 @@
 #include "../Gesamt.h"
 #include "../SchwoptAlgo.h"
 
-namespace Mixed
+namespace NotMixed
 {
 
 class GesamtComputer: public Gesamt
@@ -47,12 +47,6 @@ protected:
 			vector<SchwimmerSet>& availableSchwimmerPerBlock,
 			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
 			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
-	void ensureMixedBedingung(int block,
-			int sexNeeded[ANZAHL_BLOCKE][2],
-			int vacantPositionenPerBlock[ANZAHL_BLOCKE],
-			vector<SchwimmerSet>& availableSchwimmerPerBlock,
-			vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
-			vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const;
 public:
 	GesamtComputer(const SchwimmerList&);
 
@@ -61,4 +55,4 @@ public:
 
 }
 
-#endif /* MIXED_GESAMTCOMPUTER_H_ */
+#endif /* NOTMIXED_GESAMTCOMPUTER_H_ */

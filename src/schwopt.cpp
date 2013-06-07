@@ -16,7 +16,8 @@
 #include "compute/mixed/LagenstaffelExaktComputer.h"
 #include "compute/mixed/LagenstaffelComputer.h"
 #include "compute/mixed/GesamtComputer.h"
-#include "compute/mixed/GesamtNotComputer.h"
+#include "compute/notmixed/GesamtComputer.h"
+#include "compute/GesamtNotComputer.h"
 
 using namespace std;
 
@@ -149,7 +150,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 	}
 }
 
-static void readFile(const string& filename, SchwimmerList& schwimmer)
+static void readDataFile(const string& filename, SchwimmerList& schwimmer)
 {
 	// Datei oeffnen
 	ifstream ifs(filename.c_str());
@@ -184,6 +185,30 @@ static void readFile(const string& filename, SchwimmerList& schwimmer)
 		schwimmer.push_back(schw);
 	}
 	ifs.close();
+}
+
+// in allSchwimmer wird mit lookupSchwimmer das Schwimmerkuerzel nachgeschlagen, der resultierende Schwimmer wird in resultSchwimmer eingetragen
+static void readInput(const bool& flagVerbose, const string& valInput, const SchwimmerList& allSchwimmer, SchwimmerList& resultSchwimmer)
+{
+	if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
+		cout << "// [Eigene Belegung] GesamtComputer"    << endl
+			 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
+			 << "durch Leerzeichen getrennt!"            << endl
+			 << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
+			 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
+
+	string input;
+	if (valInput.empty())
+		while (cin >> input)
+			resultSchwimmer.push_back(lookupSchwimmer(allSchwimmer, input));
+	else
+	{
+		ifstream ifs(valInput.c_str());
+		if (!ifs.is_open())
+			exitWithError("cannot open input file `" + valInput + "'");
+		while (ifs >> input)
+			resultSchwimmer.push_back(lookupSchwimmer(allSchwimmer, input));
+	}
 }
 
 static void coutSchwimmer(Schwimmer* s)
@@ -230,7 +255,7 @@ int main(int argc, char* argv[])
 			valClass, valBlock, valInput, valParam);
 
 	SchwimmerList schwimmer;
-	readFile(valParam, schwimmer);
+	readDataFile(valParam, schwimmer);
 
 	// So, ab hier kann mit der list schwimmer gearbeitet werden
 	if (flagVerbose)
@@ -241,20 +266,28 @@ int main(int argc, char* argv[])
 		cout << endl;
 	}
 
+	SchwimmerList eingesetzteSchwimmer;
+	if (flagInput)
+		readInput(flagVerbose, valInput, schwimmer, eingesetzteSchwimmer);
+
 	switch (valClass) {
 	case MIXED:
+	case JUGEND_MIXED:
+		if (flagVerbose)
+			cout << "Wertungsklasse: Mixed (offene Klasse oder Jugend)" << endl;
+
 		switch (valBlock) {
 		case LAGENSTAFFEL:
 			{
 				if (flagVerbose) cout << "// [Exakt] LagenstaffelExaktComputer (Exakte Loesung, Durchprobieren)" << endl;
-				LagenstaffelExaktComputer lagenstaffelExaktComputer(schwimmer);
+				Mixed::LagenstaffelExaktComputer lagenstaffelExaktComputer(schwimmer);
 				lagenstaffelExaktComputer.compute();
 				outputResult(cout, lagenstaffelExaktComputer, flagPlain);
 
 				if (flagVerbose)
 				{
 					cout << "// [SchwoptAlgo] LagenstaffelComputer" << endl;
-					LagenstaffelComputer lagenstaffelComputer(schwimmer);
+					Mixed::LagenstaffelComputer lagenstaffelComputer(schwimmer);
 					lagenstaffelComputer.compute();
 					outputResult(cout, lagenstaffelComputer, flagPlain);
 				}
@@ -264,7 +297,7 @@ int main(int argc, char* argv[])
 		case SCHLUSSSTAFFEL:
 			{
 				if (flagVerbose) cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
-				SchlussstaffelComputer kraulstaffelComputer(schwimmer);
+				Mixed::SchlussstaffelComputer kraulstaffelComputer(schwimmer);
 				kraulstaffelComputer.compute();
 				outputResult(cout, kraulstaffelComputer, flagPlain);
 			}
@@ -273,7 +306,7 @@ int main(int argc, char* argv[])
 		case EINZELSTARTS:
 			{
 //				if (flagVerbose) cout << "// [SchwoptAlgo] Einzelstarts" << endl;
-//				EinzelstartsComputer einzelstartsComputer(schwimmer);
+//				Mixed::EinzelstartsComputer einzelstartsComputer(schwimmer);
 //				einzelstartsComputer.compute();
 //				outputResult(cout, einzelstartsComputer, flagPlain);
 			}
@@ -284,36 +317,43 @@ int main(int argc, char* argv[])
 			{
 				// Normale Berechnung und Ausgabe
 				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
-				GesamtComputer gesamtComputer(schwimmer);
+				Mixed::GesamtComputer gesamtComputer(schwimmer);
 				gesamtComputer.compute();
 				outputResult(cout, gesamtComputer, flagPlain);
 			}
 			else
 			{
-				SchwimmerList eingesetzteSchwimmer;
-				if (flagInput)
-				{
-					if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
-						cout << "// [Eigene Belegung] GesamtComputer"    << endl
-							 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
-							 << "durch Leerzeichen getrennt!"            << endl
-							 << "Eingabe beenden mit <Enter> <Strg + Z>" << endl
-							 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
+				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
+				gesamtNotComputer.compute();
+				outputResult(cout, gesamtNotComputer, flagPlain);
+			}
+			break;
 
-					string input;
-					if (valInput.empty())
-						while (cin >> input)
-							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-					else
-					{
-						ifstream ifs(valInput.c_str());
-						if (!ifs.is_open())
-							exitWithError("cannot open input file `" + valInput + "'");
-						while (ifs >> input)
-							eingesetzteSchwimmer.push_back(lookupSchwimmer(schwimmer, input));
-					}
-				}
+		default:
+			exitWithError("block `" + string(BLOCK_NAME_TABLE[valBlock]) + "' not supported yet");
+			break;
+		}
+		break;
 
+	case DAMEN:
+	case HERREN:
+	case JUGEND_W:
+	case JUGEND_M:
+		if (flagVerbose)
+			cout << "Wertungsklasse: Nicht Mixed" << endl;
+
+		switch (valBlock) {
+		case GESAMT:
+			if (!flagDry && !flagInput)
+			{
+				// Normale Berechnung und Ausgabe
+				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
+				NotMixed::GesamtComputer gesamtComputer(schwimmer);
+				gesamtComputer.compute();
+				outputResult(cout, gesamtComputer, flagPlain);
+			}
+			else
+			{
 				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
 				gesamtNotComputer.compute();
 				outputResult(cout, gesamtNotComputer, flagPlain);

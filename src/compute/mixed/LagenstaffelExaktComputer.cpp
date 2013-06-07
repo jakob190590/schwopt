@@ -7,6 +7,7 @@
 #include "../../Zeit.h"
 
 using namespace std;
+using namespace Mixed;
 
 LagenstaffelExaktComputer::LagenstaffelExaktComputer(const SchwimmerList& schwimmer) :
 		Lagenstaffel(schwimmer)

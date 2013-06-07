@@ -1,10 +1,13 @@
 
-#ifndef LAGENSTAFFELEXAKTCOMUTER_H_
-#define LAGENSTAFFELEXAKTCOMUTER_H_
+#ifndef MIXED_LAGENSTAFFELEXAKTCOMUTER_H_
+#define MIXED_LAGENSTAFFELEXAKTCOMUTER_H_
 
 #include <map>
 
 #include "../Lagenstaffel.h"
+
+namespace Mixed
+{
 
 // Berechnet die exakte Lösung durch Durchprobieren.
 // Bei vier Positionen geht das noch...
@@ -16,4 +19,6 @@ public:
 	void compute();
 };
 
-#endif /* LAGENSTAFFELEXAKTCOMUTER_H_ */
+}
+
+#endif /* MIXED_LAGENSTAFFELEXAKTCOMUTER_H_ */

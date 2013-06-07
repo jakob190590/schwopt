@@ -29,10 +29,11 @@ template <typename Iterator> void outputSchwimmerZeiten(ostream& os,
 }
 
 void gscheideDebugAusgabe(ostream& os,
+		const PositionSchwimmerPair* mostWanted,
 		const PositionDisziplinTable& disziplinen,
 		const SchwimmerListVector& schwimmerSortiert,
 		const PositionSchwimmerPairList& list,
-		const vector<SchwimmerAbstandMap>& abstaende,
+		const SchwimmerAbstandMapVector& abstaende,
 		unsigned anzahlNaechstbester = 2, bool showDisziplin = true);
 
 #endif /* DEBUGGING_H_ */

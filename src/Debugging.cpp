@@ -4,10 +4,11 @@
 #include "Debugging.h"
 
 void gscheideDebugAusgabe(ostream& os,
+		const PositionSchwimmerPair* mostWanted,
 		const PositionDisziplinTable& disziplinen,
 		const SchwimmerListVector& schwimmerSortiert,
 		const PositionSchwimmerPairList& list,
-		const vector<SchwimmerAbstandMap>& abstaende,
+		const SchwimmerAbstandMapVector& abstaende,
 		unsigned anzahlNaechstbester, bool showDisziplin)
 {
 	const int COL_WIDTH_POSITION = 5;
@@ -55,5 +56,18 @@ void gscheideDebugAusgabe(ostream& os,
 			os << " -" << setw(2) << setiosflags(ios::right) << abstaende[disziplin].find(nextSchwimmer)->second / 100 << resetiosflags(ios::right) << "-  ";
 		}
 		os << endl;
+	}
+
+	if (mostWanted)
+	{
+		os << "> " << setw(COL_WIDTH_POSITION - 2)  << mostWanted->first
+		   << (mostWanted->second->vorname + ' ' + mostWanted->second->nachname).substr(0, COL_WIDTH_DISZIPLIN - 2) << "  "
+		   << setw(COL_WIDTH_SCHWIMMER) << mostWanted->second->kuerzel
+		   << "<<< Most Wanted <<<" << endl;
+	}
+	else
+	{
+		os << setw(COL_WIDTH_POSITION + COL_WIDTH_DISZIPLIN + COL_WIDTH_SCHWIMMER)
+		   << "Kein Passender" << "<<< Most Wanted <<<" << endl;
 	}
 }

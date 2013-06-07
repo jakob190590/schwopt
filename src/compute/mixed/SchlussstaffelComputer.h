@@ -1,8 +1,11 @@
 
-#ifndef SCHLUSSSTAFFELCOMUTER_H_
-#define SCHLUSSSTAFFELCOMUTER_H_
+#ifndef MIXED_SCHLUSSSTAFFELCOMUTER_H_
+#define MIXED_SCHLUSSSTAFFELCOMUTER_H_
 
 #include "../Schlussstaffel.h"
+
+namespace Mixed
+{
 
 // Berechnet die exakte Lösung (weil's einfach ist bei Schlussstaffel)
 class SchlussstaffelComputer: public Schlussstaffel
@@ -15,4 +18,6 @@ public:
 	void compute();
 };
 
-#endif /* SCHLUSSSTAFFELCOMUTER_H_ */
+}
+
+#endif /* MIXED_SCHLUSSSTAFFELCOMUTER_H_ */

@@ -13,7 +13,7 @@
 #include "../../Zeit.h"
 
 using namespace std;
-using namespace Mixed;
+using namespace NotMixed;
 
 GesamtComputer::GesamtComputer(const SchwimmerList& schwimmer) :
 		Gesamt(schwimmer), abstaendeInDisziplinen(createAbstandsMap(schwimmerSortiert))
@@ -107,37 +107,6 @@ void GesamtComputer::ensureStaffelBedingung(Schwimmer* schw, int block,
 	// weil dieser schwimmer in dieser staffel (block) dann nicht mehr darf.
 }
 
-void GesamtComputer::ensureMixedBedingung(int block,
-		int sexNeededPerBlock[ANZAHL_BLOCKE][2],
-		int vacantPositionenPerBlock[ANZAHL_BLOCKE],
-		vector<SchwimmerSet>& availableSchwimmerPerBlock,
-		vector<SchwimmerListVector>& schwimmerSortiertPerBlock,
-		vector<SchwimmerAbstandMapVector>& abstaendeInDisziplinenPerBlock) const
-{
-	// Zum sicherstellen der "Mixed"-Bedingung fuer einen Block
-	int const * const sex =    sexNeededPerBlock[block];
-	const int& vacant = vacantPositionenPerBlock[block];
-
-	Schwimmer::Geschlecht geschlechtToBeEliminated;
-	if (sex[Schwimmer::WEIBLICH] == vacant) // Frauen aus Performancegruenden zuerst
-		geschlechtToBeEliminated = Schwimmer::MAENNLICH;
-	else if (sex[Schwimmer::MAENNLICH] == vacant)
-		geschlechtToBeEliminated = Schwimmer::WEIBLICH;
-	else
-		return;
-
-	// Alle Schwimmer des Geschlechts rausloeschen
-	Schwimmer::GeschlechtPredicate pred(geschlechtToBeEliminated);
-	SchwimmerSet& availableSchwimmer = availableSchwimmerPerBlock[block];
-	SchwimmerSet::iterator it;
-	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
-			!= availableSchwimmer.end())
-	{
-			removeFromAvailable(*it, availableSchwimmer, schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
-	}
-
-}
-
 void GesamtComputer::compute()
 {
 	// Anzahl Positionen, die noch nicht vergeben sind
@@ -161,15 +130,6 @@ void GesamtComputer::compute()
 	vector<SchwimmerSet>              availableSchwimmerPerBlock    (ANZAHL_BLOCKE, SchwimmerSet(schwimmer.begin(), schwimmer.end()));
 	vector<SchwimmerListVector>       schwimmerSortiertPerBlock     (ANZAHL_BLOCKE, this->schwimmerSortiert);
 	vector<SchwimmerAbstandMapVector> abstaendeInDisziplinenPerBlock(ANZAHL_BLOCKE, this->abstaendeInDisziplinen);
-
-	// Fuer "Mixed"-Bedingungen, Wettkampfbestimmungen (7)
-	int sexNeededPerBlock[ANZAHL_BLOCKE][2] = {
-		//    m  w   (see enum Schwimmer::Geschlecht)
-			{ 2, 2 }, // Lagenstaffel
-			{ 2, 2 }, // Schlussstaffel
-			{ 1, 1 }, // Einzelstarts  50 m
-			{ 1, 1 }  // Einzelstarts 100 m
-	};
 
 	// Hier geht's los
 	while (vacantPositionen)
@@ -209,11 +169,9 @@ void GesamtComputer::compute()
 		assignedPositionen[position] = true;
 		assert(nAvailableSchwimmer[schw] > 0); // sonst haette schw gar nicht eingesetzt werden duerfen
 		nAvailableSchwimmer[schw]--;
-		sexNeededPerBlock[block][schw->geschlecht]--;
 
 		ensureMax3Bedingung(schw, nAvailableSchwimmer, availableSchwimmer, schwimmerSortiert, abstaendeInDisziplinen, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 		ensureStaffelBedingung(schw, block, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
-		ensureMixedBedingung(block, sexNeededPerBlock, vacantPositionenPerBlock, availableSchwimmerPerBlock, schwimmerSortiertPerBlock, abstaendeInDisziplinenPerBlock);
 
 		// Ergebnis updaten
 		ergebnis[position] = schw;

@@ -7,6 +7,7 @@
 #include "../../Zeit.h"
 
 using namespace std;
+using namespace Mixed;
 
 SchlussstaffelComputer::SchlussstaffelComputer(const SchwimmerList& schwimmer) :
 		Schlussstaffel(schwimmer)
