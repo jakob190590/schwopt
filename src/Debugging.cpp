@@ -60,16 +60,14 @@ void gscheideDebugAusgabe(ostream& os,
 
 	if (mostWanted)
 	{
-		os     << setw(COL_WIDTH_POSITION)  << mostWanted->first;
-		if (showDisziplin)
-			os << setw(COL_WIDTH_DISZIPLIN) << Disziplin::convertToString(disziplinen[mostWanted->first], true, true, "m").substr(0, COL_WIDTH_DISZIPLIN - 2);
-		os     << setw(COL_WIDTH_SCHWIMMER) << mostWanted->second->kuerzel;
-		os     << setw(COL_WIDTH_ZEIT / 2 - 1) << mostWanted->second->zeiten[disziplinen[mostWanted->first]] / 100;
-		os     << "-" << setw(2) << setiosflags(ios::right) << abstaende[disziplinen[mostWanted->first]].find(mostWanted->second)->second / 100 << resetiosflags(ios::right) << "-  ";
-		os     << "<<< Most Wanted" << endl;
+		os << "> " << setw(COL_WIDTH_POSITION - 2)  << mostWanted->first
+		   << (mostWanted->second->vorname + ' ' + mostWanted->second->nachname).substr(0, COL_WIDTH_DISZIPLIN - 2) << "  "
+		   << setw(COL_WIDTH_SCHWIMMER) << mostWanted->second->kuerzel
+		   << "<<< Most Wanted <<<" << endl;
 	}
 	else
 	{
-		os << "Kein passender Schwimmer <<< Most Wanted" << endl;
+		os << setw(COL_WIDTH_POSITION + COL_WIDTH_DISZIPLIN + COL_WIDTH_SCHWIMMER)
+		   << "Kein Passender" << "<<< Most Wanted <<<" << endl;
 	}
 }
