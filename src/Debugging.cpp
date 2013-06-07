@@ -4,10 +4,11 @@
 #include "Debugging.h"
 
 void gscheideDebugAusgabe(ostream& os,
+		const PositionSchwimmerPair* mostWanted,
 		const PositionDisziplinTable& disziplinen,
 		const SchwimmerListVector& schwimmerSortiert,
 		const PositionSchwimmerPairList& list,
-		const vector<SchwimmerAbstandMap>& abstaende,
+		const SchwimmerAbstandMapVector& abstaende,
 		unsigned anzahlNaechstbester, bool showDisziplin)
 {
 	const int COL_WIDTH_POSITION = 5;
@@ -55,5 +56,20 @@ void gscheideDebugAusgabe(ostream& os,
 			os << " -" << setw(2) << setiosflags(ios::right) << abstaende[disziplin].find(nextSchwimmer)->second / 100 << resetiosflags(ios::right) << "-  ";
 		}
 		os << endl;
+	}
+
+	if (mostWanted)
+	{
+		os     << setw(COL_WIDTH_POSITION)  << mostWanted->first;
+		if (showDisziplin)
+			os << setw(COL_WIDTH_DISZIPLIN) << Disziplin::convertToString(disziplinen[mostWanted->first], true, true, "m").substr(0, COL_WIDTH_DISZIPLIN - 2);
+		os     << setw(COL_WIDTH_SCHWIMMER) << mostWanted->second->kuerzel;
+		os     << setw(COL_WIDTH_ZEIT / 2 - 1) << mostWanted->second->zeiten[disziplinen[mostWanted->first]] / 100;
+		os     << "-" << setw(2) << setiosflags(ios::right) << abstaende[disziplinen[mostWanted->first]].find(mostWanted->second)->second / 100 << resetiosflags(ios::right) << "-  ";
+		os     << "<<< Most Wanted" << endl;
+	}
+	else
+	{
+		os << "Kein passender Schwimmer <<< Most Wanted" << endl;
 	}
 }

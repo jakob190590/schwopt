@@ -182,13 +182,12 @@ void GesamtComputer::compute()
 				eligibleSchwimmer.push_back(PositionSchwimmerPair(pos, schw));
 			}
 
+		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
 
 #ifdef DEBUG
 		eligibleSchwimmer.sort(NormAbstandComparer(*this)); // Sortierung nur fuer die Debug-Ausgabe
-		gscheideDebugAusgabe(clog, positionDisziplinTable, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
+		gscheideDebugAusgabe(cout, mostWanted, positionDisziplinTable, schwimmerSortiert, eligibleSchwimmer, abstaendeInDisziplinen);
 #endif
-
-		PositionSchwimmerPair* mostWanted = findMostWanted(eligibleSchwimmer);
 		if (mostWanted == NULL)
 			break; // dann is' es vorbei (sollte nur vorkommen, wenn uebrige positionen nicht mehr besetzt werden koennen)
 
