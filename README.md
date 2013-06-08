@@ -23,10 +23,9 @@ Manual
     Textdatei enthält persönliche Daten der Schwimmer und deren Bestzeiten in allen Disziplinen.
 
     --class=CLASS
-        Legt die Klasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich'.  Nicht alle
-        beim OMP möglichen Klassen werden unterstützt.  Genauergesagt wird bis jetzt nur die
-        sog. offene Klasse `Mixed' (d. h. Damen und Herren gemischt) unterstützt.  Als Wert sind
-        die folgenden, im OMP möglichen Klassen, erlaubt: mini-mixed, jugend-w, jugend-m,
+        Legt die Wertungsklasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich'.
+        Die Wertungsklasse Mini Mixed wird derzeit nicht unterstützt.  Als Wert sind die
+        folgenden, im OMP möglichen Klassen, erlaubt: mini-mixed, jugend-w, jugend-m,
         jugend-mixed, damen, herren, mixed (default)
 
     --block=BLOCK
@@ -72,8 +71,9 @@ Manual
     Nachname, Vorname, Geschlecht (m/w), Kuerzel (z. B. Initialien), Brust 50 m, Brust 100 m,
     Rücken 50 m, Rücken 100 m, Schmetterling 50 m, Schmetterling 100 m, Kraul 50 m, Kraul 100 m
     
-    Die Feldwerte müssen durch Whitespace getrennt sein.  Zeiten müssen in folgendem Format `01:26,8'
-    vorliegen.  Leerzeilen und Zeilen die mit einem Doppelkreuz (`#') beginnen werden ignoriert.
+    Die Feldwerte müssen durch Whitespace getrennt sein.  Zeiten für die Disziplinen müssen in
+    folgendem Format `01:26,8' vorliegen.  Leerzeilen und Zeilen die mit einem Doppelkreuz (`#')
+    beginnen werden ignoriert.
 
 
 Begriffe
