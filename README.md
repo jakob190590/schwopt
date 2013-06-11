@@ -4,7 +4,7 @@ Dokumentation zu schwopt
 Allgemein
 ---------
 
-Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf [Oberbayerischer Mannschaftspokal (OMP)](http://www.bsv-oberbayern.de/omp/start.html).  Es setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln und Einzelstarts) möglichst optimal ein.
+Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf [Oberbayerischer Mannschaftspokal (OMP)](http://www.bsv-oberbayern.de/omp/start.html) (dort zählt nämlich die _Gesamtmannschaftszeit_).  Das Programm setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln und Einzelstarts) möglichst optimal ein, um die Mannschaftszeit zu minimieren.
 
 Der Name des Programms "schwopt" hat mit Schwimmwettkampf und Optimierung zu tun.
 
@@ -112,7 +112,7 @@ Architektur
  - `SchwimmerVector getResult() const;` // Ergebnis abfragen
  - `void outputResult(ostream&) const;` // Ergebnis ausgeben
 
-Achtung: Eine SchwoptComputer-Instanz ist ein "Einmal-und-Wegwerf-Computer".  Die Funktion `compute` darf nur ein einziges Mal an einem Objekt aufgerufen werden -- danach ist das Verhalten undefiniert.  Dadurch wird die Implementierung vereinfacht (es müssen nicht alle Membervariablen als lokale Variablen kopiert werden, sondern können direkt verwendet und manipuliert werden).
+Achtung: Eine SchwoptComputer-Instanz ist ein "Einmal-und-Wegwerf-Computer".  Die Funktion `compute` darf nur ein einziges Mal an einem Objekt aufgerufen werden &ndash; danach ist das Verhalten undefiniert.  Dadurch wird die Implementierung vereinfacht (es müssen nicht alle Membervariablen als lokale Variablen kopiert werden, sondern können direkt verwendet und manipuliert werden).
 
 Für jeden Block bzw. den gesamten Wettkampf gibt es je eine abgeleitete Klasse.  Diese Klassen dienen wiederum als Basisklassen für die Implementierungen.  In der offenen Wertungsklasse "Mixed" gibt es z. B. die abgeleiteten Klassen `Lagenstaffel`, `Kraulstaffel` (auch "Schlussstaffel" genannt), `Einzelstarts` und `Gesamt`.
 
@@ -134,18 +134,27 @@ Die exakte Lösung kann durch Durchprobieren ermittelt werden.  Der Algorithmus 
     Dabei müssen ständig die Bedingungen überprüft werden.
     Es wird die Kombination gewählt, bei der die Gesamtzeit am geringsten ist.
 
-Laufzeit: Sei n die Anzahl der Schwimmer und m die Anzahl der Positionen.  Dann ist die Laufzeit O(n^m), weil im schlimmsten Fall für jede der m Positionen n Schwimmer durchprobiert werden müssen.  Beim OMP gilt ca.: n = m / 2 => m = 2 * n (z. B. 9 Kandidaten bei 18 Positionen), demnach kann die Laufzeit auch geschrieben werden als O(n^n).
+Laufzeit: Sei n die Anzahl der Schwimmer und m die Anzahl der Positionen.  Dann ist die Laufzeit O(n^m), weil im schlimmsten Fall für jede der m Positionen n Schwimmer durchprobiert werden müssen.
 
-Nachteile: Nicht-rekursiv programmiert erfordert diese Lösung schon bei vier Positionen sehr viel Code.  Die Implementierung ist sehr fehlerträchtig.  Die Laufzeit ist schlecht (bei der Lagenstaffel mit vier Positionen kein Problem, aber bei 18 Positionen wird man's merken).
+Nachteile: Nicht-rekursiv programmiert erfordert diese Lösung schon bei vier Positionen [sehr viel Code] [impl_exakt].  Die Implementierung ist sehr fehlerträchtig.  Die Laufzeit ist sehr schlecht (exponentiell).  Bei der Lagenstaffel mit vier Positionen ist das kein Problem, aber bei 18 Positionen (Staffeln + Einzelstarts) wird man's merken &ndash; es dauert dann nämlich ca. siebenhundertmilliarden mal so lange).
 
 ### Näherungslösung
 
-Der "Schwopt"-Algorithmus stellt eine Näherungslösung dar, die mit der exakten Lösung übereinstimmen kann.  Die Schritte sind grob wie folgt:
+Der "Schwopt"-Algorithmus stellt eine Näherungslösung dar, die vermutlich mit der exakten Lösung übereinstimmen kann.  Die Schritte sind grob wie folgt:
 
 Solange es freie Positionen gibt
+
  1. Freie Positionen mit besten freien Schwimmern besetzen
  2. Den Schwimmer festsetzen, der am meisten Zeit rausholt
 
 Bemerkungen zu 2.:
+
  - "festsetzen" heißt: Der Schwimmer wird für die Position fest eingetragen; die Position ist dann nicht mehr frei.
  - "am meisten Zeit rausholt" ist so gemeint: Zu jedem Schwimmer ist in jeder Disziplin bekannt, um wieviel er besser ist als der nächstschlechtere Schwimmer.  Am Ende wird der Schwimmer festgesetzt, bei dem der Abstand zum Nächstschlechteren am größten ist, der also am meisten Zeit rausholt.
+
+Laufzeit: Bei m Positionen ist die Komplexität im Wesentlichen O(m), wenn man die Funktionsaufrufe an die [STL](http://www.cplusplus.com/reference/stl/ "C++ Standard Template Libary") nicht beachtet.
+
+Eine Implementierung für die Werungsklasse "Mixed" [kann man sich hier ansehen] [impl_schwopt].
+
+[impl_exakt]: https://github.com/jakob190590/schwopt/blob/v1_0_1/src/compute/mixed/LagenstaffelExaktComputer.cpp#L34 "compute/mixed/LagenstaffelExaktComputer.cpp"
+[impl_schwopt]: https://github.com/jakob190590/schwopt/blob/v1_0_1/src/compute/mixed/GesamtComputer.cpp#L141 "compute/mixed/GesamtComputer.cpp"
