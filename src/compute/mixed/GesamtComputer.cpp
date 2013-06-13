@@ -127,14 +127,11 @@ void GesamtComputer::ensureMixedBedingung(int block,
 		return;
 
 	// Alle Schwimmer des Geschlechts rausloeschen
-	Schwimmer::GeschlechtPredicate pred(geschlechtToBeEliminated);
 	SchwimmerSet& availableSchwimmer = availableSchwimmerPerBlock[block];
-	SchwimmerSet::iterator it;
-	while ((it = find_if(availableSchwimmer.begin(), availableSchwimmer.end(), pred))
-			!= availableSchwimmer.end())
-	{
-			removeFromAvailable(*it, availableSchwimmer, schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
-	}
+	for (SchwimmerSet::reverse_iterator rit = availableSchwimmer.rbegin();
+			rit != availableSchwimmer.rend(); ++rit)
+		if ((*rit)->geschlecht == geschlechtToBeEliminated)
+			removeFromAvailable(*(rit--), availableSchwimmer, schwimmerSortiertPerBlock[block], abstaendeInDisziplinenPerBlock[block]);
 
 }
 
