@@ -154,7 +154,7 @@ Bemerkungen zu 2.:
 
 Laufzeit: Bei m Positionen ist die Komplexität im Wesentlichen O(m), wenn man die Funktionsaufrufe an die [STL](http://www.cplusplus.com/reference/stl/ "C++ Standard Template Libary") nicht beachtet.
 
-Eine Implementierung für die Werungsklasse "Mixed" [kann man sich hier ansehen] [impl_schwopt].
+Eine Implementierung für die Wertungsklasse "Mixed" [kann man sich hier ansehen] [impl_schwopt].
 
 [impl_exakt]: https://github.com/jakob190590/schwopt/blob/v1_0_1/src/compute/mixed/LagenstaffelExaktComputer.cpp#L34 "compute/mixed/LagenstaffelExaktComputer.cpp"
 [impl_schwopt]: https://github.com/jakob190590/schwopt/blob/v1_0_1/src/compute/mixed/GesamtComputer.cpp#L141 "compute/mixed/GesamtComputer.cpp"
