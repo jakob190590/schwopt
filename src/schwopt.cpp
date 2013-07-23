@@ -189,9 +189,9 @@ static void readDataFile(const string& filename, SchwimmerList& schwimmer)
 }
 
 // in allSchwimmer wird mit lookupSchwimmer das Schwimmerkuerzel nachgeschlagen, der resultierende Schwimmer wird in resultSchwimmer eingetragen
-static void readInput(const bool& flagVerbose, const string& valInput, const SchwimmerList& allSchwimmer, SchwimmerList& resultSchwimmer)
+static void readInput(const Arguments& arguments, const SchwimmerList& allSchwimmer, SchwimmerList& resultSchwimmer)
 {
-	if (flagVerbose && valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
+	if (arguments.flagVerbose && arguments.valInput.empty()) // nur wenn verbose und input nicht aus Datei gelesen wird
 		cout << "// [Eigene Belegung] GesamtComputer"    << endl
 			 << "Manuelle Eingabe von Schwimmerkuerzeln" << endl
 			 << "durch Leerzeichen getrennt!"            << endl
@@ -199,14 +199,14 @@ static void readInput(const bool& flagVerbose, const string& valInput, const Sch
 			 << "bzw. unter Unix mit <Enter> <Strg + D>" << endl;
 
 	string input;
-	if (valInput.empty())
+	if (arguments.valInput.empty())
 		while (cin >> input)
 			resultSchwimmer.push_back(lookupSchwimmer(allSchwimmer, input));
 	else
 	{
-		ifstream ifs(valInput.c_str());
+		ifstream ifs(arguments.valInput.c_str());
 		if (!ifs.is_open())
-			exitWithError("cannot open input file `" + valInput + "'");
+			exitWithError("cannot open input file `" + arguments.valInput + "'");
 		while (ifs >> input)
 			resultSchwimmer.push_back(lookupSchwimmer(allSchwimmer, input));
 	}
@@ -260,7 +260,7 @@ int main(int argc, char* argv[])
 
 	SchwimmerList eingesetzteSchwimmer;
 	if (arguments.flagInput)
-		readInput(arguments.flagVerbose, arguments.valInput, schwimmer, eingesetzteSchwimmer);
+		readInput(arguments, schwimmer, eingesetzteSchwimmer);
 
 	switch (arguments.valClass) {
 	case MIXED:
