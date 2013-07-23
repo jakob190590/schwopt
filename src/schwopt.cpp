@@ -11,6 +11,7 @@
 
 #include "Schwimmer.h"
 #include "CLI.h"
+#include "Arguments.h"
 
 #include "compute/mixed/SchlussstaffelComputer.h"
 #include "compute/mixed/LagenstaffelExaktComputer.h"
@@ -30,9 +31,9 @@ static void exitWithError(const string& errmsg)
 	exit(EXIT_FAILURE);
 }
 
-static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_input, int& flag_plain, int& flag_verbose, Class& val_class, Block& val_block, string& val_input, string& val_param)
+static void parseArguments(int argc, char* argv[], Arguments& arguments)
 {
-	// Lesenwert: http://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html
+	// Lesenswert: http://www.gnu.org/software/libc/manual/html_node/Argument-Syntax.html
 	// Argument Syntax Conventions. Z. B. per Konvention aequivalent: -ifile.txt und -i file.txt
 	int c;
 	while (1)
@@ -91,18 +92,18 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 			exit(EXIT_SUCCESS);
 			break;
 		case 'd':
-			flag_dry = 1;
+			arguments.flagDry = 1;
 			break;
 		case 'i':
-			flag_input = 1;
+			arguments.flagInput = 1;
 			if (optarg)
-				val_input = string(optarg);
+				arguments.valInput = string(optarg);
 			break;
 		case 'p':
-			flag_plain = 1;
+			arguments.flagPlain = 1;
 			break;
 		case 'v':
-			flag_verbose = 1;
+			arguments.flagVerbose = 1;
 			break;
 		case 'C':
 			{
@@ -110,7 +111,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 				for (cl = 0; cl < ANZAHL_CLASSES; cl++)
 					if (strcmp(optarg, CLASS_NAME_TABLE[cl]) == 0)
 					{
-						val_class = (Class) cl;
+						arguments.valClass = (Class) cl;
 						break;
 					}
 				if (cl == ANZAHL_CLASSES) // class not found
@@ -123,7 +124,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 				for (bl = 0; bl < ANZAHL_BLOCKS; bl++)
 					if (strcmp(optarg, BLOCK_NAME_TABLE[bl]) == 0)
 					{
-						val_block = (Block) bl;
+						arguments.valBlock = (Block) bl;
 						break;
 					}
 				if (bl == ANZAHL_BLOCKS) // block not found
@@ -142,7 +143,7 @@ static void parseArguments(int argc, char* argv[], int& flag_dry, int& flag_inpu
 	}
 
 	if (optind < argc)
-		val_param = argv[optind];
+		arguments.valParam = argv[optind];
 	else
 	{
 		cerr << usage << endl;
@@ -242,23 +243,14 @@ static void deleteSchwimmer(Schwimmer* s)
 
 int main(int argc, char* argv[])
 {
-	int flagDry = 0;
-	int flagInput = 0;
-	int flagPlain = 0;
-	int flagVerbose = 0;
-	Class valClass = DEFAULT_CLASS;
-	Block valBlock = DEFAULT_BLOCK;
-	string valInput, valParam; // empty
-
-	parseArguments(argc, argv,
-			flagDry, flagInput, flagPlain, flagVerbose,
-			valClass, valBlock, valInput, valParam);
+	Arguments arguments;
+	parseArguments(argc, argv, arguments);
 
 	SchwimmerList schwimmer;
-	readDataFile(valParam, schwimmer);
+	readDataFile(arguments.valParam, schwimmer);
 
 	// So, ab hier kann mit der list schwimmer gearbeitet werden
-	if (flagVerbose)
+	if (arguments.flagVerbose)
 	{
 		cout << "Nachname       Vorname   Kurzl brust50 brust100 rueck50 rueck100 schm50 schm100 frei50 frei100" << endl
 		     << "--------------------------------------------------------------------------------------------" << endl;
@@ -267,70 +259,70 @@ int main(int argc, char* argv[])
 	}
 
 	SchwimmerList eingesetzteSchwimmer;
-	if (flagInput)
-		readInput(flagVerbose, valInput, schwimmer, eingesetzteSchwimmer);
+	if (arguments.flagInput)
+		readInput(arguments.flagVerbose, arguments.valInput, schwimmer, eingesetzteSchwimmer);
 
-	switch (valClass) {
+	switch (arguments.valClass) {
 	case MIXED:
 	case JUGEND_MIXED:
-		if (flagVerbose)
+		if (arguments.flagVerbose)
 			cout << "Wertungsklasse: Mixed (offene Klasse oder Jugend)" << endl;
 
-		switch (valBlock) {
+		switch (arguments.valBlock) {
 		case LAGENSTAFFEL:
 			{
-				if (flagVerbose) cout << "// [Exakt] LagenstaffelExaktComputer (Exakte Loesung, Durchprobieren)" << endl;
+				if (arguments.flagVerbose) cout << "// [Exakt] LagenstaffelExaktComputer (Exakte Loesung, Durchprobieren)" << endl;
 				Mixed::LagenstaffelExaktComputer lagenstaffelExaktComputer(schwimmer);
 				lagenstaffelExaktComputer.compute();
-				outputResult(cout, lagenstaffelExaktComputer, flagPlain);
+				outputResult(cout, lagenstaffelExaktComputer, arguments.flagPlain);
 
-				if (flagVerbose)
+				if (arguments.flagVerbose)
 				{
 					cout << "// [SchwoptAlgo] LagenstaffelComputer" << endl;
 					Mixed::LagenstaffelComputer lagenstaffelComputer(schwimmer);
 					lagenstaffelComputer.compute();
-					outputResult(cout, lagenstaffelComputer, flagPlain);
+					outputResult(cout, lagenstaffelComputer, arguments.flagPlain);
 				}
 			}
 			break;
 
 		case SCHLUSSSTAFFEL:
 			{
-				if (flagVerbose) cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
+				if (arguments.flagVerbose) cout << "// [Exakt] KraulstaffelComputer (Exakte Loesung)" << endl;
 				Mixed::SchlussstaffelComputer kraulstaffelComputer(schwimmer);
 				kraulstaffelComputer.compute();
-				outputResult(cout, kraulstaffelComputer, flagPlain);
+				outputResult(cout, kraulstaffelComputer, arguments.flagPlain);
 			}
 			break;
 
 		case EINZELSTARTS:
 			{
-//				if (flagVerbose) cout << "// [SchwoptAlgo] Einzelstarts" << endl;
+//				if (arguments.flagVerbose) cout << "// [SchwoptAlgo] Einzelstarts" << endl;
 //				Mixed::EinzelstartsComputer einzelstartsComputer(schwimmer);
 //				einzelstartsComputer.compute();
-//				outputResult(cout, einzelstartsComputer, flagPlain);
+//				outputResult(cout, einzelstartsComputer, arguments.flagPlain);
 			}
 			break;
 
 		case GESAMT:
-			if (!flagDry && !flagInput)
+			if (!arguments.flagDry && !arguments.flagInput)
 			{
 				// Normale Berechnung und Ausgabe
-				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
+				if (arguments.flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
 				Mixed::GesamtComputer gesamtComputer(schwimmer);
 				gesamtComputer.compute();
-				outputResult(cout, gesamtComputer, flagPlain);
+				outputResult(cout, gesamtComputer, arguments.flagPlain);
 			}
 			else
 			{
 				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
 				gesamtNotComputer.compute();
-				outputResult(cout, gesamtNotComputer, flagPlain);
+				outputResult(cout, gesamtNotComputer, arguments.flagPlain);
 			}
 			break;
 
 		default:
-			exitWithError("block `" + string(BLOCK_NAME_TABLE[valBlock]) + "' not supported yet");
+			exitWithError("block `" + string(BLOCK_NAME_TABLE[arguments.valBlock]) + "' not supported yet");
 			break;
 		}
 		break;
@@ -339,35 +331,35 @@ int main(int argc, char* argv[])
 	case HERREN:
 	case JUGEND_W:
 	case JUGEND_M:
-		if (flagVerbose)
+		if (arguments.flagVerbose)
 			cout << "Wertungsklasse: Nicht Mixed" << endl;
 
-		switch (valBlock) {
+		switch (arguments.valBlock) {
 		case GESAMT:
-			if (!flagDry && !flagInput)
+			if (!arguments.flagDry && !arguments.flagInput)
 			{
 				// Normale Berechnung und Ausgabe
-				if (flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
+				if (arguments.flagVerbose) cout << "// [SchwoptAlgo] GesamtComputer" << endl;
 				NotMixed::GesamtComputer gesamtComputer(schwimmer);
 				gesamtComputer.compute();
-				outputResult(cout, gesamtComputer, flagPlain);
+				outputResult(cout, gesamtComputer, arguments.flagPlain);
 			}
 			else
 			{
 				GesamtNotComputer gesamtNotComputer(schwimmer, eingesetzteSchwimmer);
 				gesamtNotComputer.compute();
-				outputResult(cout, gesamtNotComputer, flagPlain);
+				outputResult(cout, gesamtNotComputer, arguments.flagPlain);
 			}
 			break;
 
 		default:
-			exitWithError("block `" + string(BLOCK_NAME_TABLE[valBlock]) + "' not supported yet");
+			exitWithError("block `" + string(BLOCK_NAME_TABLE[arguments.valBlock]) + "' not supported yet");
 			break;
 		}
 		break;
 
 	default:
-		exitWithError("class `" + string(CLASS_NAME_TABLE[valClass]) + "' not supported yet");
+		exitWithError("class `" + string(CLASS_NAME_TABLE[arguments.valClass]) + "' not supported yet");
 		break;
 	}
 
