@@ -1,0 +1,107 @@
+.TH SCHWOPT 1 "MAY 2013" Linux "User Manuals"
+.SH NAME
+.PP
+schwopt \- optimiert die Mannschaftszeit beim OMP
+.SH SYNOPSIS
+.PP
+\fB\fCschwopt\fR [\fIOPTIONS\fP] ... \fIDATAFILE\fP
+.SH DESCRIPTION
+.PP
+Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf Oberbayerischer Mannschaftspokal (OMP)
+.UR http://www.bsv-oberbayern.de/omp/start.html
+.UE
+(dort zählt nämlich die \fIGesamtmannschaftszeit\fP).  Das Programm setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln und Einzelstarts) möglichst optimal ein, um die Mannschaftszeit zu minimieren.
+.PP
+Der Name des Programms "schwopt" hat mit Schwimmwettkampf und Optimierung zu tun.
+.SH OPTIONS
+.TP
+\fB\fC-b\fR
+Do not write "busy" to stdout while processing.
+.TP
+\fB\fC-c\fR \fIconfig\-file\fP
+Use the alternate system wide \fIconfig\-file\fP instead of \fI/etc/foo.conf\fP\&. This
+overrides any \fB\fCFOOCONF\fR environment variable.
+.TP
+\fB\fC-a\fR
+In addition to the baz segments, also parse the blurfl headers.
+.TP
+\fB\fC-r\fR
+Recursive mode. Operates as fast as lightning at the expense of a megabyte
+of virtual memory.
+.TP
+\fB\fC--class=\fR\fICLASS\fP
+Legt die Wertungsklasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich'.
+Die Wertungsklasse Mini Mixed wird derzeit nicht unterstützt.  Als Wert sind die
+folgenden, im OMP möglichen Klassen, erlaubt: mini\-mixed, jugend\-w, jugend\-m,
+jugend\-mixed, damen, herren, mixed (default)
+.PP
+\fB\fC--block=\fR\fIBLOCK\fP
+  Legt den Block fest für den die Positionen optimal besetzt werden sollen, z. B.
+  \fB\fCLagenstaffel'.  Standardmäßig werden alle Wettkämpfe (Staffeln und Einzelstarts) besetzt.
+  Es wird nicht garantiert, dass alle Blöcke unterstützt werden.  Für alle Klassen außer
+\fRMini Mixed' können grundsätzlich folgende Blöcke berechnet werden: lagenstaffel,
+  schlussstaffel, einzelstarts, gesamt (default)
+.TP
+\fB\fC-d\fR, \fB\fC--dry\fR
+\fB\fCTrockenlauf', keine Berechnung durchführen.  Die Ausgabe ist die gleiche wie normal, nur
+dass alle Positionen unbesetzt sind (\fRN/A').  Durch diese Option kann man sich Positionen
+und Disziplinen eines Blocks ansehen.
+.TP
+\fB\fC-i\fR, \fB\fC--input\fR[\fB\fC=\fR\fIFILE\fP]
+Die Besetzung der Positionen wird nicht vom Programm berechnet, sondern vom Benutzer
+vorgegeben.  Die Eingabe sind die Kürzel der Schwimmer, getrennt durch Whitespace in der
+Reihenfolge der Positionen des Blocks.  Ungültige Schwimmerkürzel führen dazu, dass die
+Position nicht besetzt wird.  Wenn keine Datei angegeben ist, wird von der Standardeingabe
+gelesen.  Diese Option kann verwendet werden um Zwischenzeiten und Gesamtzeit berechnen
+und anzeigen zu lassen.
+.TP
+\fB\fC-p\fR, \fB\fC--plain\fR
+Das Ergebnis wird in der Form ausgegeben, die bei der Option \-\-input als Eingabe erwartet
+wird: Eine durch Zeilenumbruch getrennte Liste von Schwimmerkürzeln in der Reihenfolge der
+Positionen des Blocks.  Der Wert `N/A' bedeutet dass die Position nicht besetzt ist.
+Dieser Wert sollte also nicht als Kürzel für einen Schwimmer verwendet werden!
+.TP
+\fB\fC-v\fR, \fB\fC--verbose\fR
+Es wird am Anfang die Schwimmer\-Zeiten\-Liste und generell mehr Text ausgegeben.
+.TP
+\fB\fC--version\fR
+Zeigt eine Versionsinformation an.
+.TP
+\fB\fC--help\fR
+Zeigt eine Kurzform dieser Hilfe an.
+.SH DATAFILE
+.PP
+DATAFILE \-\- die Datendatei \-\- muss angegeben werden (außer bei \fB\fC--version\fR und \fB\fC--help\fR).  Die
+Textdatei enthält persönliche Daten der Schwimmer und deren Bestzeiten in allen Disziplinen.
+.PP
+Die Datendatei enthält persönliche Daten und Bestzeiten der Schwimmer.  Die Datendatei ist eine
+Textdatei.  Jede Zeile enthält Daten zu genau einem Schwimmer.  Ein Schwimmerdatensatz besteht
+aus folgenden Feldern:
+.PP
+Nachname, Vorname, Geschlecht (m/w), Kuerzel (z. B. Initialien), Brust 50 m, Brust 100 m,
+Rücken 50 m, Rücken 100 m, Schmetterling 50 m, Schmetterling 100 m, Kraul 50 m, Kraul 100 m
+.PP
+Die Feldwerte müssen durch Whitespace getrennt sein.  Zeiten für die Disziplinen müssen in
+folgendem Format \fB\fC01:26,8' vorliegen.  Leerzeilen und Zeilen die mit einem Doppelkreuz (\fR#')
+beginnen werden ignoriert.
+.SH DIAGNOSTICS
+.TP
+\fB0\fP
+Success
+.TP
+\fB1\fP
+Error (see stderr)
+.SH BUGS
+.PP
+Please see or report at 
+.UR https://github.com/jakob190590/schwopt/issues?state=open
+.UE
+.SH AUTHOR
+.PP
+Jakob Schöttl 
+.MT jschoett@gmail.com
+.ME
+.SH SEE ALSO
+.TP
+.UR https://github.com/jakob190590/schwopt
+.UE
