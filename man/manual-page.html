@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>schwopt</title>
+  </head>
+  <body>
+<h1 id="SCHWOPT-1-quot-MAY-2013-quot-Linux-quot-User-Manuals-quot">SCHWOPT 1 &quot;MAY 2013&quot; Linux &quot;User Manuals&quot;</h1><h2 id="NAME">NAME</h2><p>schwopt - optimiert die Mannschaftszeit beim OMP</p><h2 id="SYNOPSIS">SYNOPSIS</h2><p><code>schwopt</code> [<em>OPTIONS</em>] ... <em>DATAFILE</em></p><h2 id="DESCRIPTION">DESCRIPTION</h2><p>Dieses Prgramm optimiert die Mannschaftszeit beim Schwimmwettkampf <a href="http://www.bsv-oberbayern.de/omp/start.html">Oberbayerischer Mannschaftspokal (OMP)</a> (dort zählt nämlich die <em>Gesamtmannschaftszeit</em>).  Das Programm setzt die Schwimmer in die Positionen der Wettkämpfe (Staffeln und Einzelstarts) möglichst optimal ein, um die Mannschaftszeit zu minimieren.</p><p>Der Name des Programms &quot;schwopt&quot; hat mit Schwimmwettkampf und Optimierung zu tun.</p><h2 id="OPTIONS">OPTIONS</h2><dl><dt><code>-b</code></dt><dd>Do not write &quot;busy&quot; to stdout while processing.</dd></dl><dl><dt><code>-c</code> <em>config-file</em></dt><dd>Use the alternate system wide <em>config-file</em> instead of <em>/etc/foo.conf</em>. This
+overrides any <code>FOOCONF</code> environment variable.</dd></dl><dl><dt><code>-a</code></dt><dd>In addition to the baz segments, also parse the blurfl headers.</dd></dl><dl><dt><code>-r</code></dt><dd>Recursive mode. Operates as fast as lightning at the expense of a megabyte
+of virtual memory.</dd></dl><dl><dt><code>--class=</code><em>CLASS</em></dt><dd>Legt die Wertungsklasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich&#39;.
+Die Wertungsklasse Mini Mixed wird derzeit nicht unterstützt.  Als Wert sind die
+folgenden, im OMP möglichen Klassen, erlaubt: mini-mixed, jugend-w, jugend-m,
+jugend-mixed, damen, herren, mixed (default)</dd></dl><p><code>--block=</code><em>BLOCK</em>
+  Legt den Block fest für den die Positionen optimal besetzt werden sollen, z. B.
+  <code>Lagenstaffel&#39;.  Standardmäßig werden alle Wettkämpfe (Staffeln und Einzelstarts) besetzt.
+  Es wird nicht garantiert, dass alle Blöcke unterstützt werden.  Für alle Klassen außer
+</code>Mini Mixed&#39; können grundsätzlich folgende Blöcke berechnet werden: lagenstaffel,
+  schlussstaffel, einzelstarts, gesamt (default)</p><dl><dt><code>-d</code>, <code>--dry</code></dt><dd><code>Trockenlauf&#39;, keine Berechnung durchführen.  Die Ausgabe ist die gleiche wie normal, nur
+dass alle Positionen unbesetzt sind (</code>N/A&#39;).  Durch diese Option kann man sich Positionen
+und Disziplinen eines Blocks ansehen.</dd></dl><dl><dt><code>-i</code>, <code>--input</code>[<code>=</code><em>FILE</em>]</dt><dd>Die Besetzung der Positionen wird nicht vom Programm berechnet, sondern vom Benutzer
+vorgegeben.  Die Eingabe sind die Kürzel der Schwimmer, getrennt durch Whitespace in der
+Reihenfolge der Positionen des Blocks.  Ungültige Schwimmerkürzel führen dazu, dass die
+Position nicht besetzt wird.  Wenn keine Datei angegeben ist, wird von der Standardeingabe
+gelesen.  Diese Option kann verwendet werden um Zwischenzeiten und Gesamtzeit berechnen
+und anzeigen zu lassen.</dd></dl><dl><dt><code>-p</code>, <code>--plain</code></dt><dd>Das Ergebnis wird in der Form ausgegeben, die bei der Option --input als Eingabe erwartet
+wird: Eine durch Zeilenumbruch getrennte Liste von Schwimmerkürzeln in der Reihenfolge der
+Positionen des Blocks.  Der Wert `N/A&#39; bedeutet dass die Position nicht besetzt ist.
+Dieser Wert sollte also nicht als Kürzel für einen Schwimmer verwendet werden!</dd></dl><dl><dt><code>-v</code>, <code>--verbose</code></dt><dd>Es wird am Anfang die Schwimmer-Zeiten-Liste und generell mehr Text ausgegeben.</dd></dl><dl><dt><code>--version</code></dt><dd>Zeigt eine Versionsinformation an.</dd></dl><dl><dt><code>--help</code></dt><dd>Zeigt eine Kurzform dieser Hilfe an.</dd></dl><h2 id="DATAFILE">DATAFILE</h2><p>DATAFILE -- die Datendatei -- muss angegeben werden (außer bei <code>--version</code> und <code>--help</code>).  Die
+Textdatei enthält persönliche Daten der Schwimmer und deren Bestzeiten in allen Disziplinen.</p><p>Die Datendatei enthält persönliche Daten und Bestzeiten der Schwimmer.  Die Datendatei ist eine
+Textdatei.  Jede Zeile enthält Daten zu genau einem Schwimmer.  Ein Schwimmerdatensatz besteht
+aus folgenden Feldern:</p><p>Nachname, Vorname, Geschlecht (m/w), Kuerzel (z. B. Initialien), Brust 50 m, Brust 100 m,
+Rücken 50 m, Rücken 100 m, Schmetterling 50 m, Schmetterling 100 m, Kraul 50 m, Kraul 100 m</p><p>Die Feldwerte müssen durch Whitespace getrennt sein.  Zeiten für die Disziplinen müssen in
+folgendem Format <code>01:26,8&#39; vorliegen.  Leerzeilen und Zeilen die mit einem Doppelkreuz (</code>#&#39;)
+beginnen werden ignoriert.</p><h2 id="DIAGNOSTICS">DIAGNOSTICS</h2><dl><dt><strong>0</strong></dt><dd>Success</dd></dl><dl><dt><strong>1</strong></dt><dd>Error (see stderr)</dd></dl><h2 id="BUGS">BUGS</h2><p>Please see or report at <a href="https://github.com/jakob190590/schwopt/issues?state=open">https://github.com/jakob190590/schwopt/issues?state=open</a></p><h2 id="AUTHOR">AUTHOR</h2><p>Jakob Schöttl <a href="mailto:jschoett@gmail.com">jschoett@gmail.com</a></p><h2 id="SEE-ALSO">SEE ALSO</h2><p><a href="https://github.com/jakob190590/schwopt">https://github.com/jakob190590/schwopt</a></p>
+  </body>
+</html>
