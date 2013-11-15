@@ -11,7 +11,7 @@ Der Name des Programms "schwopt" hat mit Schwimmwettkampf und Optimierung zu tun
 Benutzung
 ---------
 
-[Hier ist die manual page](https://github.com/jakob190590/schwopt/tree/master/man/manual-page.markdown) von schwopt.
+[Hier ist die manual page](https://github.com/schoettl/schwopt/tree/master/man/manual-page.markdown) von schwopt.
 
 Hier die Synopsis des Programms:
 
@@ -21,7 +21,7 @@ Und hier ein Beispielaufruf des Programms:
 
     schwopt -v datafile.txt
 
-[Weitere Beispiele](https://github.com/jakob190590/schwopt/tree/master/samples) zum Aufruf des Programms.
+[Weitere Beispiele](https://github.com/schoettl/schwopt/tree/master/samples) zum Aufruf des Programms.
 
 Begriffe
 --------
@@ -103,5 +103,5 @@ Laufzeit: Bei m Positionen ist die Komplexität im Wesentlichen O(m), wenn man d
 
 Eine Implementierung für die Wertungsklasse "Mixed" [kann man sich hier ansehen] [impl_schwopt].
 
-[impl_exakt]: https://github.com/jakob190590/schwopt/blob/v1_0_1/src/compute/mixed/LagenstaffelExaktComputer.cpp#L34 "compute/mixed/LagenstaffelExaktComputer.cpp"
-[impl_schwopt]: https://github.com/jakob190590/schwopt/blob/v1_0_1/src/compute/mixed/GesamtComputer.cpp#L141 "compute/mixed/GesamtComputer.cpp"
+[impl_exakt]: https://github.com/schoettl/schwopt/blob/v1_0_1/src/compute/mixed/LagenstaffelExaktComputer.cpp#L34 "compute/mixed/LagenstaffelExaktComputer.cpp"
+[impl_schwopt]: https://github.com/schoettl/schwopt/blob/v1_0_1/src/compute/mixed/GesamtComputer.cpp#L141 "compute/mixed/GesamtComputer.cpp"

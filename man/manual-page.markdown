@@ -107,7 +107,7 @@ DIAGNOSTICS
 BUGS
 ----
 
-Please see or report at https://github.com/jakob190590/schwopt/issues?state=open
+Please see or report at https://github.com/schoettl/schwopt/issues?state=open
 
 AUTHOR
 ------
@@ -117,4 +117,4 @@ Jakob Schöttl <jschoett@gmail.com>
 SEE ALSO
 --------
 
-https://github.com/jakob190590/schwopt
+https://github.com/schoettl/schwopt
