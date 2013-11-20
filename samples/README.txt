@@ -22,7 +22,7 @@ schwopt --input="inputfile.txt" "datafile.txt"             Zeiten berechnen mit 
 schwopt --block=lagenstaffel    "datafile.txt"             nur für die Lagenstaffel berechnen; Achtung: geht nur wenn genuegend Schwimmer eingetragen sind!
 
 
-Benutztung des Programms schwopt
+Benutzung des Programms schwopt
 --------------------------------
 
 usage: schwopt [--help] [or other options] <filename>

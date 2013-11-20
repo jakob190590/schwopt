@@ -21,38 +21,22 @@ Der Name des Programms "schwopt" hat mit Schwimmwettkampf und Optimierung zu tun
 OPTIONS
 -------
 
-`-b`
-  Do not write "busy" to stdout while processing.
-
-`-c` *config-file*
-  Use the alternate system wide *config-file* instead of */etc/foo.conf*. This
-  overrides any `FOOCONF` environment variable.
-
-`-a`
-  In addition to the baz segments, also parse the blurfl headers.
-
-`-r`
-  Recursive mode. Operates as fast as lightning at the expense of a megabyte
-  of virtual memory.
-  
-
-
 `--class=`*CLASS*
-  Legt die Wertungsklasse fest, in der die Mannschaft antritt, z. B. `Jugend männlich'.
+  Legt die Wertungsklasse fest, in der die Mannschaft antritt, z. B. \`Jugend männlich'.
   Die Wertungsklasse Mini Mixed wird derzeit nicht unterstützt.  Als Wert sind die
   folgenden, im OMP möglichen Klassen, erlaubt: mini-mixed, jugend-w, jugend-m,
   jugend-mixed, damen, herren, mixed (default)
 
 `--block=`*BLOCK*
   Legt den Block fest für den die Positionen optimal besetzt werden sollen, z. B.
-  `Lagenstaffel'.  Standardmäßig werden alle Wettkämpfe (Staffeln und Einzelstarts) besetzt.
+  \`Lagenstaffel'.  Standardmäßig werden alle Wettkämpfe (Staffeln und Einzelstarts) besetzt.
   Es wird nicht garantiert, dass alle Blöcke unterstützt werden.  Für alle Klassen außer
-  `Mini Mixed' können grundsätzlich folgende Blöcke berechnet werden: lagenstaffel,
+  \`Mini Mixed' können grundsätzlich folgende Blöcke berechnet werden: lagenstaffel,
   schlussstaffel, einzelstarts, gesamt (default)
 
 `-d`, `--dry`
-  `Trockenlauf', keine Berechnung durchführen.  Die Ausgabe ist die gleiche wie normal, nur
-  dass alle Positionen unbesetzt sind (`N/A').  Durch diese Option kann man sich Positionen
+  \`Trockenlauf', keine Berechnung durchführen.  Die Ausgabe ist die gleiche wie normal, nur
+  dass alle Positionen unbesetzt sind (\`N/A').  Durch diese Option kann man sich Positionen
   und Disziplinen eines Blocks ansehen.
 
 `-i`, `--input`[`=`*FILE*]
@@ -66,7 +50,7 @@ OPTIONS
 `-p`, `--plain`
   Das Ergebnis wird in der Form ausgegeben, die bei der Option --input als Eingabe erwartet
   wird: Eine durch Zeilenumbruch getrennte Liste von Schwimmerkürzeln in der Reihenfolge der
-  Positionen des Blocks.  Der Wert `N/A' bedeutet dass die Position nicht besetzt ist.
+  Positionen des Blocks.  Der Wert \`N/A' bedeutet dass die Position nicht besetzt ist.
   Dieser Wert sollte also nicht als Kürzel für einen Schwimmer verwendet werden!
 
 `-v`, `--verbose`
@@ -81,8 +65,7 @@ OPTIONS
 DATAFILE
 --------
 
-DATAFILE -- die Datendatei -- muss angegeben werden (außer bei `--version` und `--help`).  Die
-Textdatei enthält persönliche Daten der Schwimmer und deren Bestzeiten in allen Disziplinen.
+DATAFILE - die Datendatei - muss angegeben werden (außer bei `--version` und `--help`).
 
 Die Datendatei enthält persönliche Daten und Bestzeiten der Schwimmer.  Die Datendatei ist eine
 Textdatei.  Jede Zeile enthält Daten zu genau einem Schwimmer.  Ein Schwimmerdatensatz besteht
@@ -92,7 +75,7 @@ Nachname, Vorname, Geschlecht (m/w), Kuerzel (z. B. Initialien), Brust 50 m, Bru
 Rücken 50 m, Rücken 100 m, Schmetterling 50 m, Schmetterling 100 m, Kraul 50 m, Kraul 100 m
 
 Die Feldwerte müssen durch Whitespace getrennt sein.  Zeiten für die Disziplinen müssen in
-folgendem Format `01:26,8' vorliegen.  Leerzeilen und Zeilen die mit einem Doppelkreuz (`#')
+folgendem Format \`01:26,8' vorliegen.  Leerzeilen und Zeilen die mit einem Doppelkreuz (\`#')
 beginnen werden ignoriert.
 
 DIAGNOSTICS
