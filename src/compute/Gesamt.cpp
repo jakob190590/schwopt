@@ -13,7 +13,7 @@
 
 using namespace std;
 
-Gesamt::Gesamt(const SchwimmerList& schwimmer) :  // + workaround (fu c++ http://stackoverflow.com/questions/272900
+Gesamt::Gesamt(const SchwimmerList& schwimmer) :  // + workaround (fu c++ http://stackoverflow.com/questions/272900 )
 		SchwoptComputer(schwimmer, +ANZAHL_POSITIONEN), positionDisziplinTable(+ANZAHL_POSITIONEN)
 {
 	// Lagenstaffel (4 x 50 m Lagen)
@@ -21,14 +21,14 @@ Gesamt::Gesamt(const SchwimmerList& schwimmer) :  // + workaround (fu c++ http:/
 	positionDisziplinTable[1] = Disziplin::BRUST_50;
 	positionDisziplinTable[2] = Disziplin::SCHM_50;
 	positionDisziplinTable[3] = Disziplin::FREI_50;
-	// Schlussstaffel (8 x 50 m Kraul
+	// Schlussstaffel (8 x 50 m Kraul)
 	positionDisziplinTable[4] = Disziplin::FREI_50;
 	positionDisziplinTable[5] = Disziplin::FREI_50;
 	positionDisziplinTable[6] = Disziplin::FREI_50;
 	positionDisziplinTable[7] = Disziplin::FREI_50;
 	positionDisziplinTable[8] = Disziplin::FREI_50;
 	positionDisziplinTable[9] = Disziplin::FREI_50;
-	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen
+	// Einzelstarts (4 x 50 m Lagen + 4 x 100 m Lagen)
 	positionDisziplinTable[10] = Disziplin::BRUST_50;
 	positionDisziplinTable[11] = Disziplin::RUECK_50;
 	positionDisziplinTable[12] = Disziplin::SCHM_50;
